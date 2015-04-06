@@ -77,6 +77,11 @@ function(config, utils, music, player){
                 this.destroy(true);
             }
         }.bind(this);
+
+        this.explosion = this.game.add.sprite(x, y, 'explosion');
+        this.explosion.anchor.set(0.5, 0.5);
+        this.explosion.visible = false;
+        this.explosion.animations.add('explode');
     }
 
     Unit.prototype.pulse = function(){
@@ -108,6 +113,12 @@ function(config, utils, music, player){
             this.group.destroy();
         }
         this.graphics.destroy();
+
+        if (!offscreen) {
+            this.explosion.visible = true;
+            this.explosion.position = this.graphics.position;
+            this.explosion.play('explode', 30, false, true);
+        }
     }
 
     Unit.prototype.onUnitHitPlayer = function(playerSprite, bullet) {
@@ -136,7 +147,6 @@ function(config, utils, music, player){
         if (this.health <= 0){
             this.destroy();
         }
-
     }
 
     Unit.prototype.killBullet = function(bullet) {
