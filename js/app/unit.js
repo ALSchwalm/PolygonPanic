@@ -69,10 +69,22 @@ function(config, utils, music, player){
                                              this.onUnitHitPlayer.bind(this),
                                              null, this);
 
+            if (!this.graphics.visible) {
+                return;
+            }
+
             this.game.physics.arcade.overlap(player.group,
                                              this.collisionBody,
                                              this.onPlayerHitUnit.bind(this),
                                              null, this);
+
+            player.powerups.map(function(powerup){
+                this.game.physics.arcade.overlap(powerup.group,
+                                                 this.collisionBody,
+                                                 this.onPlayerHitUnit.bind(this),
+                                                 null, this);
+            }, this)
+
             if (this.position.y > config.game.height){
                 this.destroy(true);
             }
@@ -100,7 +112,7 @@ function(config, utils, music, player){
             tween.to(item.options, item.duration, item.easing);
         });
         tween.onComplete.add(function(){
-            if (this.graphics.exists) {
+            if (this.graphics.visible) {
                 this.constructTweenChain(moveConfig);
             }
         }.bind(this))
@@ -111,14 +123,17 @@ function(config, utils, music, player){
         var offscreen = offscreen || false;
         if (offscreen) {
             this.group.destroy();
-        }
-        this.graphics.destroy();
-
-        if (!offscreen) {
+        } else {
             this.explosion.visible = true;
-            this.explosion.position = this.graphics.position;
+            this.explosion.position = new Phaser.Point(this.graphics.position.x,
+                                                       this.graphics.position.y);
             this.explosion.play('explode', 30, false, true);
         }
+
+        this.graphics.visible = false;
+        setTimeout(function(){
+            this.graphics.destroy();
+        }.bind(this), 2000);
     }
 
     Unit.prototype.onUnitHitPlayer = function(playerSprite, bullet) {
@@ -154,7 +169,7 @@ function(config, utils, music, player){
     }
 
     Unit.prototype.attack = function() {
-        if (!this.graphics.exists || !this.config.attackPattern) {
+        if (!this.graphics.visible || !this.config.attackPattern) {
             this.bulletTimer.stop();
             return;
         } else if (!this.graphics.inCamera) {
