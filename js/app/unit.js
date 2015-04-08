@@ -131,6 +131,8 @@ function(config, utils, music, player){
         }
 
         this.graphics.visible = false;
+
+        // Wait for bullets to be out of the screen before stopping update()
         setTimeout(function(){
             this.graphics.destroy();
         }.bind(this), 2000);

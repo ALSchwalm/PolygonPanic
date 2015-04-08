@@ -3,8 +3,9 @@
  * phase of Phaser js startup
  * @module app/state/create
  */
-define(["app/config", "app/background", "app/music", "app/player", "app/level/1"],
-function(config, background, music, player, level1){
+define(["app/config", "app/background", "app/music", "app/player", "app/level/1",
+        "app/powerups/shield", "app/powerups/triple"],
+function(config, background, music, player, level1, Shield, Triple){
     "use strict"
 
     /**
@@ -23,6 +24,9 @@ function(config, background, music, player, level1){
 
         level1.init(game);
         level1.start();
+
+        player.powerups.push(new Triple(game));
+        player.powerups.push(new Shield(game));
 
         game.load.audio('title', 'assets/sounds/title.mp3').onFileComplete.add(
             function(percent, name) {

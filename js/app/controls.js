@@ -77,6 +77,20 @@ function(config, Phaser, player){
         player.attack();
     }, this, config.player.defaultAttackRate);
 
+    var activatePowerup = function(i) {
+        return function(){
+            var powerup = player.powerups[i];
+            if (powerup && powerup.activate) {
+                powerup.activate();
+            }
+        }
+    }
+
+    controls.registerControl(Phaser.Keyboard.A, activatePowerup(0));
+    controls.registerControl(Phaser.Keyboard.S, activatePowerup(1));
+    controls.registerControl(Phaser.Keyboard.D, activatePowerup(2));
+    controls.registerControl(Phaser.Keyboard.F, activatePowerup(3));
+
     // Prevent the browser from taking the normal action (scrolling, etc)
     window.addEventListener("keydown", function(e) {
         var codes = [];
