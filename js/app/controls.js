@@ -21,7 +21,7 @@ function(config, Phaser, player){
          * @param {number} delayBetween - Time (in ms) between callback executions
          */
         registerControl : function(key, func, context, delayBetween) {
-            var delayBetween = delayBetween || 100;
+            var delayBetween = delayBetween || 0;
             var func = func.bind(context);
             var keyObj = {
                 key: key,
@@ -43,7 +43,9 @@ function(config, Phaser, player){
         update : function(game) {
             for (var i=0; i < controls.keys.length; ++i) {
                 if (game.input.keyboard.isDown(controls.keys[i].key)) {
-                    controls.keys[i].press();
+                    if (!controls.keys[i].active) {
+                        controls.keys[i].press();
+                    }
                 } else {
                     controls.keys[i].active = false;
                 }
@@ -70,6 +72,24 @@ function(config, Phaser, player){
         if (player.position.y < config.game.height)
             player.position.y += player.speed;
     }, this);
+
+    controls.registerControl(Phaser.Keyboard.SPACEBAR, function(){
+        player.attack();
+    }, this, config.player.defaultAttackRate);
+
+    var activatePowerup = function(i) {
+        return function(){
+            var powerup = player.powerups[i];
+            if (powerup && powerup.activate) {
+                powerup.activate();
+            }
+        }
+    }
+
+    controls.registerControl(Phaser.Keyboard.A, activatePowerup(0));
+    controls.registerControl(Phaser.Keyboard.S, activatePowerup(1));
+    controls.registerControl(Phaser.Keyboard.D, activatePowerup(2));
+    controls.registerControl(Phaser.Keyboard.F, activatePowerup(3));
 
     // Prevent the browser from taking the normal action (scrolling, etc)
     window.addEventListener("keydown", function(e) {

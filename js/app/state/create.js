@@ -3,8 +3,9 @@
  * phase of Phaser js startup
  * @module app/state/create
  */
-define(["app/config", "app/background", "app/music", "app/player", "app/enemies"],
-function(config, background, music, player, enemies){
+define(["app/config", "app/background", "app/music", "app/player", "app/level/1",
+        "app/powerups/shield", "app/powerups/triple"],
+function(config, background, music, player, level1, Shield, Triple){
     "use strict"
 
     /**
@@ -14,17 +15,18 @@ function(config, background, music, player, enemies){
      * @param {Phaser.Game} game - The current game object
      */
     var create = function(game){
+        // Enable physics for collison
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
         music.start(game);
         background.start(game);
         player.init(game, config.game.width/2, config.game.height-40);
 
-        // Create some temporary enemies
-        //TODO remove this
-        for (var i=0; i < 3; ++i) {
-            for (var j=0; j < 3; ++j) {
-                new enemies.line1(game, i*80-100, j*80-100);
-            }
-        }
+        level1.init(game);
+        level1.start();
+
+        player.powerups.push(new Triple(game));
+        player.powerups.push(new Shield(game));
 
         game.load.audio('title', 'assets/sounds/title.mp3').onFileComplete.add(
             function(percent, name) {

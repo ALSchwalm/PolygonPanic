@@ -29,7 +29,7 @@ define(function(){
      */
     var config = {
         game : {
-            width : 1280,
+            width : 1000,
             height : window.innerHeight,
         },
         grid : {
@@ -37,7 +37,8 @@ define(function(){
             speed : 4
         },
         player : {
-            defaultSpeed : 4
+            defaultSpeed : 4,
+            defaultAttackRate : 100
         },
         color : {
             background : [

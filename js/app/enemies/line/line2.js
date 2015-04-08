@@ -1,18 +1,18 @@
 /**
- * A basic line enemy moving down and to the right/left
- * @module app/enemies/line/line1
+ * A simple line enemy moving straight down
+ * @module app/enemies/line/line2
  */
 define(["app/config", "app/unit"],
 function(config, Unit){
     "use strict"
 
-    var Line1 = function(game, x, y, left) {
-        var width = 30;
-        var height = 100;
+    var Line2 = function(game, x, y) {
+        var width = 20;
+        var height = 120;
         var bmd = game.add.bitmapData(width, height);
         bmd.context.fillStyle = "#000000";
         bmd.context.fillRect(0, 0, width, height);
-        bmd.context.fillStyle = "#F3AA49";
+        bmd.context.fillStyle = "green";
         bmd.context.fillRect(3, 3, width-6, height-6);
 
         var bullet = game.add.bitmapData(14, 14);
@@ -24,38 +24,31 @@ function(config, Unit){
         bullet.context.strokeStyle = '#003300';
         bullet.context.stroke();
 
-        this.init(game, x, y, 55, 80, {
+        this.init(game, x, y, 60, 100, {
             movement : [
                 {
                     options : {
-                        x : (left) ? "-100" : "+100",
+                        y : "+150",
                         angle : "+180"
                     },
                     duration : 2000
-                },
-                {
-                    options : {
-                        y : "+50",
-                        x : (left) ? "-70" : "+70",
-                    },
-                    duration : 1000
                 }
             ],
             attackPattern : [
                 {
                     angle : 0,
-                    speed : 5
+                    speed : 7
                 }
             ],
-            health : 10,
+            health : 15,
             attackRate : 500,
             unitTexture : bmd,
             attackTexture : bullet,
-            alpha : 0.7
+            alpha : 0.8
         });
     };
 
-    Line1.prototype = new Unit();
+    Line2.prototype = new Unit();
 
-    return Line1;
+    return Line2;
 });

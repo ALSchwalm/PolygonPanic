@@ -130,8 +130,19 @@ function(config, Phaser, music){
                 }
             }
         }
+
         this.gridGraphics1.endFill();
         this.gridGraphics2.endFill();
+
+        var pulse = function(graphics) {
+            return function(){
+                var tween = this.game.add.tween(graphics);
+                tween.to({alpha : 0.7}, 300).to({alpha:0.5}, 200).start();
+            }.bind(this);
+        }.bind(this);
+
+        music.onBeat.push(pulse(this.gridGraphics1));
+        music.onBeat.push(pulse(this.gridGraphics2));
     }
 
     /**

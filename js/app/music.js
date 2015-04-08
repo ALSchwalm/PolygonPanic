@@ -138,6 +138,8 @@ define(["app/config"], function(config){
      * Update the analyzer (and do beat detection)
      */
     MusicManager.prototype.update = function() {
+        music.analyser.getByteFrequencyData(music.freqs);
+        music.analyser.getByteTimeDomainData(music.times);
         if (this.music)
             this.detectBeat();
     }
