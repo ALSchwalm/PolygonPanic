@@ -3,9 +3,9 @@
  * phase of Phaser js startup
  * @module app/state/create
  */
-define(["app/config", "app/background", "app/music", "app/player", "app/level/1",
+define(["app/config", "app/background", "app/music", "app/player", "app/levels",
         "app/powerups/shield", "app/powerups/triple", "app/powerups/bomb"],
-function(config, background, music, player, level1, Shield, Triple, Bomb){
+function(config, background, music, player, levels, Shield, Triple, Bomb){
     "use strict"
 
     /**
@@ -25,8 +25,8 @@ function(config, background, music, player, level1, Shield, Triple, Bomb){
         background.start(game);
         player.init(game, config.game.width/2, config.game.height-40);
 
-        level1.init(game);
-        level1.start();
+        levels.init(game);
+        levels.start();
 
         player.powerups.push(new Triple(game));
         player.powerups.push(new Shield(game));
