@@ -4,8 +4,8 @@
  * @module app/state/create
  */
 define(["app/config", "app/background", "app/music", "app/player", "app/levels",
-        "app/powerups/shield", "app/powerups/triple", "app/powerups/bomb"],
-function(config, background, music, player, levels, Shield, Triple, Bomb){
+        "app/poweruplist"],
+function(config, background, music, player, levels, poweruplist){
     "use strict"
 
     /**
@@ -27,10 +27,6 @@ function(config, background, music, player, levels, Shield, Triple, Bomb){
 
         levels.init(game);
         levels.start();
-
-        player.powerups.push(new Triple(game));
-        player.powerups.push(new Shield(game));
-        player.powerups.push(new Bomb(game));
 
         game.load.audio('title', 'assets/sounds/title.mp3').onFileComplete.add(
             function(percent, name) {

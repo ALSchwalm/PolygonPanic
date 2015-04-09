@@ -41,6 +41,13 @@ define(["app/config"], function(config){
         bullet.kill();
     }
 
+    Player.prototype.pickup = function(powerup) {
+        this.waiting = powerup;
+
+        // TODO remove this
+        this.powerups.push(powerup);
+    }
+
     Player.prototype.attack = function() {
         var bullet = this.group.getFirstExists(false);
         bullet.reset(this.position.x, this.position.y-30);

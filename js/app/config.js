@@ -40,6 +40,9 @@ define(function(){
             defaultSpeed : 4,
             defaultAttackRate : 100
         },
+        powerups : {
+            dropRate : 0.2
+        },
         color : {
             background : [
                 0x0193CD,

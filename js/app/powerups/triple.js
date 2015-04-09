@@ -2,11 +2,11 @@
  * A shotgun style spread
  * @module app/powerups/triple
  */
-define(["app/config"], function(config){
+define(["app/config", "app/basicpowerup"], function(config, Powerup){
    "use strict"
 
     var Triple = function(game){
-        this.game = game;
+        this.init(game, {});
 
         this.group = game.add.group();
         this.group.enableBody = true;
@@ -23,6 +23,8 @@ define(["app/config"], function(config){
             bullet.attack = 5;
         }
     };
+
+    Triple.prototype = new Powerup(Triple);
 
     Triple.prototype.killBullet = function(bullet) {
         bullet.kill();

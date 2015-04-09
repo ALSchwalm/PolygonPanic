@@ -74,29 +74,27 @@ function(config, Phaser, music){
      */
     Background.prototype.start = function(game) {
         this.game = game;
-        this.filter = game.add.filter('CheckerWave', config.game.width,
-                                      config.game.height);
+        this.blocks = [];
+        this.createGrids();
+    }
+
+    Background.prototype.setBackground = function(key) {
+        if (this.filter) {
+            this.filter.destroy();
+        }
+        if (this.background) {
+            this.background.destroy();
+        }
+
+        this.filter = this.game.add.filter(key, config.game.width,
+                                           config.game.height);
 	this.filter.alpha = 0.2;
 
-        this.background = game.add.sprite(0, 0);
+        this.background = this.game.add.sprite(0, 0);
 	this.background.width = config.game.width;
 	this.background.height = config.game.height;
         this.background.filters = [this.filter];
-
-        this.blocks = [];
-        this.createGrids();
-
-        // for (var i=0; i < 7; ++i) {
-        //     var block = new BackgroundBlock(this.game);
-        //     this.blocks.push(block);
-        // }
-
-        // setInterval(function(){
-        //     var block =
-        //         new BackgroundBlock(this.game, Math.random()*config.game.width,
-        //                             -400*Math.random()+-300);
-        //     this.blocks.push(block);
-        // }.bind(this), 3000);
+        this.game.world.sendToBack(this.background);
     }
 
     Background.prototype.createGrids = function() {
@@ -149,7 +147,9 @@ function(config, Phaser, music){
      * Update the background
      */
     Background.prototype.update = function(){
-        this.filter.update();
+        if (this.filter && this.filter.update)
+            this.filter.update();
+
         this.gridGraphics1.y += config.grid.speed;
         this.gridGraphics2.y += config.grid.speed;
         if (this.gridGraphics1.y >= 0) {
