@@ -36,7 +36,7 @@ function(config, Level, Phase, enemies) {
     });
 
     var level1 = new Level([orangePhase1,
-                            orangePhase2], "CheckerWave");
+                            orangePhase2], "Lightwave");
 
     return level1;
 });

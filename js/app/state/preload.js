@@ -14,6 +14,7 @@ define(function(){
     var preload = function(game){
         game.load.script('CheckerWave', 'js/lib/CheckerWave.js');
         game.load.script('Dotwave', 'js/lib/Dotwave.js');
+        game.load.script('Lightwave', 'js/lib/Lightwave.js');
         game.load.image('player-ship', 'assets/images/playership.png');
         game.load.image('player-basic-bullet', 'assets/images/basic_player_bullet.png');
         game.load.spritesheet('shield', 'assets/images/shield1.png');

@@ -7,8 +7,8 @@ function(config, Phaser, player){
      * @exports app/controls
      */
     var controls = {
-        rotating : false,
-        shifting : false,
+        selecting : false,
+        recentSelect : false,
         postMove : function() {},
         keys : [],
 
@@ -79,9 +79,27 @@ function(config, Phaser, player){
 
     var activatePowerup = function(i) {
         return function(){
-            var powerup = player.powerups[i];
-            if (powerup && powerup.activate) {
-                powerup.activate();
+            if (controls.selecting) {
+                controls.selecting = false;
+                controls.recentSelect = true;
+
+                setTimeout(function(){
+                    controls.recentSelect = false;
+                }, 100);
+
+                player.finishedSelection();
+                if (player.waiting) {
+                    if (player.powerups[i])
+                        player.powerups[i].destroy();
+                    player.powerups[i] = player.waiting;
+                    player.waiting = null;
+                    player.updatePowerupImages();
+                }
+            } else if (!controls.recentSelect){
+                var powerup = player.powerups[i];
+                if (powerup && powerup.activate) {
+                    powerup.activate();
+                }
             }
         }
     }
@@ -90,6 +108,12 @@ function(config, Phaser, player){
     controls.registerControl(Phaser.Keyboard.S, activatePowerup(1));
     controls.registerControl(Phaser.Keyboard.D, activatePowerup(2));
     controls.registerControl(Phaser.Keyboard.F, activatePowerup(3));
+    controls.registerControl(Phaser.Keyboard.G, function(){
+        if (player.waiting) {
+            controls.selecting = true;
+            player.makingSelection();
+        }
+    });
 
     // Prevent the browser from taking the normal action (scrolling, etc)
     window.addEventListener("keydown", function(e) {

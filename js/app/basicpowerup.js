@@ -26,9 +26,6 @@ function(config, Unit, player){
         this.dropsprite.events.onOutOfBounds.add(function(){
             setTimeout(function(){
                 this.dropsprite.destroy();
-
-                if (this.destroy)
-                    this.destroy();
             }.bind(this), 1000);
         }.bind(this));
 
@@ -42,11 +39,30 @@ function(config, Unit, player){
         }.bind(this)
     }
 
+    Powerup.prototype.createSprite = function() {
+        // For now, just use the same key as for the drop
+        if (!this.displaysprite){
+            this.displaysprite =
+                this.game.add.sprite(0, 0, config.spriteKey || "powerup-generic");
+            this.displaysprite.anchor.set(0.5, 0.5);
+            this.displaysprite.scale.set(0.5, 0.5);
+            this.displaysprite.alpha = 0.4;
+        }
+        return this.displaysprite;
+    }
+
     Powerup.prototype.onPlayerPickup = function() {
         player.pickup(this);
         this.dropsprite.destroy();
-        if (this.destroy)
-                this.destroy();
+    }
+
+    Powerup.prototype.basicDestroy = function() {
+        if (this.displaysprite)
+            this.displaysprite.destroy();
+    }
+
+    Powerup.prototype.destroy = function() {
+        this.basicDestroy();
     }
 
     return Powerup;
