@@ -40,6 +40,12 @@ define(function(){
             defaultSpeed : 4,
             defaultAttackRate : 100
         },
+        powerups : {
+            dropRate : 0.2
+        },
+        time : {
+            slowdownDuration : 3000
+        },
         color : {
             background : [
                 0x0193CD,

@@ -7,8 +7,8 @@ function(config, Phaser, player){
      * @exports app/controls
      */
     var controls = {
-        rotating : false,
-        shifting : false,
+        selecting : false,
+        recentSelect : false,
         postMove : function() {},
         keys : [],
 
@@ -28,8 +28,8 @@ function(config, Phaser, player){
                 callback : func,
                 delay: delayBetween,
                 active: false,
-                press : function() {
-                    keyObj.callback();
+                press : function(game) {
+                    keyObj.callback(game);
                     keyObj.active = true;
                     setTimeout(function(){
                         keyObj.active = false;
@@ -44,7 +44,7 @@ function(config, Phaser, player){
             for (var i=0; i < controls.keys.length; ++i) {
                 if (game.input.keyboard.isDown(controls.keys[i].key)) {
                     if (!controls.keys[i].active) {
-                        controls.keys[i].press();
+                        controls.keys[i].press(game);
                     }
                 } else {
                     controls.keys[i].active = false;
@@ -79,17 +79,73 @@ function(config, Phaser, player){
 
     var activatePowerup = function(i) {
         return function(){
-            var powerup = player.powerups[i];
-            if (powerup && powerup.activate) {
-                powerup.activate();
+            if (controls.selecting) {
+                controls.selecting = false;
+                controls.recentSelect = true;
+
+                setTimeout(function(){
+                    controls.recentSelect = false;
+                }, 100);
+
+                player.finishedSelection();
+                if (player.waiting) {
+                    if (player.powerups[i])
+                        player.powerups[i].destroy();
+                    player.powerups[i] = player.waiting;
+                    player.waiting = null;
+                    player.updatePowerupImages();
+                }
+            } else if (!controls.recentSelect){
+                var powerup = player.powerups[i];
+                if (powerup && powerup.activate) {
+                    powerup.activate();
+                }
             }
         }
     }
 
-    controls.registerControl(Phaser.Keyboard.A, activatePowerup(0));
-    controls.registerControl(Phaser.Keyboard.S, activatePowerup(1));
-    controls.registerControl(Phaser.Keyboard.D, activatePowerup(2));
-    controls.registerControl(Phaser.Keyboard.F, activatePowerup(3));
+    controls.registerControl(Phaser.Keyboard.A, activatePowerup(0), this, 100);
+    controls.registerControl(Phaser.Keyboard.S, activatePowerup(1), this, 100);
+    controls.registerControl(Phaser.Keyboard.D, activatePowerup(2), this, 100);
+    controls.registerControl(Phaser.Keyboard.F, activatePowerup(3), this, 100);
+    controls.registerControl(Phaser.Keyboard.G, function(){
+        if (player.waiting) {
+            controls.selecting = true;
+            player.makingSelection();
+        }
+    }, this, 100);
+
+    var speedup = function(game, gray){
+        var count = 0;
+        var interval = setInterval(function(){
+            ++count;
+            game.time.slowMotion -= 0.1;
+            gray.gray -= 1/15;
+            if (count >= 15) {
+                game.world.filters = null;
+                clearInterval(interval);
+            }
+        }, 200);
+    }
+
+    controls.registerControl(Phaser.Keyboard.T, function(game){
+        var gray = game.add.filter('Gray');
+        gray.gray = 0;
+        game.world.filters = [gray];
+
+        var count = 0;
+        var interval = setInterval(function(){
+            ++count;
+            game.time.slowMotion += 0.1;
+            gray.gray += 1/15;
+            if (count >= 15) {
+                clearInterval(interval);
+                setTimeout(function(){
+                    speedup(game, gray);
+                }, config.time.slowdownDuration);
+            }
+        }, 200);
+    }, this, 200);
 
     // Prevent the browser from taking the normal action (scrolling, etc)
     window.addEventListener("keydown", function(e) {

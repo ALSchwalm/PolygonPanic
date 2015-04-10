@@ -2,11 +2,13 @@
  * An active powerup providing a temporary shield
  * @module app/powerups/shield
  */
-define(["app/config", "app/player"], function(config, player){
+define(["app/config", "app/player", "app/basicpowerup"],
+function(config, player, Powerup){
    "use strict"
 
     var Shield = function(game){
-        this.game = game;
+        this.init(game, {});
+
         this.timeout = 10;
         this.duration = 5;
         this.sprite = this.game.add.sprite(100, 100, 'shield');
@@ -20,6 +22,8 @@ define(["app/config", "app/player"], function(config, player){
         this.elapsed = 0;
         this.cooldown = 0;
     };
+
+    Shield.prototype = new Powerup(Shield);
 
     Shield.prototype.destroy = function(unit) {
 

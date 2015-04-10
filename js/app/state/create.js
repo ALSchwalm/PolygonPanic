@@ -3,9 +3,9 @@
  * phase of Phaser js startup
  * @module app/state/create
  */
-define(["app/config", "app/background", "app/music", "app/player", "app/level/1",
-        "app/powerups/shield", "app/powerups/triple"],
-function(config, background, music, player, level1, Shield, Triple){
+define(["app/config", "app/background", "app/music", "app/player", "app/levels",
+        "app/poweruplist"],
+function(config, background, music, player, levels, poweruplist){
     "use strict"
 
     /**
@@ -18,15 +18,15 @@ function(config, background, music, player, level1, Shield, Triple){
         // Enable physics for collison
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        // Disable pause on loss of focus
+        game.stage.disableVisibilityChange = true;
+
         music.start(game);
         background.start(game);
         player.init(game, config.game.width/2, config.game.height-40);
 
-        level1.init(game);
-        level1.start();
-
-        player.powerups.push(new Triple(game));
-        player.powerups.push(new Shield(game));
+        levels.init(game);
+        levels.start();
 
         game.load.audio('title', 'assets/sounds/title.mp3').onFileComplete.add(
             function(percent, name) {

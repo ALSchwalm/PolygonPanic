@@ -2,10 +2,12 @@
  * A module which defines the player object
  * @module app/unit
  */
-define(["app/config", "app/utils", "app/music", "app/player"],
-function(config, utils, music, player){
+define(["app/config", "app/utils", "app/music", "app/player", "app/basicpowerup"],
+function(config, utils, music, player, Powerup){
     var Unit = function() {}
+    Unit.prototype.units = [];
     Unit.prototype.init = function(game, x, y, width, height, unitConfig){
+        Unit.prototype.units.push(this);
         var x = x || 0;
         var y = y || 0;
 
@@ -128,6 +130,10 @@ function(config, utils, music, player){
             this.explosion.position = new Phaser.Point(this.graphics.position.x,
                                                        this.graphics.position.y);
             this.explosion.play('explode', 30, false, true);
+
+            if (Math.random() < config.powerups.dropRate) {
+                this.dropPowerup();
+            }
         }
 
         this.graphics.visible = false;
@@ -135,7 +141,16 @@ function(config, utils, music, player){
         // Wait for bullets to be out of the screen before stopping update()
         setTimeout(function(){
             this.graphics.destroy();
+            var index = Unit.prototype.units.indexOf(this);
+            if (index >= 0)
+                Unit.prototype.units.splice(index, 1);
         }.bind(this), 2000);
+    }
+
+    Unit.prototype.dropPowerup = function() {
+        var PowerupType = this.game.rnd.pick(Powerup.prototype.powerups);
+        var powerup = new PowerupType(this.game);
+        powerup.drop(this.graphics.position.x, this.graphics.position.y);
     }
 
     Unit.prototype.onUnitHitPlayer = function(playerSprite, bullet) {
