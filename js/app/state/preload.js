@@ -20,6 +20,7 @@ define(function(){
         game.load.image('player-basic-bullet', 'assets/images/basic_player_bullet.png');
         game.load.spritesheet('shield', 'assets/images/shield1.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
+        game.load.audio('title', 'assets/sounds/title.mp3');
 
         // TODO replace this
         game.load.image('powerup-generic', 'assets/images/powerup_placeholder.png');

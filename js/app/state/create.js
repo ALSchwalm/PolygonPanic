@@ -3,8 +3,8 @@
  * phase of Phaser js startup
  * @module app/state/create
  */
-define(["app/config", "app/background", "app/music", "app/player", "app/levels",
-        "app/poweruplist"],
+define(["app/config", "app/background", "app/music", "app/player",
+        "app/levels", "app/poweruplist"],
 function(config, background, music, player, levels, poweruplist){
     "use strict"
 
@@ -21,6 +21,10 @@ function(config, background, music, player, levels, poweruplist){
         // Disable pause on loss of focus
         game.stage.disableVisibilityChange = true;
 
+        requirejs(["shakescreen"], function(Shake){
+            game.plugins.screenShake = game.plugins.add(Phaser.Plugin.ScreenShake);
+        });
+
         music.start(game);
         background.start(game);
         player.init(game, config.game.width/2, config.game.height-40);
@@ -28,13 +32,7 @@ function(config, background, music, player, levels, poweruplist){
         levels.init(game);
         levels.start();
 
-        game.load.audio('title', 'assets/sounds/title.mp3').onFileComplete.add(
-            function(percent, name) {
-                if (name == 'title') {
-                    music.play('title');
-                    music.loadBackgroundMusic();
-                }
-        });
+        music.play('title');
 
         game.load.start();
     };

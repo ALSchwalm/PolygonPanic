@@ -92,7 +92,7 @@ function(config, utils, music, player, Powerup){
             }
         }.bind(this);
 
-        this.explosion = this.game.add.sprite(x, y, 'explosion');
+        this.explosion = this.game.add.sprite(-100, -100, 'explosion');
         this.explosion.anchor.set(0.5, 0.5);
         this.explosion.visible = false;
         this.explosion.animations.add('explode');
@@ -121,11 +121,13 @@ function(config, utils, music, player, Powerup){
         tween.start();
     }
 
-    Unit.prototype.destroy = function(offscreen) {
+    Unit.prototype.destroy = function(offscreen, bomb) {
         var offscreen = offscreen || false;
-        if (offscreen) {
+        if (offscreen || bomb) {
             this.group.destroy();
-        } else {
+        }
+        if (!offscreen || bomb){
+            this.game.plugins.screenShake.shake(7);
             this.explosion.visible = true;
             this.explosion.position = new Phaser.Point(this.graphics.position.x,
                                                        this.graphics.position.y);
@@ -155,6 +157,7 @@ function(config, utils, music, player, Powerup){
 
     Unit.prototype.onUnitHitPlayer = function(playerSprite, bullet) {
         bullet.kill();
+        player.damage(1);
     }
 
     Unit.prototype.onPlayerHitUnit = function(unitSprite, bullet) {

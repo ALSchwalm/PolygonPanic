@@ -20,6 +20,12 @@ define(["app/config"], function(config){
 
         this.createPowerupRing();
 
+        this.healthBar = this.game.add.graphics(x, y);
+        this.healthBar.update = function() {
+            this.healthBar.position.x = this.sprite.position.x;
+            this.healthBar.position.y = this.sprite.position.y+30;
+        }.bind(this);
+
         this.group = game.add.group();
         this.group.enableBody = true;
         this.group.physicsBodyType = Phaser.Physics.ARCADE;
@@ -37,6 +43,30 @@ define(["app/config"], function(config){
 
         this.powerups = [];
         this.waiting = null;
+        this.health = 4;
+
+        this.explosion = this.game.add.sprite(x, y, 'explosion');
+        this.explosion.anchor.set(0.5, 0.5);
+        this.explosion.visible = false;
+        this.explosion.animations.add('explode');
+
+        this.drawHealthBar();
+    }
+
+    Player.prototype.drawHealthBar = function() {
+        var left = -20;
+        this.healthBar.clear();
+        this.healthBar.beginFill(0xDDDDDD, 0.7);
+        for (var i=0; i < this.health; ++i) {
+            this.healthBar.drawRect(left + 10*i, 0, 7, 4);
+        }
+        this.healthBar.endFill();
+
+        this.healthBar.beginFill(0x111111, 0.7);
+        for (var i=0; i < this.health; ++i) {
+            this.healthBar.drawRect(left+1 + 10*i, 1, 5, 2);
+        }
+        this.healthBar.endFill();
     }
 
     Player.prototype.createPowerupRing = function() {
@@ -62,6 +92,26 @@ define(["app/config"], function(config){
         this.powerupRing.update = function(){
             this.powerupRing.position = this.sprite.position;
         }.bind(this);
+    }
+
+    Player.prototype.damage = function(amount) {
+        var amount = amount || 1;
+        this.health -= amount;
+        this.drawHealthBar();
+        this.game.plugins.screenShake.shake(7);
+
+        if (this.health <= 0) {
+            this.destroy();
+        }
+    }
+
+    Player.prototype.destroy = function() {
+        this.explosion.visible = true;
+        this.explosion.position = new Phaser.Point(this.sprite.position.x,
+                                                   this.sprite.position.y);
+        this.explosion.play('explode', 30, false, true);
+        this.sprite.destroy();
+        $("#game-over").fadeIn(2000);
     }
 
     Player.prototype.killBullet = function(bullet) {

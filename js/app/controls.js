@@ -1,5 +1,5 @@
-define(["app/config", "Phaser", "app/player"],
-function(config, Phaser, player){
+define(["app/config", "Phaser", "app/player", "app/music"],
+function(config, Phaser, player, music){
     "use strict"
 
     /**
@@ -41,6 +41,8 @@ function(config, Phaser, player){
         },
 
         update : function(game) {
+            if (player.health <= 0)
+                return;
             for (var i=0; i < controls.keys.length; ++i) {
                 if (game.input.keyboard.isDown(controls.keys[i].key)) {
                     if (!controls.keys[i].active) {
@@ -116,6 +118,7 @@ function(config, Phaser, player){
     }, this, 100);
 
     var speedup = function(game, gray){
+        music.fade("in", 1500);
         var count = 0;
         var interval = setInterval(function(){
             ++count;
@@ -132,6 +135,8 @@ function(config, Phaser, player){
         var gray = game.add.filter('Gray');
         gray.gray = 0;
         game.world.filters = [gray];
+
+        music.fade("out", 1500);
 
         var count = 0;
         var interval = setInterval(function(){

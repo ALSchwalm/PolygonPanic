@@ -56,14 +56,6 @@ define(["app/config"], function(config){
     }
 
     /**
-     * Begin loading background music asyncronously. This method should be called
-     * after the title music has been loaded.
-     */
-    MusicManager.prototype.loadBackgroundMusic = function() {
-        this.game.load.start();
-    }
-
-    /**
      * Play music loaded with the given id
      *
      * @param {string} music - The key used to load the sound asset in 'preload'
@@ -91,26 +83,12 @@ define(["app/config"], function(config){
                 this.fade("in", this.crossfadeDuration*3);
         }.bind(this);
 
-        var crossfade = function() {
-            // Only crossfade if there is music already playing
-            if (!this.music){
-                playNow();
-            } else {
-                this.fade("out", this.crossfadeDuration/2);
-                setTimeout(playNow, this.crossfadeDuration);
-            }
-        }.bind(this);
-
-        // If the requested music has already been loaded, crossfade
-        // to it. Otherwise, wait for it to load.
-        if (loaded) {
-            crossfade();
+        // Only crossfade if there is music already playing
+        if (!this.music){
+            playNow();
         } else {
-            this.game.load.onFileComplete.add(function(p, name){
-                if (name == music) {
-                    this.play(music);
-                }
-            }.bind(this));
+            this.fade("out", this.crossfadeDuration/2);
+            setTimeout(playNow, this.crossfadeDuration);
         }
         return this;
     }

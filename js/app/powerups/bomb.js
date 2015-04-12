@@ -24,7 +24,7 @@ function(config, Powerup, Unit){
         this.available = false;
 
         Unit.prototype.units.map(function(unit){
-            unit.destroy();
+            unit.destroy(false, true);
         });
 
         var cooldownInterval = setInterval(function(){
