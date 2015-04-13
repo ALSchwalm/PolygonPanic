@@ -214,7 +214,11 @@ function(config, utils, music, player, Powerup){
         var bullet = this.group.getFirstExists(false);
 
         bullet.reset(this.position.x, this.position.y);
-        var rads = config.angle*Math.PI/180 + 0.5*Math.PI;
+        if (config.angle == "player") {
+            var rads = this.game.physics.arcade.angleBetween(bullet, player.sprite);
+        } else {
+            var rads = config.angle*Math.PI/180 + 0.5*Math.PI;
+        }
         bullet.body.velocity.x = Math.cos(rads)*speed*100;
         bullet.body.velocity.y = Math.sin(rads)*speed*100;
     }
