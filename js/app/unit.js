@@ -96,6 +96,10 @@ function(config, utils, music, player, Powerup){
         this.explosion.anchor.set(0.5, 0.5);
         this.explosion.visible = false;
         this.explosion.animations.add('explode');
+
+        if (!Unit.prototype.explode) {
+            Unit.prototype.explode = this.game.add.audio("explode", 0.8);
+        }
     }
 
     Unit.prototype.pulse = function(){
@@ -131,8 +135,7 @@ function(config, utils, music, player, Powerup){
         }
         if (!offscreen || bomb){
             if (!bomb) {
-                var sound = this.game.add.audio("explode", 0.8);
-                sound.play();
+                Unit.prototype.explode.play();
             }
 
             this.game.plugins.screenShake.shake(7);

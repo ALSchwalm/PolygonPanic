@@ -108,6 +108,8 @@ define(["app/config"], function(config){
     }
 
     Player.prototype.destroy = function() {
+        if (!this.sprite.visible)
+            return;
         this.explosion.visible = true;
         var sound = this.game.add.audio("explode", 0.8);
         sound.play();

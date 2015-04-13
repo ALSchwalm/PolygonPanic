@@ -17,7 +17,7 @@ function(config, Unit){
 
         var bullet = game.add.bitmapData(14, 14);
         bullet.context.beginPath();
-        bullet.context.arc(5, 5, 4, 0, 2 * Math.PI, false);
+        bullet.context.arc(7, 7, 4, 0, 2 * Math.PI, false);
         bullet.context.fillStyle = 'orange';
         bullet.context.fill();
         bullet.context.lineWidth = 3;
@@ -44,11 +44,11 @@ function(config, Unit){
             attackPattern : [
                 {
                     angle : 0,
-                    speed : 5
+                    speed : 3
                 }
             ],
             health : 10,
-            attackRate : 500,
+            attackRate : 600,
             unitTexture : bmd,
             attackTexture : bullet,
             alpha : 0.7
