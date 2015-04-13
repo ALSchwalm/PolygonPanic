@@ -90,13 +90,12 @@ function(config, Phaser, player, music){
                 }, 100);
 
                 player.finishedSelection();
-                if (player.waiting) {
-                    if (player.powerups[i])
-                        player.powerups[i].destroy();
-                    player.powerups[i] = player.waiting;
-                    player.waiting = null;
-                    player.updatePowerupImages();
-                }
+                if (player.powerups[i])
+                    player.powerups[i].destroy();
+                player.powerups[i] = player.waiting;
+                player.waiting = null;
+                player.updatePowerupImages();
+
             } else if (!controls.recentSelect){
                 var powerup = player.powerups[i];
                 if (powerup && powerup.activate) {
@@ -112,8 +111,22 @@ function(config, Phaser, player, music){
     controls.registerControl(Phaser.Keyboard.F, activatePowerup(3), this, 100);
     controls.registerControl(Phaser.Keyboard.G, function(){
         if (player.waiting) {
-            controls.selecting = true;
-            player.makingSelection();
+            if (controls.selecting) {
+                for (var i=0; i < 4; ++i){
+                    if (!player.powerups[i])
+                        break;
+                }
+                if (i == 4)
+                    return;
+                player.finishedSelection();
+                player.powerups[i] = player.waiting;
+                player.waiting = null;
+                player.updatePowerupImages();
+                controls.selecting = false;
+            } else {
+                controls.selecting = true;
+                player.makingSelection();
+            }
         }
     }, this, 100);
 

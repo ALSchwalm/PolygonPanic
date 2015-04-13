@@ -18,8 +18,6 @@ function(config, Powerup, Unit){
 
     Bomb.prototype = new Powerup(Bomb);
 
-    Bomb.prototype.destroy = function(unit) {}
-
     Bomb.prototype.activate = function() {
         if (!this.available)
             return;

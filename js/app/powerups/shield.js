@@ -27,10 +27,6 @@ function(config, player, Powerup){
 
     Shield.prototype = new Powerup(Shield);
 
-    Shield.prototype.destroy = function(unit) {
-
-    }
-
     Shield.prototype.activate = function() {
         if (!this.available)
             return;
