@@ -26,17 +26,38 @@ function(config, Level, Phase, enemies) {
                 ++count;
                 if (count == 25) {
                     clearInterval(this.interval);
-                    setTimeout(function(){
-                        this.nextPhase();
-                    }.bind(this), 10000);
+                    this.nextPhase();
                 }
             }.bind(this), 1500);
         },
         onStop : function(){},
     });
 
+    var attackPhase = new Phase({
+        onStart : function(){
+            var count = 0;
+            this.interval = setInterval(function(){
+                if (count % 2 == 0) {
+                    new enemies.line3(this.game, -50, Math.random()*config.game.height/4);
+                } else {
+                    new enemies.line3(this.game, config.game.width+50,
+                                      Math.random()*config.game.height/4, true);
+                }
+                ++count;
+                if (count == 8) {
+                    clearInterval(this.interval);
+                    setTimeout(function(){
+                        this.nextPhase();
+                    }.bind(this), 10000);
+                }
+            }.bind(this), 2700);
+        },
+        onStop : function(){},
+    });
+
     var level1 = new Level([orangePhase1,
-                            orangePhase2], "Lightwave");
+                            orangePhase2,
+                            attackPhase], "Lightwave");
 
     return level1;
 });
