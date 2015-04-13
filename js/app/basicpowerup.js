@@ -19,7 +19,7 @@ function(config, Unit, player){
 
     Powerup.prototype.drop = function(x, y) {
         this.dropsprite =
-            this.game.add.sprite(x, y, config.spriteKey || "powerup-generic");
+            this.game.add.sprite(x, y, this.config.iconKey);
         this.game.physics.enable(this.dropsprite, Phaser.Physics.ARCADE);
         this.dropsprite.checkWorldBounds = true;
 
@@ -43,7 +43,7 @@ function(config, Unit, player){
         // For now, just use the same key as for the drop
         if (!this.displaysprite){
             this.displaysprite =
-                this.game.add.sprite(0, 0, config.spriteKey || "powerup-generic");
+                this.game.add.sprite(0, 0, this.config.iconKey);
             this.displaysprite.anchor.set(0.5, 0.5);
             this.displaysprite.scale.set(0.5, 0.5);
             this.displaysprite.alpha = 0.4;

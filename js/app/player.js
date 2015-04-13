@@ -51,6 +51,8 @@ define(["app/config"], function(config){
         this.explosion.animations.add('explode');
 
         this.drawHealthBar();
+
+        this.lasersound = this.game.add.audio("basic-laser", 0.4);
     }
 
     Player.prototype.drawHealthBar = function() {
@@ -107,10 +109,12 @@ define(["app/config"], function(config){
 
     Player.prototype.destroy = function() {
         this.explosion.visible = true;
+        var sound = this.game.add.audio("explode", 0.8);
+        sound.play();
         this.explosion.position = new Phaser.Point(this.sprite.position.x,
                                                    this.sprite.position.y);
         this.explosion.play('explode', 30, false, true);
-        this.sprite.destroy();
+        this.sprite.visible = false;
         $("#game-over").fadeIn(2000);
     }
 
@@ -172,6 +176,7 @@ define(["app/config"], function(config){
         bullet.reset(this.position.x, this.position.y-30);
         bullet.body.velocity.y = -500;
 
+        this.lasersound.play();
         this.powerups.map(function(powerup){
             if (powerup.attack) {
                 powerup.attack(this);

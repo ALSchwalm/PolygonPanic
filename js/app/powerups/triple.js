@@ -6,7 +6,9 @@ define(["app/config", "app/basicpowerup"], function(config, Powerup){
    "use strict"
 
     var Triple = function(game){
-        this.init(game, {});
+        this.init(game, {
+            iconKey : "triple"
+        });
 
         this.group = game.add.group();
         this.group.enableBody = true;

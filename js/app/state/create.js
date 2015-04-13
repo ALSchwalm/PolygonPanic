@@ -25,16 +25,13 @@ function(config, background, music, player, levels, poweruplist){
             game.plugins.screenShake = game.plugins.add(Phaser.Plugin.ScreenShake);
         });
 
-        music.start(game);
+        music.start(game, 'title');
+
         background.start(game);
         player.init(game, config.game.width/2, config.game.height-40);
 
         levels.init(game);
         levels.start();
-
-        music.play('title');
-
-        game.load.start();
     };
     return create;
 });

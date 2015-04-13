@@ -122,11 +122,19 @@ function(config, utils, music, player, Powerup){
     }
 
     Unit.prototype.destroy = function(offscreen, bomb) {
+        if (this.destroyed) return;
+        this.destroyed = true;
+
         var offscreen = offscreen || false;
         if (offscreen || bomb) {
             this.group.destroy();
         }
         if (!offscreen || bomb){
+            if (!bomb) {
+                var sound = this.game.add.audio("explode", 0.8);
+                sound.play();
+            }
+
             this.game.plugins.screenShake.shake(7);
             this.explosion.visible = true;
             this.explosion.position = new Phaser.Point(this.graphics.position.x,
