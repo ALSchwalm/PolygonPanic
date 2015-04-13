@@ -31,7 +31,7 @@ function(config, Unit){
         bullet.context.lineWidth = 1;
         bullet.context.strokeStyle = '#003300';
         bullet.context.stroke();
-
+        var attackspeed = 2;
         this.init(game, x, y, 55, 80, {
             movement : [
                 {
@@ -44,18 +44,18 @@ function(config, Unit){
                 },
             ],
             attackPattern : [
-                { angle : 0, speed : 7 },
-                { angle : 40, speed : 5 },
-                { angle : 80, speed : 5 },
-                { angle : 120, speed : 5 },
-                { angle : 160, speed : 5 },
-                { angle : 200, speed : 5 },
-                { angle : 240, speed : 5 },
-                { angle : 280, speed : 5 },
-                { angle : 320, speed : 5 }
+                { angle : 0, speed : attackspeed },
+                { angle : 40, speed : attackspeed },
+                { angle : 80, speed : attackspeed },
+                { angle : 120, speed : attackspeed },
+                { angle : 160, speed : attackspeed },
+                { angle : 200, speed : attackspeed },
+                { angle : 240, speed : attackspeed },
+                { angle : 280, speed : attackspeed },
+                { angle : 320, speed : attackspeed }
             ],
             health : 10,
-            attackRate : 300,
+            attackRate : 100,
             unitTexture : bmd,
             attackTexture : bullet,
             alpha : 0.7

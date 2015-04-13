@@ -1,5 +1,5 @@
-define(["app/config", "Phaser", "app/player"],
-function(config, Phaser, player){
+define(["app/config", "Phaser", "app/player", "app/music"],
+function(config, Phaser, player, music){
     "use strict"
 
     /**
@@ -41,6 +41,8 @@ function(config, Phaser, player){
         },
 
         update : function(game) {
+            if (player.health <= 0)
+                return;
             for (var i=0; i < controls.keys.length; ++i) {
                 if (game.input.keyboard.isDown(controls.keys[i].key)) {
                     if (!controls.keys[i].active) {
@@ -88,13 +90,12 @@ function(config, Phaser, player){
                 }, 100);
 
                 player.finishedSelection();
-                if (player.waiting) {
-                    if (player.powerups[i])
-                        player.powerups[i].destroy();
-                    player.powerups[i] = player.waiting;
-                    player.waiting = null;
-                    player.updatePowerupImages();
-                }
+                if (player.powerups[i])
+                    player.powerups[i].destroy();
+                player.powerups[i] = player.waiting;
+                player.waiting = null;
+                player.updatePowerupImages();
+
             } else if (!controls.recentSelect){
                 var powerup = player.powerups[i];
                 if (powerup && powerup.activate) {
@@ -110,12 +111,27 @@ function(config, Phaser, player){
     controls.registerControl(Phaser.Keyboard.F, activatePowerup(3), this, 100);
     controls.registerControl(Phaser.Keyboard.G, function(){
         if (player.waiting) {
-            controls.selecting = true;
-            player.makingSelection();
+            if (controls.selecting) {
+                for (var i=0; i < 4; ++i){
+                    if (!player.powerups[i])
+                        break;
+                }
+                if (i == 4)
+                    return;
+                player.finishedSelection();
+                player.powerups[i] = player.waiting;
+                player.waiting = null;
+                player.updatePowerupImages();
+                controls.selecting = false;
+            } else {
+                controls.selecting = true;
+                player.makingSelection();
+            }
         }
     }, this, 100);
 
     var speedup = function(game, gray){
+        music.fade("in", 1500);
         var count = 0;
         var interval = setInterval(function(){
             ++count;
@@ -132,6 +148,8 @@ function(config, Phaser, player){
         var gray = game.add.filter('Gray');
         gray.gray = 0;
         game.world.filters = [gray];
+
+        music.fade("out", 1500);
 
         var count = 0;
         var interval = setInterval(function(){

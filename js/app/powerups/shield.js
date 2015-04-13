@@ -7,11 +7,13 @@ function(config, player, Powerup){
    "use strict"
 
     var Shield = function(game){
-        this.init(game, {});
+        this.init(game, {
+            iconKey : "shield"
+        });
 
         this.timeout = 10;
         this.duration = 5;
-        this.sprite = this.game.add.sprite(100, 100, 'shield');
+        this.sprite = this.game.add.sprite(100, 100, 'shield_effect');
         this.sprite.anchor.set(0.5, 0.5);
         this.sprite.tint = 0x111111;
         this.sprite.scale.set(0.7, 0.7);
@@ -24,10 +26,6 @@ function(config, player, Powerup){
     };
 
     Shield.prototype = new Powerup(Shield);
-
-    Shield.prototype.destroy = function(unit) {
-
-    }
 
     Shield.prototype.activate = function() {
         if (!this.available)

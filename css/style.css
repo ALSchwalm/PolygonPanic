@@ -13,7 +13,7 @@ body {
     border-right: 1px solid #CCCCCC;
 }
 
-#game-container, #level-transition {
+#game-container, #level-transition, #game-over {
     position: absolute;
     left: 50%;
     top: 0px;
@@ -22,7 +22,7 @@ body {
     height: 100%;
 }
 
-#level-transition {
+#level-transition, #game-over {
     width: 1002px;
     display: none;
     background-color: black;
@@ -30,12 +30,14 @@ body {
     z-index: 2;
 }
 
-#level-transition .container {
+#level-transition .container,
+#game-over .container {
     width: 50%;
     margin: 10% auto;
 }
 
-#level-transition .container h1 {
+#level-transition .container h1,
+#game-over .container h1{
     text-align: center;
     margin-bottom: 50px;
 }

@@ -17,10 +17,10 @@ function(config, Unit){
 
         var bullet = game.add.bitmapData(14, 14);
         bullet.context.beginPath();
-        bullet.context.arc(5, 5, 5, 0, 2 * Math.PI, false);
+        bullet.context.arc(7, 7, 4, 0, 2 * Math.PI, false);
         bullet.context.fillStyle = 'lightgreen';
         bullet.context.fill();
-        bullet.context.lineWidth = 1;
+        bullet.context.lineWidth = 3;
         bullet.context.strokeStyle = '#003300';
         bullet.context.stroke();
 
@@ -37,11 +37,11 @@ function(config, Unit){
             attackPattern : [
                 {
                     angle : 0,
-                    speed : 7
+                    speed : 4
                 }
             ],
-            health : 15,
-            attackRate : 500,
+            health : 10,
+            attackRate : 700,
             unitTexture : bmd,
             attackTexture : bullet,
             alpha : 0.8

@@ -41,7 +41,7 @@ define(function(){
             defaultAttackRate : 100
         },
         powerups : {
-            dropRate : 0.2
+            dropRate : 0.1
         },
         time : {
             slowdownDuration : 3000
