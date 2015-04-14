@@ -18,6 +18,9 @@ define(function(){
         game.load.script('Gray', 'js/lib/filters/Gray.js');
         game.load.image('player-ship', 'assets/images/playership.png');
         game.load.image('player-basic-bullet', 'assets/images/basic_player_bullet.png');
+		game.load.image('particle-line1', 'assets/images/particle-line1.png');
+		game.load.image('particle-line2', 'assets/images/particle-line2.png');
+		game.load.image('particle-triangle1', 'assets/images/particle-triangle1.png');
         game.load.spritesheet('shield', 'assets/images/shield1.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
 

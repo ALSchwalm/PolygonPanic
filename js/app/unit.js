@@ -91,11 +91,9 @@ function(config, utils, music, player, Powerup){
                 this.destroy(true);
             }
         }.bind(this);
-
-        this.explosion = this.game.add.sprite(x, y, 'explosion');
-        this.explosion.anchor.set(0.5, 0.5);
-        this.explosion.visible = false;
-        this.explosion.animations.add('explode');
+		
+		// Add emitter for death animation
+		this.emitter = this.config.emitter;
     }
 
     Unit.prototype.pulse = function(){
@@ -126,10 +124,9 @@ function(config, utils, music, player, Powerup){
         if (offscreen) {
             this.group.destroy();
         } else {
-            this.explosion.visible = true;
-            this.explosion.position = new Phaser.Point(this.graphics.position.x,
-                                                       this.graphics.position.y);
-            this.explosion.play('explode', 30, false, true);
+			this.emitter.x = this.graphics.position.x;
+			this.emitter.y = this.graphics.position.y;
+			this.emitter.start(true, 700, null, 20);
 
             if (Math.random() < config.powerups.dropRate) {
                 this.dropPowerup();
@@ -141,6 +138,7 @@ function(config, utils, music, player, Powerup){
         // Wait for bullets to be out of the screen before stopping update()
         setTimeout(function(){
             this.graphics.destroy();
+			this.emitter.destroy();
             var index = Unit.prototype.units.indexOf(this);
             if (index >= 0)
                 Unit.prototype.units.splice(index, 1);
