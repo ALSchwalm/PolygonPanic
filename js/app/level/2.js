@@ -17,7 +17,7 @@ function(config, Level, Phase, enemies) {
         onStop : function(){ clearInterval(this.interval); },
     });
 
-    var level2 = new Level([redPhase1], "Dotwave");
+    var level2 = new Level([redPhase1], "Dotwave", "level2");
 
     return level2;
 });

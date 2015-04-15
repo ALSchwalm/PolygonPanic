@@ -57,7 +57,7 @@ function(config, Level, Phase, enemies) {
 
     var level1 = new Level([orangePhase1,
                             orangePhase2,
-                            attackPhase], "Lightwave");
+                            attackPhase], "Lightwave", "level1");
 
     return level1;
 });

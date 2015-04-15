@@ -2,15 +2,16 @@
  * A module which defines a type representing levels in the game
  * @module app/level
  */
-define(["app/config", "app/background"],
-function(config, background){
+define(["app/config", "app/background", "app/music"],
+function(config, background, music){
     "use strict"
 
-    var Level = function(phases, backgroundKey){
+    var Level = function(phases, backgroundKey, musicKey){
         this.phases = phases;
         this.currentPhase = null;
         this.nextLevel = null;
         this.backgroundKey = backgroundKey || "CheckerWave";
+        this.musicKey = musicKey || "level1";
     };
 
     Level.prototype.init = function(game) {
@@ -26,6 +27,7 @@ function(config, background){
     Level.prototype.start = function(){
         this.nextPhase();
         background.setBackground(this.backgroundKey);
+        music.play(this.musicKey);
     };
 
     Level.prototype.stop = function(){
