@@ -12,7 +12,16 @@
     <script data-main="app" src="js/lib/require.js"></script>
   </head>
   <body>
-    <div align="center" id="main-menu-container" class="menu-container jumbotron">
+    <div id="loading-screen" class="jumbotron vertical-center">
+      <div class="container">
+        <p class="loading-text">Loading: 0%<p>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div align="center" id="main-menu-container" class="menu-container jumbotron" style="display:none;">
       <div id="game-header" class="jumbotron">
         <h1 class="header">PolygonPanic </h1>
         <p class="sub-text">Can you survive the madness?</p>
@@ -37,7 +46,7 @@
         <h1>Game Over</h1>
       </div>
     </div>
-    <div id="game-container">
+    <div id="game-container" style="display:none;">
       <div id="phaser-container">
         <div id="phaser-body"></div>
       </div>

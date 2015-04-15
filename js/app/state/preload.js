@@ -12,6 +12,17 @@ define(function(){
      * @param {Phaser.Game} game - The current game object
      */
     var preload = function(game){
+        game.load.onFileComplete.add(function(p){
+            $("#loading-screen .loading-text").html("Loading: " + p + "%");
+            $("#loading-screen .progress-bar").css('width', p+'%')
+                .attr('aria-valuenow', p);
+            if (p == 100) {
+                $("#loading-screen").hide();
+                $("#main-menu-container").show();
+                $("#game-container").show();
+            }
+        });
+
         game.load.script('CheckerWave', 'js/lib/CheckerWave.js');
         game.load.script('Dotwave', 'js/lib/Dotwave.js');
         game.load.script('Lightwave', 'js/lib/Lightwave.js');
