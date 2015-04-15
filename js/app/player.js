@@ -141,6 +141,8 @@ define(["app/config"], function(config){
     }
 
     Player.prototype.pickup = function(powerup) {
+        if (this.waiting)
+            this.waiting.destroy();
         this.waiting = powerup;
         var newsprite = this.waiting.createSprite();
         newsprite.offset = {x: 0, y:0};

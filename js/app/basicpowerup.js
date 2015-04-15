@@ -23,10 +23,12 @@ function(config, Unit, player){
         this.game.physics.enable(this.dropsprite, Phaser.Physics.ARCADE);
         this.dropsprite.checkWorldBounds = true;
 
-        this.dropsprite.events.onOutOfBounds.add(function(){
-            setTimeout(function(){
-                this.dropsprite.destroy();
-            }.bind(this), 1000);
+        this.dropsprite.events.onEnterBounds.add(function(){
+            this.dropsprite.events.onOutOfBounds.add(function(){
+                setTimeout(function(){
+                    this.dropsprite.destroy();
+                }.bind(this), 1000);
+            }.bind(this));
         }.bind(this));
 
         this.dropsprite.body.velocity.y = 200;
