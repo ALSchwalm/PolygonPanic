@@ -4,20 +4,31 @@
     <meta charset="utf-8" />
     <title>Polygon Panic</title>
 
+    <script src="js/lib/jquery.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/hover-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script data-main="polygon-panic-built" src="js/lib/require.js"></script>
   </head>
   <body>
+    <div align="center" id="main-menu-container" class="menu-container jumbotron">
+      <div id="game-header" class="jumbotron">
+        <h1 class="header">PolygonPanic </h1>
+        <p class="sub-text">Can you survive the madness?</p>
+      </div>
+      <a href="#" id="play-btn" class="push-button red">Play</a>
+      <a class="push-button blue">How to Play?</a>
+    </div>
     <div id="level-transition">
       <div class="container row">
         <h1>Level Complete</h1>
         <table class="table">
-            <tr><th>Statistic</th><th>Value</th></tr>
-            <tr><td>Total Score</td><td id="total-score"></td></tr>
-            <tr><td>Enemies Destroyed</td><td id="enemies-destroyed"></td></tr>
-            <tr><td>Time Played</td><td id="time-played"></td></tr>
+          <tr><th>Statistic</th><th>Value</th></tr>
+          <tr><td>Total Score</td><td id="total-score"></td></tr>
+          <tr><td>Enemies Destroyed</td><td id="enemies-destroyed"></td></tr>
+          <tr><td>Time Played</td><td id="time-played"></td></tr>
         </table>
         <button class="btn btn-primary col-sm-4 col-sm-offset-4">Next</button>
       </div>

@@ -26,12 +26,27 @@ function(config, background, music, player, levels, poweruplist){
         });
 
         music.start(game, 'title');
-
         background.start(game);
-        player.init(game, config.game.width/2, config.game.height-40);
 
-        levels.init(game);
-        levels.start();
+        $("#play-btn").click(function(e) {
+            // Prevent the game from being 'started' multiple times
+            $("#play-btn").unbind();
+
+            $("#main-menu-container").animate({
+                height: '-=200px',
+                width: '1000px',
+                marginLeft : "-500px",
+                left : "50%",
+                opacity: 0
+            }, 1000, function(){
+                $("#main-menu-container").remove();
+            });
+
+            player.init(game, config.game.width/2, config.game.height-40);
+
+            levels.init(game);
+            levels.start();
+        });
     };
     return create;
 });

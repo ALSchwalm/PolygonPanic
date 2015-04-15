@@ -130,9 +130,6 @@ function(config, utils, music, player, Powerup){
         this.destroyed = true;
 
         var offscreen = offscreen || false;
-        if (offscreen || bomb) {
-            this.group.destroy();
-        }
         if (!offscreen || bomb){
             if (!bomb) {
                 Unit.prototype.explode.play();
@@ -158,6 +155,10 @@ function(config, utils, music, player, Powerup){
             if (index >= 0)
                 Unit.prototype.units.splice(index, 1);
         }.bind(this), 2000);
+
+        setTimeout(function(){
+            this.group.destroy();
+        }.bind(this), 10000);
     }
 
     Unit.prototype.dropPowerup = function() {
