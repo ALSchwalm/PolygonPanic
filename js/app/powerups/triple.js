@@ -34,9 +34,9 @@ define(["app/config", "app/basicpowerup"], function(config, Powerup){
 
     Triple.prototype.attack = function(unit) {
         var bullet = this.group.getFirstExists(false);
-        bullet.rotation = -Math.PI/8;
         if (!bullet)
             return;
+        bullet.rotation = -Math.PI/8;
         bullet.reset(unit.position.x-30, unit.position.y-30);
         bullet.body.velocity.x = Math.sin(bullet.rotation)*500;
         bullet.body.velocity.y = Math.cos(bullet.rotation)*-500;
