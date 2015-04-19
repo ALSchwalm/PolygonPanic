@@ -37,10 +37,11 @@ define(function(){
         game.load.audio('explode', 'assets/sounds/explosion.wav');
         game.load.audio('basic-laser', 'assets/sounds/laser.wav');
 
-        // TODO replace this
         game.load.image('shield', 'assets/images/powerups/shield.png');
         game.load.image('bomb', 'assets/images/powerups/bomb.png');
         game.load.image('triple', 'assets/images/powerups/numeral3.png');
+        game.load.image('missle', 'assets/images/powerups/missle.png');
+        game.load.image('missle_icon', 'assets/images/powerups/missle_icon.png');
     };
 
     return preload;
