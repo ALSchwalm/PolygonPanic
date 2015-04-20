@@ -21,9 +21,13 @@ function(config, utils, music, player, Powerup){
         this.graphics.addChild(this.collisionBody);
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.collisionBody.checkWorldBounds = true;
+        this.graphics.checkWorldBounds = true;
+        this.onScreen = false;
 
         this.graphics.events.onEnterBounds.add(function(){
+            this.onScreen = true;
             this.graphics.events.onOutOfBounds.add(function(){
+                this.onScreen = false;
                 // When a unit goes out of view, destroy it after
                 // enough time has passed for all of its bullets
                 // to be out of view as well
@@ -71,7 +75,7 @@ function(config, utils, music, player, Powerup){
                                              this.onUnitHitPlayer.bind(this),
                                              null, this);
 
-            if (!this.graphics.visible) {
+            if (!this.graphics.visible || !this.onScreen) {
                 return;
             }
 

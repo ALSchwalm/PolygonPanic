@@ -42,7 +42,7 @@ function(config, Powerup, Unit){
         var target = null;
         var targetDistance = 0;
         Unit.prototype.units.forEach(function(unit){
-            if (!unit.graphics.visible)
+            if (!unit.graphics.visible || !unit.onScreen)
                 return;
             var distance = self.game.physics.arcade.distanceBetween(bullet, unit.graphics);
             if (!target || distance < targetDistance) {
