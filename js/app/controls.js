@@ -99,7 +99,7 @@ function(config, Phaser, player, music){
             } else if (!controls.recentSelect){
                 var powerup = player.powerups[i];
                 if (powerup && powerup.activate) {
-                    powerup.activate();
+                    powerup.activate(player);
                 }
             }
         }

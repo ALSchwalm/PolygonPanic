@@ -177,7 +177,9 @@ function(config, utils, music, player, Powerup){
             return;
         bullet.hasHit = true;
         setTimeout(function(){
-            bullet.kill();
+            if (!bullet.noDieOnHit) {
+                bullet.kill();
+            }
             bullet.hasHit = false;
         }, 100);
 
