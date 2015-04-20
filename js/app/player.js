@@ -44,6 +44,7 @@ define(["app/config"], function(config){
         this.powerups = [];
         this.waiting = null;
         this.health = 4;
+        this.shielded = false;
 
         this.explosion = this.game.add.sprite(x, y, 'explosion');
         this.explosion.anchor.set(0.5, 0.5);
@@ -97,6 +98,9 @@ define(["app/config"], function(config){
     }
 
     Player.prototype.damage = function(amount) {
+        if (this.shielded) {
+            return;
+        }
         var amount = amount || 1;
         this.health -= amount;
         this.drawHealthBar();

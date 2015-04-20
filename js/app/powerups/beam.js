@@ -27,7 +27,7 @@ function(config, Powerup){
             bullet.attack = 10;
         }
 
-        this.timeout = 20;
+        this.timeout = 10;
         this.available = true;
         this.cooldown = 0;
     };
@@ -58,16 +58,17 @@ function(config, Powerup){
 
         setTimeout(function(){
             this.group.callAll("kill");
+            var cooldownInterval = setInterval(function(){
+                this.cooldown += 0.1;
+                this.updateCooldown();
+                if (this.cooldown > this.timeout) {
+                    this.clearCooldown();
+                    clearInterval(cooldownInterval);
+                    this.available = true;
+                    this.cooldown = 0;
+                }
+            }.bind(this), 100);
         }.bind(this), 2000);
-
-        var cooldownInterval = setInterval(function(){
-            this.cooldown += 0.1;
-            if (this.cooldown > this.timeout) {
-                clearInterval(cooldownInterval);
-                this.available = true;
-                this.cooldown = 0;
-            }
-        }.bind(this), 100);
     }
 
     return Beam;
