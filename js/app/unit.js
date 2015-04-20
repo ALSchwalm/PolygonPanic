@@ -27,13 +27,18 @@ function(config, utils, music, player, Powerup){
         this.graphics.events.onEnterBounds.add(function(){
             this.onScreen = true;
             this.graphics.events.onOutOfBounds.add(function(){
-                this.onScreen = false;
-                // When a unit goes out of view, destroy it after
-                // enough time has passed for all of its bullets
-                // to be out of view as well
+                // Give things which go outside the camera briefly some leeway
                 setTimeout(function(){
-                    this.destroy(true);
-                }.bind(this), 5000);
+                    if (!this.game.world.bounds.intersects(this.graphics._bounds)) {
+                        this.onScreen = false;
+                        // When a unit goes out of view, destroy it after
+                        // enough time has passed for all of its bullets
+                        // to be out of view as well
+                        setTimeout(function(){
+                            this.destroy(true);
+                        }.bind(this), 5000);
+                    }
+                }.bind(this), 300);
             }.bind(this));
         }.bind(this));
 
