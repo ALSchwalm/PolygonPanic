@@ -143,7 +143,7 @@ define(["app/config"], function(config){
     Player.prototype.pickup = function(powerup) {
         if (this.waiting)
             this.waiting.destroy();
-		var sound = this.game.add.audio("powerup", 1.0);
+        var sound = this.game.add.audio("powerup", 1.0);
         sound.play();
         this.waiting = powerup;
         var newsprite = this.waiting.createSprite();
