@@ -29,7 +29,9 @@ function(config, utils, music, player, Powerup){
             this.graphics.events.onOutOfBounds.add(function(){
                 // Give things which go outside the camera briefly some leeway
                 setTimeout(function(){
-                    if (!this.game.world.bounds.intersects(this.graphics._bounds)) {
+                    if (!this.graphics._bounds ||
+                        !this.game.world.bounds.intersects(this.graphics._bounds)) {
+
                         this.onScreen = false;
                         // When a unit goes out of view, destroy it after
                         // enough time has passed for all of its bullets

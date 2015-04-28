@@ -68,8 +68,10 @@ function(config, Unit, player){
     }
 
     Powerup.prototype.basicDestroy = function() {
-        if (this.displaysprite)
+        if (this.displaysprite) {
             this.displaysprite.destroy();
+            this.cooldownGraphic.clear();
+        }
     }
 
     Powerup.prototype.destroy = function() {
