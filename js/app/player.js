@@ -17,6 +17,10 @@ define(["app/config"], function(config){
         this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
         this.sprite.body.collideWorldBounds = true;
         this.speed = config.player.defaultSpeed;
+        this.collisionBody = game.add.sprite(0, 0, game.add.bitmapData(15, 15));
+        this.collisionBody.anchor.set(0.5, 0.5);
+        this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
+        this.sprite.addChild(this.collisionBody);
 
         this.createPowerupRing();
 

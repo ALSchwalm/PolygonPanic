@@ -70,36 +70,11 @@ function(config, utils, music, player, Powerup){
         this.attackIndex = 0;
         this.bulletTimer = this.game.time.create(false);
         this.bulletTimer.loop(this.config.attackRate,
-            this.attack.bind(this));
+                              this.attack.bind(this, this.config.attackPattern));
         this.bulletTimer.start();
 
         // Remove units which are below the bottom of the screen
-        this.graphics.update = function(){
-            this.game.physics.arcade.overlap(player.sprite,
-                                             this.group,
-                                             this.onUnitHitPlayer.bind(this),
-                                             null, this);
-
-            if (!this.graphics.visible || !this.onScreen) {
-                return;
-            }
-
-            this.game.physics.arcade.overlap(player.group,
-                                             this.collisionBody,
-                                             this.onPlayerHitUnit.bind(this),
-                                             null, this);
-
-            player.powerups.map(function(powerup){
-                this.game.physics.arcade.overlap(powerup.group,
-                                                 this.collisionBody,
-                                                 this.onPlayerHitUnit.bind(this),
-                                                 null, this);
-            }, this)
-
-            if (this.position.y > config.game.height){
-                this.destroy(true);
-            }
-        }.bind(this);
+        this.graphics.update = this.update.bind(this);
 
         this.explosion = this.game.add.sprite(-100, -100, 'explosion');
         this.explosion.anchor.set(0.5, 0.5);
@@ -108,6 +83,33 @@ function(config, utils, music, player, Powerup){
 
         if (!Unit.prototype.explode) {
             Unit.prototype.explode = this.game.add.audio("explode", 0.8);
+        }
+    }
+
+    Unit.prototype.update = function(){
+        this.game.physics.arcade.overlap(player.collisionBody,
+                                         this.group,
+                                         this.onUnitHitPlayer.bind(this),
+                                         null, this);
+
+        if (!this.graphics.visible || !this.onScreen) {
+            return;
+        }
+
+        this.game.physics.arcade.overlap(player.group,
+                                         this.collisionBody,
+                                         this.onPlayerHitUnit.bind(this),
+                                         null, this);
+
+        player.powerups.map(function(powerup){
+            this.game.physics.arcade.overlap(powerup.group,
+                                             this.collisionBody,
+                                             this.onPlayerHitUnit.bind(this),
+                                             null, this);
+        }, this)
+
+        if (this.position && this.position.y > config.game.height){
+            this.destroy(true);
         }
     }
 
@@ -122,16 +124,16 @@ function(config, utils, music, player, Powerup){
 
     Unit.prototype.constructTweenChain = function(moveConfig) {
         var config = utils.cloneArray(moveConfig);
-        var tween = this.game.add.tween(this.graphics);
+        this.tween = this.game.add.tween(this.graphics);
         config.forEach(function(item){
-            tween.to(item.options, item.duration, item.easing);
-        });
-        tween.onComplete.add(function(){
+            this.tween.to(item.options, item.duration, item.easing);
+        }, this);
+        this.tween.onComplete.add(function(){
             if (this.graphics.visible) {
                 this.constructTweenChain(moveConfig);
             }
         }.bind(this))
-        tween.start();
+        this.tween.start();
     }
 
     Unit.prototype.destroy = function(offscreen, bomb) {
@@ -211,26 +213,28 @@ function(config, utils, music, player, Powerup){
         bullet.kill();
     }
 
-    Unit.prototype.attack = function() {
-        if (!this.graphics.visible || !this.config.attackPattern) {
+    Unit.prototype.attack = function(pattern) {
+        if (!this.graphics.visible || !pattern) {
             this.bulletTimer.stop();
             return;
         } else if (!this.graphics.inCamera) {
             return;
         }
 
-        var pattern = this.config.attackPattern;
         this.attackIndex = (this.attackIndex+1) % pattern.length;
-        var config = this.config.attackPattern[this.attackIndex];
+        var config = pattern[this.attackIndex];
         var speed = config.speed;
         var bullet = this.group.getFirstExists(false);
 
-        bullet.reset(this.position.x, this.position.y);
+        bullet.reset(this.position.x + (config.x || 0),
+                     this.position.y + (config.y || 0));
+
         if (config.angle == "player") {
             var rads = this.game.physics.arcade.angleBetween(bullet, player.sprite);
         } else {
             var rads = config.angle*Math.PI/180 + 0.5*Math.PI;
         }
+        bullet.rotation = rads + Math.PI/2;
         bullet.body.velocity.x = Math.cos(rads)*speed*100;
         bullet.body.velocity.y = Math.sin(rads)*speed*100;
     }

@@ -32,7 +32,9 @@ function(config, Powerup, Unit){
 
         var cooldownInterval = setInterval(function(){
             this.cooldown += 0.1;
+            this.updateCooldown();
             if (this.cooldown > this.timeout) {
+                this.clearCooldown();
                 clearInterval(cooldownInterval);
                 this.available = true;
                 this.cooldown = 0;
