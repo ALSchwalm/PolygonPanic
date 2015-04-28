@@ -8,6 +8,8 @@ function(config, Unit, player){
 
     var Powerup = function(Derived) {
         this.powerups.push(Derived);
+        this.dropsprite = null;
+        this.displaysprite = null;
     }
 
     Powerup.prototype.powerups = [];
@@ -15,6 +17,13 @@ function(config, Unit, player){
     Powerup.prototype.init = function(game, config) {
         this.game = game;
         this.config = config;
+        this.cooldownGraphic = this.game.add.graphics();
+
+        this.cooldownGraphic.update = function() {
+            if (this.displaysprite){
+                this.cooldownGraphic.position = this.displaysprite.position;
+            }
+        }.bind(this);
     }
 
     Powerup.prototype.drop = function(x, y) {
@@ -65,6 +74,23 @@ function(config, Unit, player){
 
     Powerup.prototype.destroy = function() {
         this.basicDestroy();
+    }
+
+    Powerup.prototype.clearCooldown = function() {
+        this.cooldownGraphic.clear();
+    }
+
+    Powerup.prototype.updateCooldown = function() {
+        var percent = this.cooldown / this.timeout;
+        var width = 20;
+        this.cooldownGraphic.lineStyle();
+        this.cooldownGraphic.beginFill(0x888888, 0.8);
+        this.cooldownGraphic.drawRect(-10, 10, width, 3);
+        this.cooldownGraphic.endFill();
+
+        this.cooldownGraphic.beginFill(0xEEEEEE, 0.7);
+        this.cooldownGraphic.drawRect(-10, 10, percent*width, 3);
+        this.cooldownGraphic.endFill();
     }
 
     return Powerup;

@@ -6,4 +6,5 @@
  * So, just require all of them here, and then require this in create.
  */
 define(["app/powerups/triple", "app/powerups/shield",
-        "app/powerups/bomb"], function(){});
+        "app/powerups/bomb", "app/powerups/missle",
+        "app/powerups/beam"], function(){});

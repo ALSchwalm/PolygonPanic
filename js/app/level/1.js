@@ -2,8 +2,8 @@
  * A module defining the first level of PolygonPanic
  * @module app/level/1
  */
-define(["app/config", "app/level", "app/phase", "app/enemies"],
-function(config, Level, Phase, enemies) {
+define(["app/config", "app/level", "app/phase", "app/enemies", "app/bosses/lineboss"],
+function(config, Level, Phase, enemies, LineBoss) {
     var orangePhase1 = new Phase({
         onStart : function(){
             var count = 0;
@@ -48,16 +48,29 @@ function(config, Level, Phase, enemies) {
                     clearInterval(this.interval);
                     setTimeout(function(){
                         this.nextPhase();
-                    }.bind(this), 10000);
+                    }.bind(this), 7500);
                 }
             }.bind(this), 2700);
         },
         onStop : function(){},
     });
 
+    var bossPhase = new Phase({
+        onStart : function() {
+            this.boss = new LineBoss(this.game);
+            this.boss.onDestroy.push(function(){
+                setTimeout(function(){
+                    this.nextPhase();
+                }.bind(this), 7500);
+            }.bind(this));
+        },
+        onStop : function(){
+        }
+    })
+
     var level1 = new Level([orangePhase1,
                             orangePhase2,
-                            attackPhase], "Lightwave", "level1");
+                            attackPhase, bossPhase], "Lightwave", "level1");
 
     return level1;
 });

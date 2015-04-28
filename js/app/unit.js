@@ -21,15 +21,24 @@ function(config, utils, music, player, Powerup){
         this.graphics.addChild(this.collisionBody);
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.collisionBody.checkWorldBounds = true;
+        this.graphics.checkWorldBounds = true;
+        this.onScreen = false;
 
         this.graphics.events.onEnterBounds.add(function(){
+            this.onScreen = true;
             this.graphics.events.onOutOfBounds.add(function(){
-                // When a unit goes out of view, destroy it after
-                // enough time has passed for all of its bullets
-                // to be out of view as well
+                // Give things which go outside the camera briefly some leeway
                 setTimeout(function(){
-                    this.destroy(true);
-                }.bind(this), 5000);
+                    if (!this.game.world.bounds.intersects(this.graphics._bounds)) {
+                        this.onScreen = false;
+                        // When a unit goes out of view, destroy it after
+                        // enough time has passed for all of its bullets
+                        // to be out of view as well
+                        setTimeout(function(){
+                            this.destroy(true);
+                        }.bind(this), 5000);
+                    }
+                }.bind(this), 300);
             }.bind(this));
         }.bind(this));
 
@@ -61,44 +70,43 @@ function(config, utils, music, player, Powerup){
         this.attackIndex = 0;
         this.bulletTimer = this.game.time.create(false);
         this.bulletTimer.loop(this.config.attackRate,
-            this.attack.bind(this));
+                              this.attack.bind(this, this.config.attackPattern));
         this.bulletTimer.start();
 
         // Remove units which are below the bottom of the screen
-        this.graphics.update = function(){
-            this.game.physics.arcade.overlap(player.sprite,
-                                             this.group,
-                                             this.onUnitHitPlayer.bind(this),
-                                             null, this);
+        this.graphics.update = this.update.bind(this);
 
-            if (!this.graphics.visible) {
-                return;
-            }
-
-            this.game.physics.arcade.overlap(player.group,
-                                             this.collisionBody,
-                                             this.onPlayerHitUnit.bind(this),
-                                             null, this);
-
-            player.powerups.map(function(powerup){
-                this.game.physics.arcade.overlap(powerup.group,
-                                                 this.collisionBody,
-                                                 this.onPlayerHitUnit.bind(this),
-                                                 null, this);
-            }, this)
-
-            if (this.position.y > config.game.height){
-                this.destroy(true);
-            }
-        }.bind(this);
-
-        this.explosion = this.game.add.sprite(-100, -100, 'explosion');
-        this.explosion.anchor.set(0.5, 0.5);
-        this.explosion.visible = false;
-        this.explosion.animations.add('explode');
+        this.emitter = this.config.emitter;
 
         if (!Unit.prototype.explode) {
             Unit.prototype.explode = this.game.add.audio("explode", 0.8);
+        }
+    }
+
+    Unit.prototype.update = function(){
+        this.game.physics.arcade.overlap(player.collisionBody,
+                                         this.group,
+                                         this.onUnitHitPlayer.bind(this),
+                                         null, this);
+
+        if (!this.graphics.visible || !this.onScreen) {
+            return;
+        }
+
+        this.game.physics.arcade.overlap(player.group,
+                                         this.collisionBody,
+                                         this.onPlayerHitUnit.bind(this),
+                                         null, this);
+
+        player.powerups.map(function(powerup){
+            this.game.physics.arcade.overlap(powerup.group,
+                                             this.collisionBody,
+                                             this.onPlayerHitUnit.bind(this),
+                                             null, this);
+        }, this)
+
+        if (this.position && this.position.y > config.game.height){
+            this.destroy(true);
         }
     }
 
@@ -113,16 +121,16 @@ function(config, utils, music, player, Powerup){
 
     Unit.prototype.constructTweenChain = function(moveConfig) {
         var config = utils.cloneArray(moveConfig);
-        var tween = this.game.add.tween(this.graphics);
+        this.tween = this.game.add.tween(this.graphics);
         config.forEach(function(item){
-            tween.to(item.options, item.duration, item.easing);
-        });
-        tween.onComplete.add(function(){
+            this.tween.to(item.options, item.duration, item.easing);
+        }, this);
+        this.tween.onComplete.add(function(){
             if (this.graphics.visible) {
                 this.constructTweenChain(moveConfig);
             }
         }.bind(this))
-        tween.start();
+        this.tween.start();
     }
 
     Unit.prototype.destroy = function(offscreen, bomb) {
@@ -136,10 +144,10 @@ function(config, utils, music, player, Powerup){
             }
 
             this.game.plugins.screenShake.shake(7);
-            this.explosion.visible = true;
-            this.explosion.position = new Phaser.Point(this.graphics.position.x,
-                                                       this.graphics.position.y);
-            this.explosion.play('explode', 30, false, true);
+
+            this.emitter.x = this.graphics.position.x;
+            this.emitter.y = this.graphics.position.y;
+            this.emitter.start(true, 600, null, 20);
 
             if (Math.random() < config.powerups.dropRate) {
                 this.dropPowerup();
@@ -151,6 +159,7 @@ function(config, utils, music, player, Powerup){
         // Wait for bullets to be out of the screen before stopping update()
         setTimeout(function(){
             this.graphics.destroy();
+            this.emitter.destroy();
             var index = Unit.prototype.units.indexOf(this);
             if (index >= 0)
                 Unit.prototype.units.splice(index, 1);
@@ -177,7 +186,9 @@ function(config, utils, music, player, Powerup){
             return;
         bullet.hasHit = true;
         setTimeout(function(){
-            bullet.kill();
+            if (!bullet.noDieOnHit) {
+                bullet.kill();
+            }
             bullet.hasHit = false;
         }, 100);
 
@@ -200,26 +211,28 @@ function(config, utils, music, player, Powerup){
         bullet.kill();
     }
 
-    Unit.prototype.attack = function() {
-        if (!this.graphics.visible || !this.config.attackPattern) {
+    Unit.prototype.attack = function(pattern) {
+        if (!this.graphics.visible || !pattern) {
             this.bulletTimer.stop();
             return;
         } else if (!this.graphics.inCamera) {
             return;
         }
 
-        var pattern = this.config.attackPattern;
         this.attackIndex = (this.attackIndex+1) % pattern.length;
-        var config = this.config.attackPattern[this.attackIndex];
+        var config = pattern[this.attackIndex];
         var speed = config.speed;
         var bullet = this.group.getFirstExists(false);
 
-        bullet.reset(this.position.x, this.position.y);
+        bullet.reset(this.position.x + (config.x || 0),
+                     this.position.y + (config.y || 0));
+
         if (config.angle == "player") {
             var rads = this.game.physics.arcade.angleBetween(bullet, player.sprite);
         } else {
             var rads = config.angle*Math.PI/180 + 0.5*Math.PI;
         }
+        bullet.rotation = rads + Math.PI/2;
         bullet.body.velocity.x = Math.cos(rads)*speed*100;
         bullet.body.velocity.y = Math.sin(rads)*speed*100;
     }

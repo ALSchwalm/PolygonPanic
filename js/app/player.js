@@ -17,6 +17,10 @@ define(["app/config"], function(config){
         this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
         this.sprite.body.collideWorldBounds = true;
         this.speed = config.player.defaultSpeed;
+        this.collisionBody = game.add.sprite(0, 0, game.add.bitmapData(15, 15));
+        this.collisionBody.anchor.set(0.5, 0.5);
+        this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
+        this.sprite.addChild(this.collisionBody);
 
         this.createPowerupRing();
 
@@ -44,6 +48,7 @@ define(["app/config"], function(config){
         this.powerups = [];
         this.waiting = null;
         this.health = 4;
+        this.shielded = false;
 
         this.explosion = this.game.add.sprite(x, y, 'explosion');
         this.explosion.anchor.set(0.5, 0.5);
@@ -97,6 +102,9 @@ define(["app/config"], function(config){
     }
 
     Player.prototype.damage = function(amount) {
+        if (this.shielded) {
+            return;
+        }
         var amount = amount || 1;
         this.health -= amount;
         this.drawHealthBar();
@@ -143,6 +151,8 @@ define(["app/config"], function(config){
     Player.prototype.pickup = function(powerup) {
         if (this.waiting)
             this.waiting.destroy();
+        var sound = this.game.add.audio("powerup", 1.0);
+        sound.play();
         this.waiting = powerup;
         var newsprite = this.waiting.createSprite();
         newsprite.offset = {x: 0, y:0};
