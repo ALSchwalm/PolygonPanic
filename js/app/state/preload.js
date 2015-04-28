@@ -30,11 +30,16 @@ define(function(){
         game.load.image('player-ship', 'assets/images/playership.png');
         game.load.image('player-basic-bullet', 'assets/images/basic_player_bullet.png');
         game.load.spritesheet('shield_effect', 'assets/images/shield1.png');
+        game.load.image('particle-line1', 'assets/images/particles/particle-line1.png');
+        game.load.image('particle-line2', 'assets/images/particles/particle-line2.png');
+        game.load.image('particle-line3', 'assets/images/particles/particle-line3.png');
+        game.load.image('particle-triangle1', 'assets/images/particles/particle-triangle1.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
         game.load.audio('title', 'assets/sounds/title.mp3');
         game.load.audio('level1', 'assets/sounds/level1.mp3');
         game.load.audio('level2', 'assets/sounds/level2.mp3');
-        game.load.audio('explode', 'assets/sounds/explosion.wav');
+        game.load.audio('explode', 'assets/sounds/death-enemy.wav');
+        game.load.audio('powerup', 'assets/sounds/powerup.wav');
         game.load.audio('basic-laser', 'assets/sounds/laser.wav');
 
         game.load.image('shield', 'assets/images/powerups/shield.png');
