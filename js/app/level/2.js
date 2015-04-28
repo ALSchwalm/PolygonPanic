@@ -17,7 +17,21 @@ function(config, Level, Phase, enemies) {
         onStop : function(){ clearInterval(this.interval); },
     });
 
-    var level2 = new Level([redPhase1], "Dotwave", "level2");
+    var greenPhase = new Phase({
+        onStart : function(){
+            var count = 0;
+            this.interval = setInterval(function(){
+                new enemies.triangle2(this.game, -50, Math.random()*config.game.height/5);
+                new enemies.triangle2(this.game, config.game.width+50,
+                                      Math.random()*config.game.height/5, true);
+                ++count;
+                if (count == 7) { this.nextPhase(); }
+            }.bind(this), 5500);
+        },
+        onStop : function(){ clearInterval(this.interval); },
+    });
+
+    var level2 = new Level([redPhase1, greenPhase], "Dotwave", "level2");
 
     return level2;
 });

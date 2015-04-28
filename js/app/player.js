@@ -102,17 +102,22 @@ define(["app/config"], function(config){
     }
 
     Player.prototype.damage = function(amount) {
-        if (this.shielded) {
+        if (this.shielded || this.recentlyDamaged) {
             return;
         }
         var amount = amount || 1;
         this.health -= amount;
+        this.recentlyDamaged = true;
         this.drawHealthBar();
         this.game.plugins.screenShake.shake(7);
 
         if (this.health <= 0) {
             this.destroy();
         }
+
+        setTimeout(function(){
+            this.recentlyDamaged = false;
+        }.bind(this), config.player.invulnerablePeriod);
     }
 
     Player.prototype.destroy = function() {
@@ -125,6 +130,9 @@ define(["app/config"], function(config){
                                                    this.sprite.position.y);
         this.explosion.play('explode', 30, false, true);
         this.sprite.visible = false;
+        this.powerups.forEach(function(powerup){
+            powerup.destroy();
+        });
         $("#game-over").fadeIn(2000);
     }
 
