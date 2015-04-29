@@ -86,13 +86,15 @@ function(config, Phaser, music){
             this.background.destroy();
         }
 
-        this.filter = this.game.add.filter(key, config.game.width,
-                                           config.game.height);
-	this.filter.alpha = 0.2;
-
-        this.background = this.game.add.sprite(0, 0);
+        this.background = this.game.add.sprite(0, 0, "cyberglow");
 	this.background.width = config.game.width;
 	this.background.height = config.game.height;
+
+        this.filter = this.game.add.filter(key, config.game.width,
+                                           config.game.height,
+                                           this.background.texture);
+	this.filter.alpha = 0.2;
+
         this.background.filters = [this.filter];
         this.game.world.sendToBack(this.background);
     }

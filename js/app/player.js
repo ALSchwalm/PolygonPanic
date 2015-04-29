@@ -131,7 +131,7 @@ define(["app/config"], function(config){
         this.explosion.play('explode', 30, false, true);
         this.sprite.visible = false;
         this.powerups.forEach(function(powerup){
-            powerup.destroy();
+            powerup.displaysprite.visible = false;
         });
         $("#game-over").fadeIn(2000);
     }
