@@ -38,7 +38,8 @@ define(function(){
         },
         player : {
             defaultSpeed : 4,
-            defaultAttackRate : 100
+            defaultAttackRate : 100,
+            invulnerablePeriod : 1000
         },
         powerups : {
             dropRate : 0.1

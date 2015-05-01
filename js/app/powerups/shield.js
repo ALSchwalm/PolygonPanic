@@ -45,7 +45,7 @@ function(config, player, Powerup){
                 var cooldownInterval = setInterval(function(){
                     this.cooldown += 0.1;
                     this.updateCooldown();
-                    if (this.cooldown > this.timeout) {
+                    if (this.cooldown > this.timeout || !this.displaysprite.exists) {
                         this.clearCooldown();
                         clearInterval(cooldownInterval);
                         this.available = true;

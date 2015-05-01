@@ -26,6 +26,18 @@ define(["app/config", "jquery"], function(config, jQuery){
                 clearInterval(interval);
             }, duration);
             return interval;
+        },
+
+        makeBullet : function(game, size, color) {
+            var bullet = game.add.bitmapData(size, size);
+            bullet.context.beginPath();
+            bullet.context.arc(size/2, size/2, size/3, 0, 2 * Math.PI, false);
+            bullet.context.fillStyle = color;
+            bullet.context.fill();
+            bullet.context.lineWidth = 3;
+            bullet.context.strokeStyle = '#003300';
+            bullet.context.stroke();
+            return bullet;
         }
     }
 

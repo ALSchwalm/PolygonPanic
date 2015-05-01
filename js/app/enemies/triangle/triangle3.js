@@ -6,11 +6,11 @@ define(["app/config", "app/unit"],
 function(config, Unit){
     "use strict"
 
-    var Triangle1 = function(game, x, y, left) {
+    var Triangle3 = function(game, x, y, left) {
         var width = 150;
         var height = 150;
         var bmd = game.add.bitmapData(width, height);
-        bmd.context.fillStyle = "red";
+        bmd.context.fillStyle = "orange";
         bmd.context.beginPath();
 
         var a = 55; // width of each edge of the triangle
@@ -26,7 +26,7 @@ function(config, Unit){
         var bullet = game.add.bitmapData(14, 14);
         bullet.context.beginPath();
         bullet.context.arc(5, 5, 5, 0, 2 * Math.PI, false);
-        bullet.context.fillStyle = 'red';
+        bullet.context.fillStyle = 'orange';
         bullet.context.fill();
         bullet.context.lineWidth = 1;
         bullet.context.strokeStyle = '#003300';
@@ -47,22 +47,24 @@ function(config, Unit){
                 {
                     options : {
                         x : (left) ? "-100" : "+100",
-                        y : "+40",
-                        angle : "+360"
+                        y : "+20",
                     },
-                    duration : 1000
+                    options : {
+                        x : (left) ? "-100" : "+100",
+                    },
+                    duration : 800
                 },
             ],
             attackPattern : [
+                { angle : -80, speed : attackspeed },
+                { angle : -40, speed : attackspeed },
                 { angle : 0, speed : attackspeed },
                 { angle : 40, speed : attackspeed },
                 { angle : 80, speed : attackspeed },
-                { angle : 120, speed : attackspeed },
-                { angle : 160, speed : attackspeed },
-                { angle : 200, speed : attackspeed },
-                { angle : 240, speed : attackspeed },
-                { angle : 280, speed : attackspeed },
-                { angle : 320, speed : attackspeed }
+                { angle : 40, speed : attackspeed },
+                { angle : 0, speed : attackspeed },
+                { angle : -40, speed : attackspeed },
+                { angle : -80, speed : attackspeed },
             ],
             health : 20,
             attackRate : 100,
@@ -73,7 +75,7 @@ function(config, Unit){
         });
     };
 
-    Triangle1.prototype = new Unit();
+    Triangle3.prototype = new Unit();
 
-    return Triangle1;
+    return Triangle3;
 });

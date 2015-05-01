@@ -29,7 +29,9 @@ function(config, utils, music, player, Powerup){
             this.graphics.events.onOutOfBounds.add(function(){
                 // Give things which go outside the camera briefly some leeway
                 setTimeout(function(){
-                    if (!this.game.world.bounds.intersects(this.graphics._bounds)) {
+                    if (!this.graphics._bounds ||
+                        !this.game.world.bounds.intersects(this.graphics._bounds)) {
+
                         this.onScreen = false;
                         // When a unit goes out of view, destroy it after
                         // enough time has passed for all of its bullets
@@ -75,6 +77,8 @@ function(config, utils, music, player, Powerup){
 
         // Remove units which are below the bottom of the screen
         this.graphics.update = this.update.bind(this);
+
+        this.onDestroy = [];
 
         this.emitter = this.config.emitter;
 
@@ -145,6 +149,7 @@ function(config, utils, music, player, Powerup){
 
             this.game.plugins.screenShake.shake(7);
 
+            player.updateScore(100, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
             this.emitter.start(true, 600, null, 20);
@@ -152,6 +157,10 @@ function(config, utils, music, player, Powerup){
             if (Math.random() < config.powerups.dropRate) {
                 this.dropPowerup();
             }
+
+            this.onDestroy.forEach(function(func){
+                func(this);
+            }.bind(this));
         }
 
         this.graphics.visible = false;

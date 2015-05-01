@@ -130,41 +130,6 @@ function(config, Phaser, player, music){
         }
     }, this, 100);
 
-    var speedup = function(game, gray){
-        music.fade("in", 1500);
-        var count = 0;
-        var interval = setInterval(function(){
-            ++count;
-            game.time.slowMotion -= 0.1;
-            gray.gray -= 1/15;
-            if (count >= 15) {
-                game.world.filters = null;
-                clearInterval(interval);
-            }
-        }, 200);
-    }
-
-    controls.registerControl(Phaser.Keyboard.T, function(game){
-        var gray = game.add.filter('Gray');
-        gray.gray = 0;
-        game.world.filters = [gray];
-
-        music.fade("out", 1500);
-
-        var count = 0;
-        var interval = setInterval(function(){
-            ++count;
-            game.time.slowMotion += 0.1;
-            gray.gray += 1/15;
-            if (count >= 15) {
-                clearInterval(interval);
-                setTimeout(function(){
-                    speedup(game, gray);
-                }, config.time.slowdownDuration);
-            }
-        }, 200);
-    }, this, 200);
-
     // Prevent the browser from taking the normal action (scrolling, etc)
     window.addEventListener("keydown", function(e) {
         var codes = [];

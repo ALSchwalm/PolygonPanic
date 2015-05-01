@@ -34,7 +34,7 @@ Phaser.Filter.Lightwave = function (game) {
 
         "void main() {",
 
-            "vec3 color = vec3(1.5, 0.5, 10.0);",
+            "vec3 color = vec3(0.5, 1.5, 10.0);",
             "color = color == vec3(0.0) ? vec3(10.5, 0.5, 1.0) : color;",
             "vec2 pos = (gl_FragCoord.xy / resolution.xy);",
             "pos.y += - 0.5;",
