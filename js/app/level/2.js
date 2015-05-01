@@ -25,7 +25,7 @@ function(config, Level, Phase, enemies) {
                 new enemies.triangle2(this.game, config.game.width+50,
                                       Math.random()*config.game.height/5, true);
                 ++count;
-                if (count == 7) { this.nextPhase(); }
+                if (count == 6) { this.nextPhase(); }
             }.bind(this), 5500);
         },
         onStop : function(){ clearInterval(this.interval); },
@@ -46,9 +46,19 @@ function(config, Level, Phase, enemies) {
         onStop : function(){ clearInterval(this.interval); },
     });
 
+    var bossPhase = new Phase({
+        onStart : function() {
+            setTimeout(function(){
+                this.nextPhase();
+            }.bind(this), 3000);
+        },
+        onStop : function(){}
+    });
+
     var level2 = new Level([redPhase1,
                             greenPhase,
-                            orangePhase], "Plane", "level2");
+                            orangePhase,
+                            bossPhase], "Plane", "level2");
 
     return level2;
 });
