@@ -149,6 +149,7 @@ function(config, utils, music, player, Powerup){
 
             this.game.plugins.screenShake.shake(7);
 
+            player.updateScore(100, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
             this.emitter.start(true, 600, null, 20);

@@ -30,6 +30,15 @@ define(["app/config"], function(config){
             this.healthBar.position.y = this.sprite.position.y+30;
         }.bind(this);
 
+        // Scoring attributes
+        this.killCount = 0;
+        this.score = 0;
+        this.scoreText = this.game.add.text(15, 15, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.scoreText.stroke = '#000000';
+        this.scoreText.strokeThickness = 3;
+        this.timer = game.time.create(this.game, false);
+        this.timer.start(100);
+
         this.group = game.add.group();
         this.group.enableBody = true;
         this.group.physicsBodyType = Phaser.Physics.ARCADE;
@@ -161,6 +170,7 @@ define(["app/config"], function(config){
             this.waiting.destroy();
         var sound = this.game.add.audio("powerup", 0.7);
         sound.play();
+        player.updateScore(150, 0);
         this.waiting = powerup;
         var newsprite = this.waiting.createSprite();
         newsprite.offset = {x: 0, y:0};
@@ -204,6 +214,12 @@ define(["app/config"], function(config){
                 powerup.attack(this);
             }
         }, this);
+    }
+
+    Player.prototype.updateScore = function(score, kills) {
+        this.score += score;
+        this.killCount += kills;
+        this.scoreText.text = 'Score: ' + this.score;
     }
 
     Object.defineProperty(Player.prototype, "position", {
