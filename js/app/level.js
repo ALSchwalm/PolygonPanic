@@ -56,10 +56,6 @@ function(config, background, music, player){
             minutes = '0' + minutes;
         var timePlayed = minutes + ':' + seconds;
 
-        console.log("player.score: " + player.score);
-        console.log("player.killCount: " + player.killCount);
-        console.log("player.timer.ms: " + player.timer.ms);
-        console.log("timePlayed: " + timePlayed);
         $("#level-transition").fadeIn(2000);
         $("#total-score").html(String(player.score));
         $("#enemies-destroyed").html(String(player.killCount));
