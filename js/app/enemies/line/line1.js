@@ -45,7 +45,7 @@ function(utils, config, Unit){
             ],
             attackPattern : [
                 {
-                    angle : (left) ? 20 : -20,
+                    angle : (left) ? 8 : -8,
                     speed : 3
                 }
             ],

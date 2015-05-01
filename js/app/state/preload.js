@@ -55,7 +55,7 @@ define(function(){
         game.load.image('missle', 'assets/images/powerups/missle.png');
         game.load.image('missle_icon', 'assets/images/powerups/missle_icon.png');
 
-        game.load.image("blue_oval", "assets/images/bullets/blue_oval_small.png");
+        game.load.image("blue_oval", "assets/images/bullets/red_oval_small.png");
     };
 
     return preload;
