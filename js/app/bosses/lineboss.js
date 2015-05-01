@@ -18,12 +18,12 @@ function(Phaser, config, utils, music, player, Unit){
         this.group.physicsBodyType = Phaser.Physics.ARCADE;
         this.onScreen = true;
 
-        this.maxHealth = 6000;
+        this.maxHealth = 3000;
         this.health = this.maxHealth;
         this.invulnerable = true;
         this.healthGraphic = this.game.add.graphics(0, 0);
 		
-		this.emitter = game.add.emitter(0, 0, 120);
+        this.emitter = game.add.emitter(0, 0, 120);
         this.emitter.makeParticles('particle-boss1');
         this.emitter.gravity = 0;
         this.emitter.setAlpha(0.95, 0.2, 1400, Phaser.Easing.Exponential.In);

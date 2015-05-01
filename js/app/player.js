@@ -36,8 +36,8 @@ define(["app/config"], function(config){
         this.scoreText = this.game.add.text(15, 15, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
         this.scoreText.stroke = '#000000';
         this.scoreText.strokeThickness = 3;
-		this.timer = game.time.create(this.game, false);
-		this.timer.start(100);
+        this.timer = game.time.create(this.game, false);
+        this.timer.start(100);
 
         this.group = game.add.group();
         this.group.enableBody = true;
@@ -162,7 +162,7 @@ define(["app/config"], function(config){
             this.waiting.destroy();
         var sound = this.game.add.audio("powerup", 1.0);
         sound.play();
-		player.updateScore(150, 0);
+        player.updateScore(150, 0);
         this.waiting = powerup;
         var newsprite = this.waiting.createSprite();
         newsprite.offset = {x: 0, y:0};
@@ -210,7 +210,7 @@ define(["app/config"], function(config){
 
     Player.prototype.updateScore = function(score, kills) {
         this.score += score;
-		this.killCount += kills;
+        this.killCount += kills;
         this.scoreText.text = 'Score: ' + this.score;
     }
 
