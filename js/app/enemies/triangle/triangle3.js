@@ -49,9 +49,6 @@ function(config, Unit){
                         x : (left) ? "-100" : "+100",
                         y : "+20",
                     },
-                    options : {
-                        x : (left) ? "-100" : "+100",
-                    },
                     duration : 800
                 },
             ],
