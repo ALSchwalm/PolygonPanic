@@ -18,10 +18,19 @@ function(Phaser, config, utils, music, player, Unit){
         this.group.physicsBodyType = Phaser.Physics.ARCADE;
         this.onScreen = true;
 
-        this.maxHealth = 3000;
+        this.maxHealth = 6000;
         this.health = this.maxHealth;
         this.invulnerable = true;
         this.healthGraphic = this.game.add.graphics(0, 0);
+		
+		this.emitter = game.add.emitter(0, 0, 120);
+        this.emitter.makeParticles('particle-boss1');
+        this.emitter.gravity = 0;
+        this.emitter.setAlpha(0.95, 0.2, 1400, Phaser.Easing.Exponential.In);
+        this.emitter.setRotation(-720, 720);
+        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1400);
+        this.emitter.setYSpeed(-250, 250);
+        this.emitter.setXSpeed(-400, 400);
 
         this.onDestroy = [];
 
@@ -190,12 +199,15 @@ function(Phaser, config, utils, music, player, Unit){
         }
 
         // done exploding
-        // TODO particle effect here
         setTimeout(function(){
             explosions.forEach(function(explosion){
                 explosion.destroy();
             });
             this.graphics.destroy();
+            player.updateScore(1500, 1);
+            this.emitter.x = this.graphics.position.x;
+            this.emitter.y = this.graphics.position.y;
+            this.emitter.start(true, 1400, null, 120);
         }.bind(this), 5000)
 
         this.onDestroy.forEach(function(callback){
