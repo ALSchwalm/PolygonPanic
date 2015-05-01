@@ -78,6 +78,8 @@ function(config, utils, music, player, Powerup){
         // Remove units which are below the bottom of the screen
         this.graphics.update = this.update.bind(this);
 
+        this.onDestroy = [];
+
         this.emitter = this.config.emitter;
 
         if (!Unit.prototype.explode) {
@@ -154,6 +156,10 @@ function(config, utils, music, player, Powerup){
             if (Math.random() < config.powerups.dropRate) {
                 this.dropPowerup();
             }
+
+            this.onDestroy.forEach(function(func){
+                func(this);
+            }.bind(this));
         }
 
         this.graphics.visible = false;

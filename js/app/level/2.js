@@ -1,5 +1,5 @@
 /**
- * A module defining the first level of PolygonPanic
+ * A module defining the second level of PolygonPanic
  * @module app/level/2
  */
 define(["app/config", "app/level", "app/phase", "app/enemies"],
