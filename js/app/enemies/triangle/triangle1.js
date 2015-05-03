@@ -2,11 +2,11 @@
  * A basic spinning triangle enemy
  * @module app/enemies/triangle/triangle1
  */
-define(["app/config", "app/unit"],
-function(config, Unit){
+define(["app/utils", "app/config", "app/unit"],
+function(utils, config, Unit){
     "use strict"
 
-    var Triangle1 = function(game, x, y, left) {
+    var Triangle1 = function(game, x, y, left, boss) {
         var width = 150;
         var height = 150;
         var bmd = game.add.bitmapData(width, height);
@@ -23,14 +23,7 @@ function(config, Unit){
         bmd.context.strokeStyle = '#003300';
         bmd.context.stroke();
 
-        var bullet = game.add.bitmapData(14, 14);
-        bullet.context.beginPath();
-        bullet.context.arc(5, 5, 5, 0, 2 * Math.PI, false);
-        bullet.context.fillStyle = 'red';
-        bullet.context.fill();
-        bullet.context.lineWidth = 1;
-        bullet.context.strokeStyle = '#003300';
-        bullet.context.stroke();
+        var bullet = utils.makeBullet(game, 14, 'red')
         var attackspeed = 2;
 
         var emitter = game.add.emitter(0, 0, 20);
@@ -47,7 +40,7 @@ function(config, Unit){
                 {
                     options : {
                         x : (left) ? "-100" : "+100",
-                        y : "+40",
+                        y : ((boss) ? "+200" : "+40"),
                         angle : "+360"
                     },
                     duration : 1000

@@ -40,6 +40,7 @@ define(function(){
         game.load.image('cyberglow', 'assets/images/cyberglow.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
         game.load.spritesheet('lineboss', 'assets/images/lineboss.png', 450, 100);
+        game.load.spritesheet('triangleboss', 'assets/images/triangle_boss.png', 300, 265);
         game.load.audio('title', 'assets/sounds/title.mp3');
         game.load.audio('level1', 'assets/sounds/level1.mp3');
         game.load.audio('level2', 'assets/sounds/level2.mp3');
@@ -55,7 +56,8 @@ define(function(){
         game.load.image('missle', 'assets/images/powerups/missle.png');
         game.load.image('missle_icon', 'assets/images/powerups/missle_icon.png');
 
-        game.load.image("blue_oval", "assets/images/bullets/red_oval_small.png");
+        game.load.image("red_oval", "assets/images/bullets/red_oval_small.png");
+        game.load.image("blue_oval", "assets/images/bullets/blue_oval_small.png");
     };
 
     return preload;

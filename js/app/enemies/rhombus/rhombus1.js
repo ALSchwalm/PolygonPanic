@@ -2,8 +2,8 @@
  * A rhombus enemy which becomes two triangle units
  * @module app/enemies/rhombus/rhombus1
  */
-define(["app/config", "app/unit"],
-function(config, Unit){
+define(["app/utils", "app/config", "app/unit"],
+function(utils, config, Unit){
     "use strict"
 
     var Rhombus1 = function(game, x, y, left) {
@@ -24,14 +24,7 @@ function(config, Unit){
         bmd.context.strokeStyle = '#003300';
         bmd.context.stroke();
 
-        var bullet = game.add.bitmapData(14, 14);
-        bullet.context.beginPath();
-        bullet.context.arc(7, 7, 4, 0, 2 * Math.PI, false);
-        bullet.context.fillStyle = 'LightBlue';
-        bullet.context.fill();
-        bullet.context.lineWidth = 3;
-        bullet.context.strokeStyle = '#003300';
-        bullet.context.stroke();
+        var bullet = utils.makeBullet(game, 14, 'LightBlue');
 
         var emitter = game.add.emitter(0, 0, 20);
         emitter.makeParticles('particle-triangle1');

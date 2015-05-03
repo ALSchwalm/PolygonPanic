@@ -2,8 +2,8 @@
  * A module defining the second level of PolygonPanic
  * @module app/level/2
  */
-define(["app/config", "app/level", "app/phase", "app/enemies"],
-function(config, Level, Phase, enemies) {
+define(["app/config", "app/level", "app/phase", "app/enemies", "app/bosses/triangleboss"],
+function(config, Level, Phase, enemies, TriangleBoss) {
     var redPhase1 = new Phase({
         onStart : function(){
             var count = 0;
@@ -24,6 +24,10 @@ function(config, Level, Phase, enemies) {
                 new enemies.triangle2(this.game, -50, Math.random()*config.game.height/5);
                 new enemies.triangle2(this.game, config.game.width+50,
                                       Math.random()*config.game.height/5, true);
+                if (count > 4) {
+                    new enemies.triangle2(this.game, config.game.width+50,
+                                          Math.random()*config.game.height/5, true);
+                }
                 ++count;
                 if (count == 6) { this.nextPhase(); }
             }.bind(this), 5500);
@@ -40,17 +44,32 @@ function(config, Level, Phase, enemies) {
                 new enemies.triangle3(this.game, config.game.width+50,
                                       Math.random()*config.game.height/5 + 100, true);
                 ++count;
-                if (count == 7) { this.nextPhase(); }
+                if (count == 7) {
+                    clearInterval(this.interval);
+                    setTimeout(function(){
+                        this.nextPhase();
+                    }.bind(this), 7000);
+                }
             }.bind(this), 5500);
         },
-        onStop : function(){ clearInterval(this.interval); },
+        onStop : function(){},
     });
 
     var bossPhase = new Phase({
         onStart : function() {
-            setTimeout(function(){
-                this.nextPhase();
-            }.bind(this), 3000);
+            var count = 0;
+            this.left = new TriangleBoss(this.game, true);
+            this.right = new TriangleBoss(this.game, false);
+            var allDestroyed = function(){
+                ++count;
+                if (count == 2){
+                    setTimeout(function(){
+                        this.nextPhase();
+                    }.bind(this), 4000);
+                }
+            }.bind(this);
+            this.left.onDestroy.push(allDestroyed);
+            this.right.onDestroy.push(allDestroyed);
         },
         onStop : function(){}
     });

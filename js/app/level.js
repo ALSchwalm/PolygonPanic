@@ -65,6 +65,10 @@ function(config, background, music, player){
             $("#level-transition").fadeOut(1000);
             this.nextLevel.start();
         }.bind(this));
+
+        // Heal the player between each level
+        player.health = 4;
+        player.drawHealthBar();
     }
 
     Level.prototype.then = function(level) {

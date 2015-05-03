@@ -24,6 +24,7 @@ define(["app/config", "jquery"], function(config, jQuery){
             }, 50);
             setTimeout(function(){
                 clearInterval(interval);
+                game.camera.x = 0;
             }, duration);
             return interval;
         },

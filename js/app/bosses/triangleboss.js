@@ -1,19 +1,24 @@
 /**
  * A module defines the boss at the end of level 1
- * @module app/bosses/lineboss
+ * @module app/bosses/triangleboss
  */
-define(["Phaser", "app/config", "app/utils", "app/music", "app/player", "app/unit"],
-function(Phaser, config, utils, music, player, Unit){
-    var LineBoss = function(game) {
+define(["Phaser", "app/config", "app/utils", "app/music", "app/player", "app/unit",
+        "app/enemies"],
+function(Phaser, config, utils, music, player, Unit, enemies){
+    var TriangleBoss = function(game, left) {
         this.game = game;
         Unit.prototype.units.push(this);
-        this.graphics = this.game.add.sprite(0, -200, "lineboss");
+
+        this.left = left;
+        this.graphics = this.game.add.sprite((left) ? 0 : config.game.width,
+                                             -200, "triangleboss");
         this.collisionBody = this.graphics;
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.graphics.anchor.set(0.5, 0.5);
         this.animation = this.graphics.animations.add('face');
+        this.animation.frame = (left) ? 0 : 1;
 
-        this.maxHealth = 3000;
+        this.maxHealth = 2500;
         this.health = this.maxHealth;
         this.invulnerable = true;
         this.healthGraphic = this.game.add.graphics(0, 0);
@@ -43,7 +48,7 @@ function(Phaser, config, utils, music, player, Unit){
             body.checkWorldBounds = true;
             body.events.onOutOfBounds.add(this.killBullet, this);
 
-            var bullet = this.game.add.sprite(0, 0, "red_oval");
+            var bullet = this.game.add.sprite(0, 0, "blue_oval");
             bullet.anchor.set(0.5, 0.5);
             body.addChild(bullet);
         }
@@ -55,68 +60,63 @@ function(Phaser, config, utils, music, player, Unit){
 
         this.prohibitHitGraphic = false;
 
-        this.patterns = [
+        var yOffset = 30;
+        var patterns = [
             {
                 pattern: [
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
+                    { angle : "player", speed : 4, y: yOffset},
+                    { angle : "player", speed : 4, y: yOffset },
+                    { angle : "player", speed : 4, y: yOffset },
+                    { angle : "player", speed : 4, y: yOffset },
+                    { angle : "player", speed : 4, y: yOffset },
+                    { angle : "player", speed : 4, y: yOffset },
+                    { angle : "player", speed : 4, y: yOffset },
+                    { angle : "player", speed : 4, y: yOffset },
                 ],
-                fireRate : 200
+                fireRate : 300
             },
             {
                 pattern:[
-                    { angle : 0, speed : 4 },   { angle : 20, speed : 4 },
-                    { angle : 40, speed : 4 },  { angle : 60, speed : 4 },
-                    { angle : 80, speed : 4 },  { angle : 100, speed : 4 },
-                    { angle : 120, speed : 4 }, { angle : 140, speed : 4 },
-                    { angle : 160, speed : 4 }, { angle : 180, speed : 4 },
-                    { angle : 200, speed : 4 }, { angle : 220, speed : 4 },
-                    { angle : 240, speed : 4 }, { angle : 260, speed : 4 },
-                    { angle : 280, speed : 4 }, { angle : 300, speed : 4 },
-                    { angle : 320, speed : 4 }, { angle : 340, speed : 4 },
+                    { angle : 0, speed : 4, y: yOffset },   { angle : 20, speed : 4, y: yOffset},
+                    { angle : 40, speed : 4, y: yOffset },  { angle : 60, speed : 4, y: yOffset },
+                    { angle : 80, speed : 4, y: yOffset },  { angle : 100, speed : 4, y: yOffset },
+                    { angle : 120, speed : 4, y: yOffset }, { angle : 140, speed : 4, y: yOffset },
+                    { angle : 160, speed : 4, y: yOffset }, { angle : 180, speed : 4, y: yOffset },
+                    { angle : 200, speed : 4, y: yOffset }, { angle : 220, speed : 4, y: yOffset },
+                    { angle : 240, speed : 4, y: yOffset }, { angle : 260, speed : 4, y: yOffset },
+                    { angle : 280, speed : 4, y: yOffset }, { angle : 300, speed : 4, y: yOffset },
+                    { angle : 320, speed : 4, y: yOffset }, { angle : 340, speed : 4, y: yOffset },
                 ],
                 fireRate : 100
             }
         ]
 
-        var xOffset = 100;
+        if (this.left) {
+            patterns.reverse();
+        }
+        this.patterns = patterns;
+
         this.hurtPatterns = [
             {
                 pattern: [
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
-                    { x: -xOffset, angle : "player", speed : 4 }, { x: xOffset, angle : "player", speed : 4 },
+                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
+                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
+                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
+                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
                 ],
-                fireRate : 50
+                fireRate : 100
             },
             {
                 pattern : [
-                    { x: -xOffset, angle : 0, speed : 4 },   { x: xOffset, angle : 340, speed : 4 },
-                    { x: -xOffset, angle : 20, speed : 4 },  { x: xOffset, angle : 320, speed : 4 },
-                    { x: -xOffset, angle : 40, speed : 4 },  { x: xOffset, angle : 300, speed : 4 },
-                    { x: -xOffset, angle : 80, speed : 4 },  { x: xOffset, angle : 280, speed : 4 },
-                    { x: -xOffset, angle : 100, speed : 4 }, { x: xOffset, angle : 260, speed : 4 },
-                    { x: -xOffset, angle : 120, speed : 4 }, { x: xOffset, angle : 240, speed : 4 },
-                    { x: -xOffset, angle : 140, speed : 4 }, { x: xOffset, angle : 200, speed : 4 },
-                    { x: -xOffset, angle : 160, speed : 4 }, { x: xOffset, angle : 180, speed : 4 },
-                    { x: -xOffset, angle : 180, speed : 4 }, { x: xOffset, angle : 160, speed : 4 },
-
-                    { x: -xOffset, angle : 200, speed : 4 }, { x: xOffset, angle : 140, speed : 4 },
-                    { x: -xOffset, angle : 220, speed : 4 }, { x: xOffset, angle : 120, speed : 4 },
-                    { x: -xOffset, angle : 240, speed : 4 }, { x: xOffset, angle : 100, speed : 4 },
-                    { x: -xOffset, angle : 260, speed : 4 }, { x: xOffset, angle : 80, speed : 4 },
-                    { x: -xOffset, angle : 280, speed : 4 }, { x: xOffset, angle : 60, speed : 4 },
-                    { x: -xOffset, angle : 300, speed : 4 }, { x: xOffset, angle : 40, speed : 4 },
-                    { x: -xOffset, angle : 320, speed : 4 }, { x: xOffset, angle : 20, speed : 4 },
-                    { x: -xOffset, angle : 340, speed : 4 }, { x: xOffset, angle : 0, speed : 4 }
+                    { angle : 0, speed : 4, y: yOffset },   { angle : 20, speed : 4, y: yOffset},
+                    { angle : 40, speed : 4, y: yOffset },  { angle : 60, speed : 4, y: yOffset },
+                    { angle : 80, speed : 4, y: yOffset },  { angle : 100, speed : 4, y: yOffset },
+                    { angle : 120, speed : 4, y: yOffset }, { angle : 140, speed : 4, y: yOffset },
+                    { angle : 160, speed : 4, y: yOffset }, { angle : 180, speed : 4, y: yOffset },
+                    { angle : 200, speed : 4, y: yOffset }, { angle : 220, speed : 4, y: yOffset },
+                    { angle : 240, speed : 4, y: yOffset }, { angle : 260, speed : 4, y: yOffset },
+                    { angle : 280, speed : 4, y: yOffset }, { angle : 300, speed : 4, y: yOffset },
+                    { angle : 320, speed : 4, y: yOffset }, { angle : 340, speed : 4, y: yOffset },
                 ],
                 fireRate : 50
             }
@@ -150,12 +150,12 @@ function(Phaser, config, utils, music, player, Unit){
         this.enterScreen();
     }
 
-    LineBoss.prototype.killBullet = Unit.prototype.killBullet;
-    LineBoss.prototype.onUnitHitPlayer = Unit.prototype.onUnitHitPlayer;
-    LineBoss.prototype.constructTweenChain = Unit.prototype.constructTweenChain;
-    LineBoss.prototype.attack = Unit.prototype.attack;
+    TriangleBoss.prototype.killBullet = Unit.prototype.killBullet;
+    TriangleBoss.prototype.onUnitHitPlayer = Unit.prototype.onUnitHitPlayer;
+    TriangleBoss.prototype.constructTweenChain = Unit.prototype.constructTweenChain;
+    TriangleBoss.prototype.attack = Unit.prototype.attack;
 
-    Object.defineProperty(LineBoss.prototype, "position", {
+    Object.defineProperty(TriangleBoss.prototype, "position", {
         get : function() {
             return this.graphics.position;
         },
@@ -164,7 +164,7 @@ function(Phaser, config, utils, music, player, Unit){
         }
     });
 
-    LineBoss.prototype.updateHealth = function(){
+    TriangleBoss.prototype.updateHealth = function(){
         var percent = this.health / this.maxHealth;
         this.healthGraphic.clear();
         this.healthGraphic.lineStyle(1, 0x000000, 1);
@@ -173,11 +173,12 @@ function(Phaser, config, utils, music, player, Unit){
         } else {
             this.healthGraphic.beginFill(0xDD0000, 0.8);
         }
-        this.healthGraphic.drawRect(0, 3, Math.floor(1000*percent), 10);
+        this.healthGraphic.drawRect(0, (this.left) ? 3 : 15,
+                                    Math.floor(1000*percent), 10);
         this.healthGraphic.endFill();
     }
 
-    LineBoss.prototype.destroy = function(offscreen, bomb) {
+    TriangleBoss.prototype.destroy = function(offscreen, bomb) {
         // bomb does nothing to the boss
         if (bomb || this.destroyed)
             return;
@@ -188,6 +189,7 @@ function(Phaser, config, utils, music, player, Unit){
         this.bulletTimer.stop();
         this.tween.stop();
         clearInterval(this.bulletInterval);
+        clearInterval(this.spawnInterval);
         utils.shakeScreen(this.game, 5000);
 
         var explosions = []
@@ -221,18 +223,52 @@ function(Phaser, config, utils, music, player, Unit){
         });
     }
 
-    LineBoss.prototype.enterScreen = function() {
+    TriangleBoss.prototype.enterScreen = function() {
+        var self = this;
         var tween = this.game.add.tween(this.graphics);
-        tween.to({x : config.game.width/2, y: 100}, 5000).start();
+        if (this.left) {
+            tween.to({x : config.game.width/2-150, y: 100}, 5000).start();
+        } else {
+            tween.to({x : config.game.width/2+150, y: 100}, 5000).start();
+        }
 
-        utils.shakeScreen(this.game, 5000);
+        if (this.left) {
+            utils.shakeScreen(this.game, 5000);
+        }
+
+        this.spawnInterval = setInterval(function() {
+            self.holdFire = true;
+            var count = 0;
+            var interval = setInterval(function(){
+                ++count;
+                if (self.left) {
+                    new enemies.triangle1(self.game, config.game.width/2, -50,
+                                          count % 2 == 0, true);
+                }
+                if (count == 10) {
+                    clearInterval(interval);
+                    self.holdFire = false;
+                }
+            }, 330);
+        }, 23000);
+
         setTimeout(function(){
+            var offset = (this.left) ? -150 : 150
+
             // Being the movement animations
             this.constructTweenChain([
                 { options : { x : "+200" }, duration : 2000 },
                 { options : { y : "+200" }, duration : 2000 },
                 { options : { x : "-200" }, duration : 2000 },
                 { options : { y : "-200" }, duration : 2000 },
+                { options : { x : "+200" }, duration : 2000 },
+                { options : { y : "+200" }, duration : 2000 },
+                { options : { x : "-200" }, duration : 2000 },
+                { options : { y : "-200" }, duration : 2000 },
+                { options : { x : config.game.width/2 + offset }, duration : 2000 },
+                { options : { y : 50, x : ((self.left) ? 200 : 800) }, duration : 2000 },
+                { options : {}, duration : 3000 },
+                { options : { x : config.game.width/2 + offset, y: 100 }, duration : 2000 },
             ]);
 
             this.bulletTimer.start();
@@ -240,7 +276,7 @@ function(Phaser, config, utils, music, player, Unit){
         }.bind(this), 5000);
     }
 
-    LineBoss.prototype.onPlayerHitUnit = function(unitSprite, bullet) {
+    TriangleBoss.prototype.onPlayerHitUnit = function(unitSprite, bullet) {
         if (bullet.hasHit || this.invulnerable)
             return;
         bullet.hasHit = true;
@@ -259,22 +295,17 @@ function(Phaser, config, utils, music, player, Unit){
         }
 
         if (!this.prohibitHitGraphic) {
-            this.animation.frame = 1;
             this.prohibitHitGraphic = true;
 
             setTimeout(function(){
                 this.prohibitHitGraphic = false;
             }.bind(this), 100)
 
-            setTimeout(function(){
-                this.animation.frame = 0;
-            }.bind(this), 100);
-
-            var tweenScale = this.game.add.tween(this.graphics.scale);
-            tweenScale.to({x: "-0.04", y:"-0.04"}, 50)
-                .to({x: "+0.045", y:"+0.045"}, 50).start();
+            var tweenScale = this.game.add.tween(this.graphics);
+            tweenScale.to({alpha : 0.7}, 50)
+                .to({alpha : 1.0}, 50).start();
         }
     }
 
-    return LineBoss;
+    return TriangleBoss;
 })
