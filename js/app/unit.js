@@ -23,6 +23,7 @@ function(config, utils, music, player, Powerup){
         this.collisionBody.checkWorldBounds = true;
         this.graphics.checkWorldBounds = true;
         this.onScreen = false;
+        this.holdFire = false;
 
         this.graphics.events.onEnterBounds.add(function(){
             this.onScreen = true;
@@ -50,16 +51,22 @@ function(config, utils, music, player, Powerup){
         this.speed = config.defaultSpeed;
         this.health = unitConfig.health;
 
-        this.group = game.add.group();
-        this.group.enableBody = true;
-        this.group.physicsBodyType = Phaser.Physics.ARCADE;
+        this.collisionGroup = game.add.group();
+        this.collisionGroup.enableBody = true;
+        this.collisionGroup.physicsBodyType = Phaser.Physics.ARCADE;
 
         for (var i=0; i < 60; ++i) {
-            var bullet = this.group.create(-100, -100, this.config.attackTexture);
-            bullet.checkWorldBounds = true;
-            bullet.exists = false;
-            bullet.visible = false;
-            bullet.events.onOutOfBounds.add(this.killBullet, this);
+            var bmd = game.add.bitmapData(5, 5);
+            var body = this.collisionGroup.create(-100, -100, bmd);
+            body.anchor.set(0.5, 0.5);
+            body.exists = false;
+            body.visible = false;
+            body.checkWorldBounds = true;
+            body.events.onOutOfBounds.add(this.killBullet, this);
+
+            var bullet = this.game.add.sprite(0, 0, this.config.attackTexture);
+            bullet.anchor.set(0.5, 0.5);
+            body.addChild(bullet);
         }
 
         // Pulse on beat
@@ -89,7 +96,7 @@ function(config, utils, music, player, Powerup){
 
     Unit.prototype.update = function(){
         this.game.physics.arcade.overlap(player.collisionBody,
-                                         this.group,
+                                         this.collisionGroup,
                                          this.onUnitHitPlayer.bind(this),
                                          null, this);
 
@@ -137,9 +144,12 @@ function(config, utils, music, player, Powerup){
         this.tween.start();
     }
 
-    Unit.prototype.destroy = function(offscreen, bomb) {
+    Unit.prototype.destroy = function(offscreen, bomb, reset) {
         if (this.destroyed) return;
         this.destroyed = true;
+
+        if (reset)
+            this.collisionGroup.destroy();
 
         var offscreen = offscreen || false;
         if (!offscreen || bomb){
@@ -149,7 +159,8 @@ function(config, utils, music, player, Powerup){
 
             this.game.plugins.screenShake.shake(7);
 
-            player.updateScore(100, 1);
+            if (!reset)
+                player.updateScore(100, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
             this.emitter.start(true, 600, null, 20);
@@ -175,7 +186,7 @@ function(config, utils, music, player, Powerup){
         }.bind(this), 2000);
 
         setTimeout(function(){
-            this.group.destroy();
+            this.collisionGroup.destroy();
         }.bind(this), 10000);
     }
 
@@ -206,7 +217,7 @@ function(config, utils, music, player, Powerup){
 
         var tweenScale = this.game.add.tween(this.graphics.scale);
         tweenScale.to({x: "-0.15", y:"-0.15"}, 50)
-            .to({x: "+0.15", y:"+0.15"}, 75).start();
+            .to({x: "+0.16", y:"+0.16"}, 75).start();
 
         setTimeout(function(){
             this.graphics.tint = 0xFFFFFF;
@@ -221,7 +232,7 @@ function(config, utils, music, player, Powerup){
     }
 
     Unit.prototype.attack = function(pattern) {
-        if (!this.graphics.visible || !pattern) {
+        if (!this.graphics.visible || !pattern || this.holdFire) {
             this.bulletTimer.stop();
             return;
         } else if (!this.graphics.inCamera) {
@@ -231,7 +242,7 @@ function(config, utils, music, player, Powerup){
         this.attackIndex = (this.attackIndex+1) % pattern.length;
         var config = pattern[this.attackIndex];
         var speed = config.speed;
-        var bullet = this.group.getFirstExists(false);
+        var bullet = this.collisionGroup.getFirstExists(false);
 
         bullet.reset(this.position.x + (config.x || 0),
                      this.position.y + (config.y || 0));

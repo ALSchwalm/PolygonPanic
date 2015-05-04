@@ -2,8 +2,8 @@
  * A basic line enemy moving down and to the right/left
  * @module app/enemies/line/line3
  */
-define(["app/config", "app/unit"],
-function(config, Unit){
+define(["app/utils", "app/config", "app/unit"],
+function(utils, config, Unit){
     "use strict"
 
     var Line3 = function(game, x, y, left) {
@@ -15,14 +15,7 @@ function(config, Unit){
         bmd.context.fillStyle = "blue";
         bmd.context.fillRect(3, 3, width-6, height-6);
 
-        var bullet = game.add.bitmapData(14, 14);
-        bullet.context.beginPath();
-        bullet.context.arc(7, 7, 4, 0, 2 * Math.PI, false);
-        bullet.context.fillStyle = 'yellow';
-        bullet.context.fill();
-        bullet.context.lineWidth = 3;
-        bullet.context.strokeStyle = '#003300';
-        bullet.context.stroke();
+        var bullet = utils.makeBullet(game, 14, 'yellow');
 
         var emitter = game.add.emitter(0, 0, 20);
         emitter.makeParticles('particle-line3');

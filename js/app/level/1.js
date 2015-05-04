@@ -70,7 +70,8 @@ function(config, Level, Phase, enemies, LineBoss) {
 
     var level1 = new Level([orangePhase1,
                             orangePhase2,
-                            attackPhase, bossPhase], "Lightwave", "level1");
+                            attackPhase,
+                            bossPhase], "Lightwave", "level1");
 
     return level1;
 });

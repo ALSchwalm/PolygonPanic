@@ -1,30 +1,30 @@
 /**
- * A basic spinning triangle enemy
- * @module app/enemies/triangle/triangle1
+ * A rhombus enemy which becomes two triangle units
+ * @module app/enemies/rhombus/rhombus2
  */
 define(["app/utils", "app/config", "app/unit"],
 function(utils, config, Unit){
     "use strict"
 
-    var Triangle1 = function(game, x, y, left, boss) {
-        var width = 150;
-        var height = 150;
+    var Rhombus2 = function(game, x, y, left) {
+        var width = 180;
+        var height = 175;
+
         var bmd = game.add.bitmapData(width, height);
-        bmd.context.fillStyle = "red";
+        bmd.context.fillStyle = "LightCoral";
         bmd.context.beginPath();
 
-        var a = 55; // width of each edge of the triangle
-        var h = Math.sqrt(3)/2*a;
-        bmd.context.moveTo(75-a/2, 75-h/3);
-        bmd.context.lineTo(75+a/2, 75-h/3);
-        bmd.context.lineTo(75, 75+ 2/3 * h);
+        bmd.context.moveTo(width/2 - 30, height/2);
+        bmd.context.lineTo(width/2, height);
+        bmd.context.lineTo(width/2 + 30, height/2);
+        bmd.context.lineTo(width/2, 0);
+
         bmd.context.fill();
         bmd.context.lineWidth = 1;
         bmd.context.strokeStyle = '#003300';
         bmd.context.stroke();
 
-        var bullet = utils.makeBullet(game, 14, 'red')
-        var attackspeed = 2;
+        var bullet = utils.makeBullet(game, 14, 'LightGreen');
 
         var emitter = game.add.emitter(0, 0, 20);
         emitter.makeParticles('particle-triangle1');
@@ -35,15 +35,23 @@ function(utils, config, Unit){
         emitter.setYSpeed(-200, 200);
         emitter.setXSpeed(-200, 200);
 
+        var attackspeed = 2.5;
         this.init(game, x, y, 55, 80, {
             movement : [
                 {
                     options : {
-                        x : (left) ? "-100" : "+100",
-                        y : ((boss) ? "+200" : "+40"),
+                        x : config.game.width/2,
+                        y : "200",
                         angle : "+360"
                     },
-                    duration : 1000
+                    duration : 4000
+                },
+                {
+                    options : {
+                        y : config.game.height + 10,
+                        angle : "+360"
+                    },
+                    duration : 4000
                 },
             ],
             attackPattern : [
@@ -57,16 +65,27 @@ function(utils, config, Unit){
                 { angle : 280, speed : attackspeed },
                 { angle : 320, speed : attackspeed }
             ],
-            health : 20,
+            health : 30,
             attackRate : 100,
             unitTexture : bmd,
             attackTexture : bullet,
             emitter: emitter,
             alpha : 0.7
         });
+
+        this.onDestroy.push(function(unit){
+            requirejs(["app/enemies"], function(enemies){
+                var v1 = new enemies.line3(unit.game, unit.position.x,
+                                           unit.position.y);
+                v1.onScreen = true;
+                var v2 = new enemies.line3(unit.game, unit.position.x,
+                                           unit.position.y, true);
+                v2.onScreen = true;
+            });
+        });
     };
 
-    Triangle1.prototype = new Unit();
+    Rhombus2.prototype = new Unit();
 
-    return Triangle1;
+    return Rhombus2;
 });

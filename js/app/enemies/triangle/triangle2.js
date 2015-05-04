@@ -2,8 +2,8 @@
  * A dynamic triangle enemy
  * @module app/enemies/triangle/triangle2
  */
-define(["app/config", "app/unit"],
-function(config, Unit){
+define(["app/utils", "app/config", "app/unit"],
+function(utils, config, Unit){
     "use strict"
 
     var Triangle2 = function(game, x, y, left) {
@@ -23,22 +23,15 @@ function(config, Unit){
         bmd.context.strokeStyle = '#003300';
         bmd.context.stroke();
 
-        var bullet = game.add.bitmapData(14, 14);
-        bullet.context.beginPath();
-        bullet.context.arc(5, 5, 5, 0, 2 * Math.PI, false);
-        bullet.context.fillStyle = 'LightGreen';
-        bullet.context.fill();
-        bullet.context.lineWidth = 1;
-        bullet.context.strokeStyle = '#003300';
-        bullet.context.stroke();
+        var bullet = utils.makeBullet(game, 14, "LightGreen");
         var attackspeed = 2;
 
         var emitter = game.add.emitter(0, 0, 20);
-        emitter.makeParticles('particle-triangle1');
+        emitter.makeParticles('particle-triangle2');
         emitter.gravity = 0;
         emitter.setAlpha(0.95, 0.2, 600, Phaser.Easing.Exponential.In);
         emitter.setRotation(-720, 720);
-        emitter.setScale(1.5, 1.0, 1.5, 1.0, 600);
+        emitter.setScale(2.0, 1.0, 2.0, 1.0, 600);
         emitter.setYSpeed(-200, 200);
         emitter.setXSpeed(-200, 200);
 

@@ -6,13 +6,16 @@ define(["app/config", "app/background", "app/music", "app/player"],
 function(config, background, music, player){
     "use strict"
 
-    var Level = function(phases, backgroundKey, musicKey){
+    var Level = function(phases, backgroundKey, musicKey, last){
         this.phases = phases;
         this.currentPhase = null;
         this.nextLevel = null;
+        this.last = last;
         this.backgroundKey = backgroundKey || "CheckerWave";
         this.musicKey = musicKey || "level1";
     };
+
+    Level.prototype.currentLevel = null;
 
     Level.prototype.init = function(game) {
         this.game = game;
@@ -25,6 +28,7 @@ function(config, background, music, player){
     }
 
     Level.prototype.start = function(){
+        Level.prototype.currentLevel = this;
         this.nextPhase();
         background.setBackground(this.backgroundKey);
         music.play(this.musicKey);
@@ -65,6 +69,10 @@ function(config, background, music, player){
             $("#level-transition").fadeOut(1000);
             this.nextLevel.start();
         }.bind(this));
+
+        // Heal the player between each level
+        player.health = 4;
+        player.drawHealthBar();
     }
 
     Level.prototype.then = function(level) {

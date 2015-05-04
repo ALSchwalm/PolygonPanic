@@ -17,7 +17,7 @@ define(["app/config"], function(config){
         this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
         this.sprite.body.collideWorldBounds = true;
         this.speed = config.player.defaultSpeed;
-        this.collisionBody = game.add.sprite(0, 0, game.add.bitmapData(15, 15));
+        this.collisionBody = game.add.sprite(0, 0, game.add.bitmapData(17, 15));
         this.collisionBody.anchor.set(0.5, 0.5);
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.sprite.addChild(this.collisionBody);
@@ -33,11 +33,14 @@ define(["app/config"], function(config){
         // Scoring attributes
         this.killCount = 0;
         this.score = 0;
-        this.scoreText = this.game.add.text(15, 15, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.scoreText = this.game.add.text(15, 43, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
         this.scoreText.stroke = '#000000';
         this.scoreText.strokeThickness = 3;
         this.timer = game.time.create(this.game, false);
-        this.timer.start(100);
+        this.timeText = this.game.add.text(15, 13, 'Time: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.timeText.stroke = '#000000';
+        this.timeText.strokeThickness = 3;
+        this.timer.start(200);
 
         this.group = game.add.group();
         this.group.enableBody = true;
@@ -45,6 +48,7 @@ define(["app/config"], function(config){
 
         for (var i=0; i < 20; ++i) {
             var bullet = this.group.create(-100, -100, 'player-basic-bullet');
+            bullet.anchor.set(0.5, 0.5);
             bullet.checkWorldBounds = true;
             bullet.exists = false;
             bullet.visible = false;
@@ -124,8 +128,15 @@ define(["app/config"], function(config){
             this.destroy();
         }
 
+        var tween = this.game.add.tween(this.sprite);
+        tween.to({alpha : 0.5}, 50).to({alpha : 1}, 50);
+        tween.loop();
+        tween.start();
+
         setTimeout(function(){
             this.recentlyDamaged = false;
+            tween.stop();
+            this.sprite.alpha = 1;
         }.bind(this), config.player.invulnerablePeriod);
     }
 
@@ -140,7 +151,8 @@ define(["app/config"], function(config){
         this.explosion.play('explode', 30, false, true);
         this.sprite.visible = false;
         this.powerups.forEach(function(powerup){
-            powerup.displaysprite.visible = false;
+            if (powerup)
+                powerup.displaysprite.visible = false;
         });
         $("#game-over").fadeIn(2000);
     }
@@ -220,6 +232,17 @@ define(["app/config"], function(config){
         this.score += score;
         this.killCount += kills;
         this.scoreText.text = 'Score: ' + this.score;
+    }
+
+    Player.prototype.updateTimeText = function() {
+        if (this.timer) {
+            var minutes = Math.floor(this.timer.ms / 60000) % 60;
+            var seconds = Math.floor(this.timer.ms / 1000) % 60;
+            if (seconds < 10)
+                seconds = '0' + seconds;
+            var timePlayed = minutes + ':' + seconds;
+		    this.timeText.text = 'Time: ' + timePlayed;
+        }
     }
 
     Object.defineProperty(Player.prototype, "position", {

@@ -70,6 +70,9 @@ function(config, Powerup, Unit){
             this.last = 0;
         }
 
+        var sound = this.game.add.audio("missle", 0.6);
+        sound.play();
+
         var bullet = this.group.getFirstExists(false);
         if (!bullet)
             return;

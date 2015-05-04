@@ -36,16 +36,24 @@ define(function(){
         game.load.image('particle-line2', 'assets/images/particles/particle-line2.png');
         game.load.image('particle-line3', 'assets/images/particles/particle-line3.png');
         game.load.image('particle-triangle1', 'assets/images/particles/particle-triangle1.png');
+        game.load.image('particle-triangle2', 'assets/images/particles/particle-triangle2.png');
+        game.load.image('particle-triangle3', 'assets/images/particles/particle-triangle3.png');
+        game.load.image('particle-rhombus1', 'assets/images/particles/particle-rhombus1.png');
         game.load.image('particle-boss1', 'assets/images/particles/particle-boss1.png');
         game.load.image('cyberglow', 'assets/images/cyberglow.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
         game.load.spritesheet('lineboss', 'assets/images/lineboss.png', 450, 100);
+        game.load.spritesheet('triangleboss', 'assets/images/triangle_boss.png', 300, 265);
         game.load.audio('title', 'assets/sounds/title.mp3');
         game.load.audio('level1', 'assets/sounds/level1.mp3');
         game.load.audio('level2', 'assets/sounds/level2.mp3');
+        game.load.audio('level3', 'assets/sounds/level3.mp3');
         game.load.audio('explode', 'assets/sounds/explosion.wav');
         game.load.audio('powerup', 'assets/sounds/powerup.wav');
         game.load.audio('basic-laser', 'assets/sounds/laser.wav');
+        game.load.audio('shield', 'assets/sounds/shield.mp3');
+        game.load.audio('beam', 'assets/sounds/beam.wav');
+        game.load.audio('missle', 'assets/sounds/missle.wav');
 
         game.load.image('shield', 'assets/images/powerups/shield.png');
         game.load.image('bomb', 'assets/images/powerups/bomb.png');
@@ -54,8 +62,11 @@ define(function(){
         game.load.image('triple', 'assets/images/powerups/numeral3.png');
         game.load.image('missle', 'assets/images/powerups/missle.png');
         game.load.image('missle_icon', 'assets/images/powerups/missle_icon.png');
+        game.load.image('spread_icon', 'assets/images/powerups/spread.png');
 
-        game.load.image("blue_oval", "assets/images/bullets/red_oval_small.png");
+        game.load.image("red_oval", "assets/images/bullets/red_oval_small.png");
+        game.load.image("blue_oval", "assets/images/bullets/blue_oval_small.png");
+        game.load.image("spread", "assets/images/bullets/spread.png");
     };
 
     return preload;
