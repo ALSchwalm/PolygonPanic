@@ -51,6 +51,9 @@ define(function(){
         game.load.audio('explode', 'assets/sounds/explosion.wav');
         game.load.audio('powerup', 'assets/sounds/powerup.wav');
         game.load.audio('basic-laser', 'assets/sounds/laser.wav');
+        game.load.audio('shield', 'assets/sounds/shield.mp3');
+        game.load.audio('beam', 'assets/sounds/beam.wav');
+        game.load.audio('missle', 'assets/sounds/missle.wav');
 
         game.load.image('shield', 'assets/images/powerups/shield.png');
         game.load.image('bomb', 'assets/images/powerups/bomb.png');

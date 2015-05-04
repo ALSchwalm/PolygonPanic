@@ -39,6 +39,9 @@ function(config, Powerup){
             return;
         this.available = false;
 
+        var sound = this.game.add.audio("beam", 0.8, true);
+        sound.play();
+
         for (var i=1; i < 20; ++i) {
             var bullet = this.group.getFirstExists(false);
             if (!bullet)
@@ -58,6 +61,7 @@ function(config, Powerup){
 
         setTimeout(function(){
             this.group.callAll("kill");
+            sound.destroy();
             var cooldownInterval = setInterval(function(){
                 this.cooldown += 0.1;
                 this.updateCooldown();

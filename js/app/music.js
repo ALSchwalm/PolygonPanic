@@ -103,7 +103,7 @@ define(["app/config"], function(config){
                 if (this.music) {
                     if (direction === "out" && this.gain.gain.value - 1/100 >= 0) {
                         this.gain.gain.value -= 1/100;
-                    } else if (this.gain.gain.value + 1/100 <= 1){
+                    } else if (this.gain.gain.value + 1/100 <= 0.2){
                         this.gain.gain.value += 1/100;
                     }
                 }

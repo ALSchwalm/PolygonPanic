@@ -34,6 +34,9 @@ function(config, player, Powerup){
         this.sprite.visible = true;
         player.shielded = true;
 
+        var sound = this.game.add.audio("shield", 0.8);
+        sound.play();
+
         var activeInterval = setInterval(function(){
             this.elapsed += 0.1;
             if (this.elapsed > this.duration) {
