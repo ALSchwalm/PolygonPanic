@@ -33,11 +33,14 @@ define(["app/config"], function(config){
         // Scoring attributes
         this.killCount = 0;
         this.score = 0;
-        this.scoreText = this.game.add.text(15, 15, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.scoreText = this.game.add.text(15, 43, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
         this.scoreText.stroke = '#000000';
         this.scoreText.strokeThickness = 3;
         this.timer = game.time.create(this.game, false);
-        this.timer.start(100);
+        this.timeText = this.game.add.text(15, 13, 'Time: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.timeText.stroke = '#000000';
+        this.timeText.strokeThickness = 3;
+        this.timer.start(200);
 
         this.group = game.add.group();
         this.group.enableBody = true;
@@ -220,6 +223,17 @@ define(["app/config"], function(config){
         this.score += score;
         this.killCount += kills;
         this.scoreText.text = 'Score: ' + this.score;
+    }
+
+    Player.prototype.updateTimeText = function() {
+        if (this.timer) {
+            var minutes = Math.floor(this.timer.ms / 60000) % 60;
+            var seconds = Math.floor(this.timer.ms / 1000) % 60;
+            if (seconds < 10)
+                seconds = '0' + seconds;
+            var timePlayed = minutes + ':' + seconds;
+		    this.timeText.text = 'Time: ' + timePlayed;
+        }
     }
 
     Object.defineProperty(Player.prototype, "position", {

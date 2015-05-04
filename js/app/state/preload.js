@@ -36,6 +36,9 @@ define(function(){
         game.load.image('particle-line2', 'assets/images/particles/particle-line2.png');
         game.load.image('particle-line3', 'assets/images/particles/particle-line3.png');
         game.load.image('particle-triangle1', 'assets/images/particles/particle-triangle1.png');
+        game.load.image('particle-triangle2', 'assets/images/particles/particle-triangle2.png');
+        game.load.image('particle-triangle3', 'assets/images/particles/particle-triangle3.png');
+        game.load.image('particle-rhombus1', 'assets/images/particles/particle-rhombus1.png');
         game.load.image('particle-boss1', 'assets/images/particles/particle-boss1.png');
         game.load.image('cyberglow', 'assets/images/cyberglow.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
