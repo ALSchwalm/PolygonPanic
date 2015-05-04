@@ -17,6 +17,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.graphics.anchor.set(0.5, 0.5);
         this.animation = this.graphics.animations.add('face');
         this.animation.frame = (left) ? 0 : 1;
+        this.otherDestroyed = false;
 
         this.maxHealth = 2500;
         this.health = this.maxHealth;
@@ -179,6 +180,11 @@ function(Phaser, config, utils, music, player, Unit, enemies){
     }
 
     TriangleBoss.prototype.destroy = function(offscreen, bomb) {
+        if (reset) {
+            this.graphics.destroy();
+            this.healthGraphic.destroy();
+            return;
+        }
         // bomb does nothing to the boss
         if (bomb || this.destroyed)
             return;
@@ -212,6 +218,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
                 explosion.destroy();
             });
             this.graphics.destroy();
+            this.healthGraphic.destroy();
             player.updateScore(1500, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
@@ -241,7 +248,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
             var count = 0;
             var interval = setInterval(function(){
                 ++count;
-                if (self.left) {
+                if (self.left || self.otherDestroyed) {
                     new enemies.triangle1(self.game, config.game.width/2, -50,
                                           count % 2 == 0, true);
                 }

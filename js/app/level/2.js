@@ -69,7 +69,13 @@ function(config, Level, Phase, enemies, TriangleBoss) {
                 }
             }.bind(this);
             this.left.onDestroy.push(allDestroyed);
+            this.left.onDestroy.push(function(){
+                this.right.otherDestroyed = true;
+            }.bind(this));
             this.right.onDestroy.push(allDestroyed);
+            this.right.onDestroy.push(function(){
+                this.left.otherDestroyed = true;
+            }.bind(this));
         },
         onStop : function(){}
     });

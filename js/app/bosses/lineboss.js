@@ -177,7 +177,12 @@ function(Phaser, config, utils, music, player, Unit){
         this.healthGraphic.endFill();
     }
 
-    LineBoss.prototype.destroy = function(offscreen, bomb) {
+    LineBoss.prototype.destroy = function(offscreen, bomb, reset) {
+        if (reset) {
+            this.graphics.destroy();
+            this.healthGraphic.destroy();
+            return;
+        }
         // bomb does nothing to the boss
         if (bomb || this.destroyed)
             return;
@@ -210,6 +215,7 @@ function(Phaser, config, utils, music, player, Unit){
                 explosion.destroy();
             });
             this.graphics.destroy();
+            this.healthGraphic.destroy();
             player.updateScore(1500, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;

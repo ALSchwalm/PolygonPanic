@@ -7,4 +7,4 @@
  */
 define(["app/powerups/triple", "app/powerups/shield",
         "app/powerups/bomb", "app/powerups/missle",
-        "app/powerups/beam"], function(){});
+        "app/powerups/beam", "app/powerups/spread"], function(){});

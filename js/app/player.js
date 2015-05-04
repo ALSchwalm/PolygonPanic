@@ -17,7 +17,7 @@ define(["app/config"], function(config){
         this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
         this.sprite.body.collideWorldBounds = true;
         this.speed = config.player.defaultSpeed;
-        this.collisionBody = game.add.sprite(0, 0, game.add.bitmapData(15, 15));
+        this.collisionBody = game.add.sprite(0, 0, game.add.bitmapData(17, 15));
         this.collisionBody.anchor.set(0.5, 0.5);
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.sprite.addChild(this.collisionBody);
@@ -45,6 +45,7 @@ define(["app/config"], function(config){
 
         for (var i=0; i < 20; ++i) {
             var bullet = this.group.create(-100, -100, 'player-basic-bullet');
+            bullet.anchor.set(0.5, 0.5);
             bullet.checkWorldBounds = true;
             bullet.exists = false;
             bullet.visible = false;
@@ -124,8 +125,15 @@ define(["app/config"], function(config){
             this.destroy();
         }
 
+        var tween = this.game.add.tween(this.sprite);
+        tween.to({alpha : 0.5}, 50).to({alpha : 1}, 50);
+        tween.loop();
+        tween.start();
+
         setTimeout(function(){
             this.recentlyDamaged = false;
+            tween.stop();
+            this.sprite.alpha = 1;
         }.bind(this), config.player.invulnerablePeriod);
     }
 
@@ -140,7 +148,8 @@ define(["app/config"], function(config){
         this.explosion.play('explode', 30, false, true);
         this.sprite.visible = false;
         this.powerups.forEach(function(powerup){
-            powerup.displaysprite.visible = false;
+            if (powerup)
+                powerup.displaysprite.visible = false;
         });
         $("#game-over").fadeIn(2000);
     }

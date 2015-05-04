@@ -4,8 +4,8 @@
  * @module app/state/create
  */
 define(["app/config", "app/background", "app/music", "app/player",
-        "app/levels", "app/poweruplist"],
-function(config, background, music, player, levels, poweruplist){
+        "app/levels", "app/poweruplist", "app/unit"],
+function(config, background, music, player, levels, poweruplist, Unit){
     "use strict"
 
     /**
@@ -46,6 +46,29 @@ function(config, background, music, player, levels, poweruplist){
 
             levels.init(game);
             levels.start();
+        });
+
+        $("#continue").click(function(){
+            player.health = 4;
+            player.scoreText.text = 'Score: ' + 0;
+            player.score = 0;
+            player.drawHealthBar();
+            player.sprite.visible = true
+            player.powerups.forEach(function(powerup){
+                if (powerup)
+                    powerup.displaysprite.visible = true;
+            });
+            Unit.prototype.units.map(function(unit){
+                unit.destroy(false, true, true);
+            });
+            player.explosion.visible = false;
+            levels.currentLevel.currentPhase.stop();
+            $("#game-over").fadeOut(2000, function(){
+                levels.currentLevel.currentPhase.start(
+                    levels.currentLevel,
+                    game
+                );
+            });
         });
     };
     return create;

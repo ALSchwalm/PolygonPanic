@@ -144,9 +144,12 @@ function(config, utils, music, player, Powerup){
         this.tween.start();
     }
 
-    Unit.prototype.destroy = function(offscreen, bomb) {
+    Unit.prototype.destroy = function(offscreen, bomb, reset) {
         if (this.destroyed) return;
         this.destroyed = true;
+
+        if (reset)
+            this.collisionGroup.destroy();
 
         var offscreen = offscreen || false;
         if (!offscreen || bomb){
@@ -156,7 +159,8 @@ function(config, utils, music, player, Powerup){
 
             this.game.plugins.screenShake.shake(7);
 
-            player.updateScore(100, 1);
+            if (!reset)
+                player.updateScore(100, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
             this.emitter.start(true, 600, null, 20);
@@ -213,7 +217,7 @@ function(config, utils, music, player, Powerup){
 
         var tweenScale = this.game.add.tween(this.graphics.scale);
         tweenScale.to({x: "-0.15", y:"-0.15"}, 50)
-            .to({x: "+0.15", y:"+0.15"}, 75).start();
+            .to({x: "+0.16", y:"+0.16"}, 75).start();
 
         setTimeout(function(){
             this.graphics.tint = 0xFFFFFF;

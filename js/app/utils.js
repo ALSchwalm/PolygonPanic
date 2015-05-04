@@ -35,8 +35,8 @@ define(["app/config", "jquery"], function(config, jQuery){
             bullet.context.arc(size/2, size/2, size/3, 0, 2 * Math.PI, false);
             bullet.context.fillStyle = color;
             bullet.context.fill();
-            bullet.context.lineWidth = 3;
-            bullet.context.strokeStyle = '#003300';
+            bullet.context.lineWidth = 2;
+            bullet.context.strokeStyle = '#999999';
             bullet.context.stroke();
             return bullet;
         }

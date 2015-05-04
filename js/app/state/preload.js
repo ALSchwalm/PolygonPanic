@@ -44,6 +44,7 @@ define(function(){
         game.load.audio('title', 'assets/sounds/title.mp3');
         game.load.audio('level1', 'assets/sounds/level1.mp3');
         game.load.audio('level2', 'assets/sounds/level2.mp3');
+        game.load.audio('level3', 'assets/sounds/level3.mp3');
         game.load.audio('explode', 'assets/sounds/explosion.wav');
         game.load.audio('powerup', 'assets/sounds/powerup.wav');
         game.load.audio('basic-laser', 'assets/sounds/laser.wav');
@@ -55,9 +56,11 @@ define(function(){
         game.load.image('triple', 'assets/images/powerups/numeral3.png');
         game.load.image('missle', 'assets/images/powerups/missle.png');
         game.load.image('missle_icon', 'assets/images/powerups/missle_icon.png');
+        game.load.image('spread_icon', 'assets/images/powerups/spread.png');
 
         game.load.image("red_oval", "assets/images/bullets/red_oval_small.png");
         game.load.image("blue_oval", "assets/images/bullets/blue_oval_small.png");
+        game.load.image("spread", "assets/images/bullets/spread.png");
     };
 
     return preload;
