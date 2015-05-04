@@ -27,7 +27,7 @@ function(utils, config, Unit){
         var attackspeed = 2;
 
         var emitter = game.add.emitter(0, 0, 20);
-        emitter.makeParticles('particle-triangle1');
+        emitter.makeParticles('particle-triangle3');
         emitter.gravity = 0;
         emitter.setAlpha(0.95, 0.2, 600, Phaser.Easing.Exponential.In);
         emitter.setRotation(-720, 720);
