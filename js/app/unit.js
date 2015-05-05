@@ -90,7 +90,7 @@ function(config, utils, music, player, Powerup){
         this.emitter = this.config.emitter;
 
         if (!Unit.prototype.explode) {
-            Unit.prototype.explode = this.game.add.audio("explode", 0.8);
+            Unit.prototype.explode = this.game.add.audio("explode", 0.3);
         }
     }
 

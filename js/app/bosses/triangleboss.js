@@ -179,7 +179,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.healthGraphic.endFill();
     }
 
-    TriangleBoss.prototype.destroy = function(offscreen, bomb) {
+    TriangleBoss.prototype.destroy = function(offscreen, bomb, reset) {
         if (reset) {
             this.graphics.destroy();
             this.healthGraphic.destroy();
