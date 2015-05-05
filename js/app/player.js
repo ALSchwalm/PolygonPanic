@@ -70,7 +70,7 @@ define(["app/config"], function(config){
 
         this.drawHealthBar();
 
-        this.lasersound = this.game.add.audio("basic-laser", 0.4);
+        this.lasersound = this.game.add.audio("basic-laser", 0.2);
     }
 
     Player.prototype.drawHealthBar = function() {
@@ -144,7 +144,7 @@ define(["app/config"], function(config){
         if (!this.sprite.visible)
             return;
         this.explosion.visible = true;
-        var sound = this.game.add.audio("explode", 0.8);
+        var sound = this.game.add.audio("explode", 0.5);
         sound.play();
         this.explosion.position = new Phaser.Point(this.sprite.position.x,
                                                    this.sprite.position.y);
@@ -180,7 +180,7 @@ define(["app/config"], function(config){
     Player.prototype.pickup = function(powerup) {
         if (this.waiting)
             this.waiting.destroy();
-        var sound = this.game.add.audio("powerup", 0.7);
+        var sound = this.game.add.audio("powerup", 0.3);
         sound.play();
         player.updateScore(150, 0);
         this.waiting = powerup;
