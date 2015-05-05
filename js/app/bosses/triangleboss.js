@@ -20,9 +20,9 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.otherDestroyed = false;
 
         this.maxHealth = 2500;
-        this.health = this.maxHealth;
+        this.health = 1;
         this.invulnerable = true;
-        this.healthGraphic = this.game.add.graphics(0, 0);
+        this.healthGraphic = this.game.add.graphics(120, 10);
 
         this.emitter = game.add.emitter(0, 0, 120);
         this.emitter.makeParticles('particle-boss1');
@@ -169,13 +169,13 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         var percent = this.health / this.maxHealth;
         this.healthGraphic.clear();
         this.healthGraphic.lineStyle(1, 0x000000, 1);
-        if (this.health >= this.maxHealth/3) {
+        if (this.health >= this.maxHealth/3 || this.invulnerable) {
             this.healthGraphic.beginFill(0xDDDDDD, 0.8);
         } else {
             this.healthGraphic.beginFill(0xDD0000, 0.8);
         }
         this.healthGraphic.drawRect(0, (this.left) ? 3 : 15,
-                                    Math.floor(1000*percent), 10);
+                                    Math.floor((1000-240)*percent), 10);
         this.healthGraphic.endFill();
     }
 
@@ -246,6 +246,13 @@ function(Phaser, config, utils, music, player, Unit, enemies){
             utils.shakeScreen(this.game, 5000);
         }
 
+        var interval = setInterval(function(){
+            this.health += this.maxHealth*50/5000;
+            if (this.health >= this.maxHealth) {
+                clearInterval(interval);
+            }
+        }.bind(this), 50);
+
         this.spawnInterval = setInterval(function() {
             self.holdFire = true;
             var count = 0;
@@ -283,6 +290,8 @@ function(Phaser, config, utils, music, player, Unit, enemies){
 
             this.bulletTimer.start();
             this.invulnerable = false;
+            clearInterval(interval);
+            this.health = this.maxHealth;
         }.bind(this), 5000);
     }
 

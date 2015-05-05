@@ -4,8 +4,9 @@
  * @module app/state/create
  */
 define(["app/config", "app/background", "app/music", "app/player",
-        "app/levels", "app/poweruplist", "app/unit"],
-function(config, background, music, player, levels, poweruplist, Unit){
+        "app/levels", "app/poweruplist", "app/unit", "app/interface"],
+function(config, background, music, player, levels, poweruplist, Unit,
+         ui){
     "use strict"
 
     /**
@@ -27,6 +28,7 @@ function(config, background, music, player, levels, poweruplist, Unit){
 
         music.start(game, 'title');
         background.start(game);
+        ui.init(game);
 
         $("#play-btn").click(function(e) {
             // Prevent the game from being 'started' multiple times
@@ -46,6 +48,7 @@ function(config, background, music, player, levels, poweruplist, Unit){
 
             levels.init(game);
             levels.start();
+            ui.display();
         });
 
         $("#continue").click(function(){

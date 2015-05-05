@@ -2,8 +2,8 @@
  * A module returning a function which will be executed during each frame
  * @module app/state/update
  */
-define(["app/controls", "app/background", "app/music", "app/player"],
-function(controls, background, music, player){
+define(["app/controls", "app/background", "app/music", "app/player", "app/interface"],
+function(controls, background, music, player, ui){
     "use strict"
 
     /**
@@ -16,6 +16,7 @@ function(controls, background, music, player){
         music.update();
         controls.update(game);
         background.update();
+        ui.update();
         player.updateTimeText();
     }
 
