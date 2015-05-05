@@ -183,6 +183,9 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         if (reset) {
             this.graphics.destroy();
             this.healthGraphic.destroy();
+            this.collisionGroup.destroy();
+            clearInterval(this.bulletInterval);
+            clearInterval(this.spawnInterval);
             return;
         }
         // bomb does nothing to the boss
