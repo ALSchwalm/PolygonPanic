@@ -7,9 +7,9 @@ Phaser.Filter.CheckerWave = function (game) {
     Phaser.Filter.call(this, game);
 
     this.uniforms.alpha = { type: '1f', value: 1.0 };
-    this.uniforms.vrp = { type: '3f', value: { x: 0.0, y: -5.0, z: 0.0 }};
+    this.uniforms.vrp = { type: '3f', value: { x: 0.0, y: -4.0, z: 0.0 }};
     this.uniforms.color1 = { type: '3f', value: { x: 0, y: 1, z: 1 }};
-    this.uniforms.color2 = { type: '3f', value: { x: 1, y: 1, z: 1 }};
+    this.uniforms.color2 = { type: '3f', value: { x: 0.3, y: 0.3, z: 0.5 }};
 
     this.fragmentSrc = [
 
@@ -86,7 +86,7 @@ Phaser.Filter.CheckerWave = function (game) {
                     "s.x-obj0(p-e.yxy).x,",
                     "s.x-obj0(p-e.yyx).x));",
                 "float b=dot(n,normalize(prp-p));",
-                "vec4 color = vec4(( b * c + pow(b, 8.0)) * (1.0 - f *  .02), 1.0); //simple phong LightPosition=CameraPosition",
+                "vec4 color = vec4(( b * c + pow(b, 20.0)) * (1.0 - f *  .02), 1.0); //simple phong LightPosition=CameraPosition",
                 "color.a = alpha;",
                 "gl_FragColor=color;",
             "}",
