@@ -57,7 +57,7 @@ function(config, Unit, player){
                 this.game.add.sprite(0, 0, this.config.iconKey);
             this.displaysprite.anchor.set(0.5, 0.5);
             this.displaysprite.scale.set(0.5, 0.5);
-            this.displaysprite.alpha = 0.4;
+            this.displaysprite.alpha = 0.6;
         }
         return this.displaysprite;
     }

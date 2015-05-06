@@ -95,7 +95,6 @@ function(config, background, music, player, levels, poweruplist, Unit,
                 unit.destroy(false, true, true);
             });
             player.explosion.visible = false;
-            levels.currentLevel.currentPhase.stop();
             $("#game-over").fadeOut(2000, function(){
                 levels.currentLevel.currentPhase.start(
                     levels.currentLevel,
