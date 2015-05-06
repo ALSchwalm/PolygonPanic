@@ -119,7 +119,7 @@ define(["app/config"], function(config){
             return;
         }
         var amount = amount || 1;
-        this.health -= amount;
+        //this.health -= amount;
         this.recentlyDamaged = true;
         this.drawHealthBar();
         this.game.plugins.screenShake.shake(7);

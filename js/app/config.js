@@ -42,7 +42,7 @@ define(function(){
             invulnerablePeriod : 1000
         },
         powerups : {
-            dropRate : 0.1
+            dropRate : 1.0
         },
         time : {
             slowdownDuration : 3000

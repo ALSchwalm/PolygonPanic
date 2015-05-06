@@ -80,7 +80,7 @@ function(config, Level, Phase, enemies, TriangleBoss) {
         onStop : function(){}
     });
 
-    var level2 = new Level([redPhase1,
+    var level2 = new Level([bossPhase,
                             greenPhase,
                             orangePhase,
                             bossPhase], "Plane", "level2");

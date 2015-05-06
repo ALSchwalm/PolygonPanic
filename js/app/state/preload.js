@@ -39,11 +39,16 @@ define(function(){
         game.load.image('particle-triangle2', 'assets/images/particles/particle-triangle2.png');
         game.load.image('particle-triangle3', 'assets/images/particles/particle-triangle3.png');
         game.load.image('particle-rhombus1', 'assets/images/particles/particle-rhombus1.png');
+        game.load.image('particle-rhombus2', 'assets/images/particles/particle-rhombus2.png');
+        game.load.image('particle-rhombus3', 'assets/images/particles/particle-rhombus3.png');
         game.load.image('particle-boss1', 'assets/images/particles/particle-boss1.png');
+        game.load.image('particle-boss2', 'assets/images/particles/particle-boss2.png');
+        game.load.image('particle-boss3', 'assets/images/particles/particle-boss3.png');
         game.load.image('cyberglow', 'assets/images/cyberglow.png');
         game.load.spritesheet('explosion', 'assets/images/explode.png', 128, 128);
         game.load.spritesheet('lineboss', 'assets/images/lineboss.png', 450, 100);
         game.load.spritesheet('triangleboss', 'assets/images/triangle_boss.png', 300, 265);
+        game.load.spritesheet('rhombusboss', 'assets/images/rhombus_boss.png', 234, 119);
         game.load.audio('title', 'assets/sounds/title.mp3');
         game.load.audio('level1', 'assets/sounds/level1.mp3');
         game.load.audio('level2', 'assets/sounds/level2.mp3');

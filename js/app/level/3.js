@@ -47,6 +47,49 @@ function(config, Level, Phase, enemies) {
         onStop : function(){ clearInterval(this.interval); },
     })
 
-    var level3 = new Level([bluePhase, pinkPhase, goldPhase], "CheckerWave", "level3");
+    var bossPhase = new Phase({
+        onStart : function() {
+            var deathCount = 0;
+            this.one = new RhombusBoss(this.game, "one");
+            this.two = new RhombusBoss(this.game, "two");
+            this.three = new RhombusBoss(this.game, "three");
+            this.four = new RhombusBoss(this.game, "four");
+            var allDestroyed = function(){
+                ++deathCount;
+                if (deathCount == 4){
+                    setTimeout(function(){
+                        this.nextPhase();
+                    }.bind(this), 4000);
+                }
+            }.bind(this);
+            this.one.onDestroy.push(allDestroyed);
+            this.one.onDestroy.push(function(){
+                this.two.oneDestroyed = true;
+                this.three.oneDestroyed = true;
+                this.four.oneDestroyed = true;
+            }.bind(this));
+            this.two.onDestroy.push(allDestroyed);
+            this.two.onDestroy.push(function(){
+                this.one.twoDestroyed = true;
+                this.three.twoDestroyed = true;
+                this.four.twoDestroyed = true;
+            }.bind(this));
+            this.three.onDestroy.push(allDestroyed);
+            this.three.onDestroy.push(function(){
+                this.one.threeDestroyed = true;
+                this.two.threeDestroyed = true;
+                this.four.threeDestroyed = true;
+            }.bind(this));
+            this.four.onDestroy.push(allDestroyed);
+            this.four.onDestroy.push(function(){
+                this.one.fourDestroyed = true;
+                this.two.fourDestroyed = true;
+                this.three.fourDestroyed = true;
+            }.bind(this));
+        },
+        onStop : function(){}
+    });
+
+    var level3 = new Level([bossPhase, bluePhase, pinkPhase, goldPhase], "CheckerWave", "level3");
     return level3;
 });

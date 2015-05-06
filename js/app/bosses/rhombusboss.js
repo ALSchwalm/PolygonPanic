@@ -1,37 +1,39 @@
 /**
- * A module defines the boss at the end of level 1
- * @module app/bosses/triangleboss
+ * A module defines the final boss
+ * @module app/bosses/rhombusboss
  */
 define(["Phaser", "app/config", "app/utils", "app/music", "app/player", "app/unit",
         "app/enemies"],
 function(Phaser, config, utils, music, player, Unit, enemies){
-    var TriangleBoss = function(game, left) {
+    var RhombusBoss = function(game, number) {
         this.game = game;
         Unit.prototype.units.push(this);
 
-        this.left = left;
-        this.graphics = this.game.add.sprite((left) ? 0 : config.game.width,
-                                             -200, "triangleboss");
+        this.number = number;
+        this.graphics = this.game.add.sprite(0, -200, "rhombusboss");
         this.collisionBody = this.graphics;
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.graphics.anchor.set(0.5, 0.5);
         this.animation = this.graphics.animations.add('face');
-        this.animation.frame = (left) ? 0 : 1;
-        this.otherDestroyed = false;
+        this.animation.frame = 0;
+        this.oneDestroyed = false;
+		this.twoDestroyed = false;
+		this.threeDestroyed = false;
+		this.fourDestroyed = false;
 
-        this.maxHealth = 2500;
+        this.maxHealth = 1500;
         this.health = this.maxHealth;
         this.invulnerable = true;
         this.healthGraphic = this.game.add.graphics(0, 0);
 
-        this.emitter = game.add.emitter(0, 0, 100);
-        this.emitter.makeParticles('particle-boss2');
+        this.emitter = game.add.emitter(0, 0, 80);
+        this.emitter.makeParticles('particle-boss3');
         this.emitter.gravity = 0;
-        this.emitter.setAlpha(0.95, 0.2, 1100, Phaser.Easing.Exponential.In);
+        this.emitter.setAlpha(0.95, 0.2, 1000, Phaser.Easing.Exponential.In);
         this.emitter.setRotation(-720, 720);
-        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1100);
-        this.emitter.setYSpeed(-300, 300);
-        this.emitter.setXSpeed(-300, 300);
+        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1000);
+        this.emitter.setYSpeed(-250, 250);
+        this.emitter.setXSpeed(-250, 250);
 
         this.collisionGroup = game.add.group();
         this.collisionGroup.enableBody = true;
@@ -151,12 +153,12 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.enterScreen();
     }
 
-    TriangleBoss.prototype.killBullet = Unit.prototype.killBullet;
-    TriangleBoss.prototype.onUnitHitPlayer = Unit.prototype.onUnitHitPlayer;
-    TriangleBoss.prototype.constructTweenChain = Unit.prototype.constructTweenChain;
-    TriangleBoss.prototype.attack = Unit.prototype.attack;
+    RhombusBoss.prototype.killBullet = Unit.prototype.killBullet;
+    RhombusBoss.prototype.onUnitHitPlayer = Unit.prototype.onUnitHitPlayer;
+    RhombusBoss.prototype.constructTweenChain = Unit.prototype.constructTweenChain;
+    RhombusBoss.prototype.attack = Unit.prototype.attack;
 
-    Object.defineProperty(TriangleBoss.prototype, "position", {
+    Object.defineProperty(RhombusBoss.prototype, "position", {
         get : function() {
             return this.graphics.position;
         },
@@ -165,7 +167,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         }
     });
 
-    TriangleBoss.prototype.updateHealth = function(){
+    RhombusBoss.prototype.updateHealth = function(){
         var percent = this.health / this.maxHealth;
         this.healthGraphic.clear();
         this.healthGraphic.lineStyle(1, 0x000000, 1);
@@ -179,7 +181,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.healthGraphic.endFill();
     }
 
-    TriangleBoss.prototype.destroy = function(offscreen, bomb) {
+    RhombusBoss.prototype.destroy = function(offscreen, bomb) {
         if (reset) {
             this.graphics.destroy();
             this.healthGraphic.destroy();
@@ -222,7 +224,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
             player.updateScore(1000, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
-            this.emitter.start(true, 1100, null, 100);
+            this.emitter.start(true, 1000, null, 80);
         }.bind(this), 5000)
 
         this.onDestroy.forEach(function(callback){
@@ -230,7 +232,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         });
     }
 
-    TriangleBoss.prototype.enterScreen = function() {
+    RhombusBoss.prototype.enterScreen = function() {
         var self = this;
         var tween = this.game.add.tween(this.graphics);
         if (this.left) {
@@ -283,7 +285,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         }.bind(this), 5000);
     }
 
-    TriangleBoss.prototype.onPlayerHitUnit = function(unitSprite, bullet) {
+    RhombusBoss.prototype.onPlayerHitUnit = function(unitSprite, bullet) {
         if (bullet.hasHit || this.invulnerable)
             return;
         bullet.hasHit = true;
@@ -314,5 +316,5 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         }
     }
 
-    return TriangleBoss;
+    return RhombusBoss;
 })
