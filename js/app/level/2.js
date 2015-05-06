@@ -52,7 +52,9 @@ function(config, Level, Phase, enemies, TriangleBoss) {
                 }
             }.bind(this), 5500);
         },
-        onStop : function(){},
+        onStop : function(){
+            clearInterval(this.interval);
+        },
     });
 
     var bossPhase = new Phase({

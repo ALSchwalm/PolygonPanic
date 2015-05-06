@@ -39,6 +39,8 @@ function(config, background, music, player){
     };
 
     Level.prototype.nextPhase = function(){
+        if (player.health <= 0)
+            return;
         if (this.currentPhase)
             this.currentPhase.stop();
         this.currentPhase = this.phases.shift(1);

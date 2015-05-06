@@ -163,6 +163,9 @@ define(["app/config"], function(config){
                 powerup.displaysprite.visible = false;
         });
         $("#game-over").fadeIn(2000);
+        requirejs(["app/levels"], function(levels){
+            levels.currentLevel.currentPhase.stop();
+        })
     }
 
     Player.prototype.killBullet = function(bullet) {

@@ -25,12 +25,13 @@ function(config, Level, Phase, enemies, LineBoss) {
                 new enemies.line1(this.game, config.game.width+50, -50, true);
                 ++count;
                 if (count == 25) {
-                    clearInterval(this.interval);
                     this.nextPhase();
                 }
             }.bind(this), 1500);
         },
-        onStop : function(){},
+        onStop : function(){
+            clearInterval(this.interval);
+        },
     });
 
     var attackPhase = new Phase({
@@ -52,7 +53,9 @@ function(config, Level, Phase, enemies, LineBoss) {
                 }
             }.bind(this), 2700);
         },
-        onStop : function(){},
+        onStop : function(){
+            clearInterval(this.interval);
+        },
     });
 
     var bossPhase = new Phase({
