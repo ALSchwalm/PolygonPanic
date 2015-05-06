@@ -10,7 +10,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         Unit.prototype.units.push(this);
 
         this.number = number;
-        this.graphics = this.game.add.sprite(0, -200, "rhombusboss");
+        this.graphics = this.game.add.sprite(config.game.width/2, -200, "rhombusboss");
         this.collisionBody = this.graphics;
         this.game.physics.enable(this.collisionBody, Phaser.Physics.ARCADE);
         this.graphics.anchor.set(0.5, 0.5);
@@ -21,19 +21,19 @@ function(Phaser, config, utils, music, player, Unit, enemies){
 		this.threeDestroyed = false;
 		this.fourDestroyed = false;
 
-        this.maxHealth = 1500;
+        this.maxHealth = 1700;
         this.health = this.maxHealth;
         this.invulnerable = true;
         this.healthGraphic = this.game.add.graphics(0, 0);
 
-        this.emitter = game.add.emitter(0, 0, 80);
+        this.emitter = game.add.emitter(0, 0, 100);
         this.emitter.makeParticles('particle-boss3');
         this.emitter.gravity = 0;
-        this.emitter.setAlpha(0.95, 0.2, 1000, Phaser.Easing.Exponential.In);
+        this.emitter.setAlpha(0.95, 0.2, 1200, Phaser.Easing.Exponential.In);
         this.emitter.setRotation(-720, 720);
-        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1000);
-        this.emitter.setYSpeed(-250, 250);
-        this.emitter.setXSpeed(-250, 250);
+        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1200);
+        this.emitter.setYSpeed(-300, 300);
+        this.emitter.setXSpeed(-300, 300);
 
         this.collisionGroup = game.add.group();
         this.collisionGroup.enableBody = true;
@@ -51,7 +51,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
             body.checkWorldBounds = true;
             body.events.onOutOfBounds.add(this.killBullet, this);
 
-            var bullet = this.game.add.sprite(0, 0, "blue_oval");
+            var bullet = this.game.add.sprite(0, 0, "green_oval");
             bullet.anchor.set(0.5, 0.5);
             body.addChild(bullet);
         }
@@ -63,67 +63,51 @@ function(Phaser, config, utils, music, player, Unit, enemies){
 
         this.prohibitHitGraphic = false;
 
-        var yOffset = 30;
         var patterns = [
             {
-                pattern: [
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
-                    { angle : "player", speed : 4, y: yOffset },
+                pattern:[
+                    { angle : 90, speed : 4, y: 0 }, { angle : 75, speed : 4, y: 0},
+                    { angle : 60, speed : 4, y: 0 }, { angle : 45, speed : 4, y: 0 },
+                    { angle : 30, speed : 4, y: 0 }, { angle : 15, speed : 4, y: 0 },
+                    { angle : 0, speed : 4, y: 0 }, { angle : 345, speed : 4, y: 0 },
+                    { angle : 330, speed : 4, y: 0 }, { angle : 315, speed : 4, y: 0 },
+                    { angle : 300, speed : 4, y: 0 }, { angle : 285, speed : 4, y: 0 },
+                    { angle : 270, speed : 4, y: 0 }, { angle : 255, speed : 4, y: 0 },
+                    { angle : 240, speed : 4, y: 0 }, { angle : 225, speed : 4, y: 0 },
+                    { angle : 210, speed : 4, y: 0 }, { angle : 180, speed : 4, y: 0 },
+                    { angle : 165, speed : 4, y: 0 }, { angle : 150, speed : 4, y: 0 },
+                    { angle : 135, speed : 4, y: 0 }, { angle : 110, speed : 4, y: 0 }
                 ],
-                fireRate : 300
+                fireRate : 170
             },
             {
                 pattern:[
-                    { angle : 0, speed : 4, y: yOffset },   { angle : 20, speed : 4, y: yOffset},
-                    { angle : 40, speed : 4, y: yOffset },  { angle : 60, speed : 4, y: yOffset },
-                    { angle : 80, speed : 4, y: yOffset },  { angle : 100, speed : 4, y: yOffset },
-                    { angle : 120, speed : 4, y: yOffset }, { angle : 140, speed : 4, y: yOffset },
-                    { angle : 160, speed : 4, y: yOffset }, { angle : 180, speed : 4, y: yOffset },
-                    { angle : 200, speed : 4, y: yOffset }, { angle : 220, speed : 4, y: yOffset },
-                    { angle : 240, speed : 4, y: yOffset }, { angle : 260, speed : 4, y: yOffset },
-                    { angle : 280, speed : 4, y: yOffset }, { angle : 300, speed : 4, y: yOffset },
-                    { angle : 320, speed : 4, y: yOffset }, { angle : 340, speed : 4, y: yOffset },
+                    { angle : 90, speed : 4, y: 0 }, { angle : 75, speed : 4, y: 0},
+                    { angle : 60, speed : 4, y: 0 }, { angle : 45, speed : 4, y: 0 },
+                    { angle : 30, speed : 4, y: 0 }, { angle : 15, speed : 4, y: 0 },
+                    { angle : 0, speed : 4, y: 0 }, { angle : 345, speed : 4, y: 0 },
+                    { angle : 330, speed : 4, y: 0 }, { angle : 315, speed : 4, y: 0 },
+                    { angle : 300, speed : 4, y: 0 }, { angle : 285, speed : 4, y: 0 },
+                    { angle : 270, speed : 4, y: 0 }, { angle : 255, speed : 4, y: 0 },
+                    { angle : 240, speed : 4, y: 0 }, { angle : 225, speed : 4, y: 0 },
+                    { angle : 210, speed : 4, y: 0 }, { angle : 180, speed : 4, y: 0 },
+                    { angle : 165, speed : 4, y: 0 }, { angle : 150, speed : 4, y: 0 },
+                    { angle : 135, speed : 4, y: 0 }, { angle : 110, speed : 4, y: 0 }
                 ],
-                fireRate : 100
-            }
-        ]
-
-        if (this.left) {
-            patterns.reverse();
-        }
-        this.patterns = patterns;
-
-        this.hurtPatterns = [
-            {
-                pattern: [
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                    { angle : "player", speed : 4 }, { angle : "player", speed : 4 },
-                ],
-                fireRate : 100
+                fireRate : 170
             },
             {
-                pattern : [
-                    { angle : 0, speed : 4, y: yOffset },   { angle : 20, speed : 4, y: yOffset},
-                    { angle : 40, speed : 4, y: yOffset },  { angle : 60, speed : 4, y: yOffset },
-                    { angle : 80, speed : 4, y: yOffset },  { angle : 100, speed : 4, y: yOffset },
-                    { angle : 120, speed : 4, y: yOffset }, { angle : 140, speed : 4, y: yOffset },
-                    { angle : 160, speed : 4, y: yOffset }, { angle : 180, speed : 4, y: yOffset },
-                    { angle : 200, speed : 4, y: yOffset }, { angle : 220, speed : 4, y: yOffset },
-                    { angle : 240, speed : 4, y: yOffset }, { angle : 260, speed : 4, y: yOffset },
-                    { angle : 280, speed : 4, y: yOffset }, { angle : 300, speed : 4, y: yOffset },
-                    { angle : 320, speed : 4, y: yOffset }, { angle : 340, speed : 4, y: yOffset },
+                pattern: [
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 }
                 ],
-                fireRate : 50
+                fireRate : 250
             }
         ]
+
+        this.patterns = patterns;
 
         this.currentPattern = this.patterns[0].pattern;
         this.patternIndex = 0;
@@ -137,17 +121,16 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.bulletTimer = this.game.time.create(false);
         this.bulletTimer.loop(200, attack);
 
-        this.bulletInterval = setInterval(function(){
-            var patterns = this.patterns;
-            if (this.health < this.maxHealth/3) {
-                patterns = this.hurtPatterns;
-            }
-            this.patternIndex = (this.patternIndex + 1)%patterns.length;
-            this.currentPattern = patterns[this.patternIndex].pattern;
-            this.bulletTimer.stop();
-            this.bulletTimer.loop(patterns[this.patternIndex].fireRate || 200,
-                                  attack);
-            this.bulletTimer.start();
+        setTimeout(function(){
+            this.bulletInterval = setInterval(function(){
+                var patterns = this.patterns;
+                this.patternIndex = (this.patternIndex + 1)%patterns.length;
+                this.currentPattern = patterns[this.patternIndex].pattern;
+                this.bulletTimer.stop();
+                this.bulletTimer.loop(patterns[this.patternIndex].fireRate || 200,
+                                      attack);
+                this.bulletTimer.start();
+            }.bind(this), 6800);
         }.bind(this), 5000);
 
         this.enterScreen();
@@ -176,15 +159,21 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         } else {
             this.healthGraphic.beginFill(0xDD0000, 0.8);
         }
-        this.healthGraphic.drawRect(0, (this.left) ? 3 : 15,
-                                    Math.floor(1000*percent), 10);
+        var barHeight;
+        if (this.number == 1) {barHeight = 3;}
+        else if (this.number == 2) {barHeight = 15;}
+        else if (this.number == 3) {barHeight = 27;}
+        else {barHeight = 39;}
+        this.healthGraphic.drawRect(0, barHeight, Math.floor(1000*percent), 10);
         this.healthGraphic.endFill();
     }
 
-    RhombusBoss.prototype.destroy = function(offscreen, bomb) {
+    RhombusBoss.prototype.destroy = function(offscreen, bomb, reset) {
         if (reset) {
             this.graphics.destroy();
             this.healthGraphic.destroy();
+            this.collisionGroup.destroy();
+            clearInterval(this.bulletInterval);
             return;
         }
         // bomb does nothing to the boss
@@ -197,8 +186,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.bulletTimer.stop();
         this.tween.stop();
         clearInterval(this.bulletInterval);
-        clearInterval(this.spawnInterval);
-        utils.shakeScreen(this.game, 5000);
+        utils.shakeScreen(this.game, 1500);
 
         var explosions = []
         for (var i=0; i < 7; ++i) {
@@ -224,8 +212,8 @@ function(Phaser, config, utils, music, player, Unit, enemies){
             player.updateScore(1000, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
-            this.emitter.start(true, 1000, null, 80);
-        }.bind(this), 5000)
+            this.emitter.start(true, 1200, null, 100);
+        }.bind(this), 2700)
 
         this.onDestroy.forEach(function(callback){
             callback();
@@ -235,50 +223,82 @@ function(Phaser, config, utils, music, player, Unit, enemies){
     RhombusBoss.prototype.enterScreen = function() {
         var self = this;
         var tween = this.game.add.tween(this.graphics);
-        if (this.left) {
-            tween.to({x : config.game.width/2-150, y: 100}, 5000).start();
+        if (this.number == 1) {
+            tween.to({x : config.game.width/2, y: 100}, 5000).start();
+        } else if (this.number == 2) {
+            tween.to({x : 150, y: 250}, 5000).start();
+        } else if (this.number == 3) {
+            tween.to({x : config.game.width/2, y: 400}, 5000).start();
         } else {
-            tween.to({x : config.game.width/2+150, y: 100}, 5000).start();
+            tween.to({x : config.game.width-150, y: 250}, 5000).start();
         }
 
-        if (this.left) {
+        if (this.number == 1) {
             utils.shakeScreen(this.game, 5000);
         }
 
-        this.spawnInterval = setInterval(function() {
-            self.holdFire = true;
-            var count = 0;
-            var interval = setInterval(function(){
-                ++count;
-                if (self.left || self.otherDestroyed) {
-                    new enemies.triangle1(self.game, config.game.width/2, -50,
-                                          count % 2 == 0, true);
-                }
-                if (count == 10) {
-                    clearInterval(interval);
-                    self.holdFire = false;
-                }
-            }, 330);
-        }, 23000);
-
         setTimeout(function(){
-            var offset = (this.left) ? -150 : 150
-
-            // Being the movement animations
-            this.constructTweenChain([
-                { options : { x : "+200" }, duration : 2000 },
-                { options : { y : "+200" }, duration : 2000 },
-                { options : { x : "-200" }, duration : 2000 },
-                { options : { y : "-200" }, duration : 2000 },
-                { options : { x : "+200" }, duration : 2000 },
-                { options : { y : "+200" }, duration : 2000 },
-                { options : { x : "-200" }, duration : 2000 },
-                { options : { y : "-200" }, duration : 2000 },
-                { options : { x : config.game.width/2 + offset }, duration : 2000 },
-                { options : { y : 50, x : ((self.left) ? 200 : 800) }, duration : 2000 },
-                { options : {}, duration : 3000 },
-                { options : { x : config.game.width/2 + offset, y: 100 }, duration : 2000 },
-            ]);
+            // Begin the movement animations (2 loops then join in center)
+            if (this.number == 1) {
+                this.constructTweenChain([
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { y : 180 }, duration : 1700 }, // 1 ends at top
+                    { options : { }, duration : 3400 },
+                    { options : { y : 100 }, duration : 1700 }
+                ]);
+            }
+            else if (this.number == 2) {
+                this.constructTweenChain([
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : 350 }, duration : 1700 }, // 2 ends on left
+                    { options : { }, duration : 3400 },
+                    { options : { x : 150 }, duration : 1700 }
+                ]);
+            }
+            else if (this.number == 3) {
+                this.constructTweenChain([
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { y : 320 }, duration : 1700 }, // 3 ends at bottom
+                    { options : { }, duration : 3400 },
+                    { options : { y : 400 }, duration : 1700 }
+                ]);
+            }
+            else if (this.number == 4){
+                this.constructTweenChain([
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 100 }, duration : 1700 },
+                    { options : { x : 150, y : 250}, duration : 1700 },
+                    { options : { x : config.game.width/2, y : 400 }, duration : 1700 },
+                    { options : { x : config.game.width-150, y : 250 }, duration : 1700 },
+                    { options : { x : config.game.width-350 }, duration : 1700 }, // 4 ends on right
+                    { options : { }, duration : 3400 },
+                    { options : { x : config.game.width-150 }, duration : 1700 }
+                ]);
+            }
 
             this.bulletTimer.start();
             this.invulnerable = false;
@@ -304,9 +324,11 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         }
 
         if (!this.prohibitHitGraphic) {
+            this.animation.frame = 1;
             this.prohibitHitGraphic = true;
 
             setTimeout(function(){
+                this.animation.frame = 0;
                 this.prohibitHitGraphic = false;
             }.bind(this), 100)
 

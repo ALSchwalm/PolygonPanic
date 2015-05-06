@@ -2,8 +2,8 @@
  * A module defining the last level of PolygonPanic
  * @module app/level/3
  */
-define(["app/config", "app/level", "app/phase", "app/enemies"],
-function(config, Level, Phase, enemies) {
+define(["app/config", "app/level", "app/phase", "app/enemies", "app/bosses/rhombusboss"],
+function(config, Level, Phase, enemies, RhombusBoss) {
     var bluePhase = new Phase({
         onStart : function(){
             var count = 0;
@@ -49,14 +49,14 @@ function(config, Level, Phase, enemies) {
 
     var bossPhase = new Phase({
         onStart : function() {
-            var deathCount = 0;
-            this.one = new RhombusBoss(this.game, "one");
-            this.two = new RhombusBoss(this.game, "two");
-            this.three = new RhombusBoss(this.game, "three");
-            this.four = new RhombusBoss(this.game, "four");
+            var count = 0;
+            this.one = new RhombusBoss(this.game, 1);
+            this.two = new RhombusBoss(this.game, 2);
+            this.three = new RhombusBoss(this.game, 3);
+            this.four = new RhombusBoss(this.game, 4);
             var allDestroyed = function(){
-                ++deathCount;
-                if (deathCount == 4){
+                ++count;
+                if (count == 4){
                     setTimeout(function(){
                         this.nextPhase();
                     }.bind(this), 4000);
@@ -90,6 +90,6 @@ function(config, Level, Phase, enemies) {
         onStop : function(){}
     });
 
-    var level3 = new Level([bossPhase, bluePhase, pinkPhase, goldPhase], "CheckerWave", "level3");
+    var level3 = new Level([bluePhase, pinkPhase, goldPhase, bossPhase], "CheckerWave", "level3");
     return level3;
 });

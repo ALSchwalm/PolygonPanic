@@ -33,11 +33,14 @@ define(["app/config"], function(config){
         // Scoring attributes
         this.killCount = 0;
         this.score = 0;
-        this.scoreText = this.game.add.text(15, 43, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.scoreText = this.game.add.text(15, config.game.height-40,
+                                            'Score: 0', { fontSize:'26px', fill:'#FFFFFF' , font:"Source Sans Pro"});
         this.scoreText.stroke = '#000000';
         this.scoreText.strokeThickness = 3;
         this.timer = game.time.create(this.game, false);
-        this.timeText = this.game.add.text(15, 13, 'Time: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
+        this.timeText = this.game.add.text(config.game.width-143, config.game.height-40,
+                                           'Time: 0', { fontSize:'26px', fill:'#FFFFFF' , font:"Source Sans Pro"});
+		this.doubleDigitTime = false;
         this.timeText.stroke = '#000000';
         this.timeText.strokeThickness = 3;
         this.timer.start(200);
@@ -119,7 +122,7 @@ define(["app/config"], function(config){
             return;
         }
         var amount = amount || 1;
-        //this.health -= amount;
+        this.health -= amount;
         this.recentlyDamaged = true;
         this.drawHealthBar();
         this.game.plugins.screenShake.shake(7);
@@ -240,6 +243,8 @@ define(["app/config"], function(config){
             var seconds = Math.floor(this.timer.ms / 1000) % 60;
             if (seconds < 10)
                 seconds = '0' + seconds;
+            if (minutes < 10)
+			    minutes = '0' + minutes;
             var timePlayed = minutes + ':' + seconds;
 		    this.timeText.text = 'Time: ' + timePlayed;
         }

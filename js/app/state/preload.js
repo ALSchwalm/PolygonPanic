@@ -71,6 +71,7 @@ define(function(){
 
         game.load.image("red_oval", "assets/images/bullets/red_oval_small.png");
         game.load.image("blue_oval", "assets/images/bullets/blue_oval_small.png");
+        game.load.image("green_oval", "assets/images/bullets/green_oval_small.png");
         game.load.image("spread", "assets/images/bullets/spread.png");
     };
 
