@@ -41,7 +41,7 @@ define(["app/config"], function(config){
         this.scoreText.stroke = '#111111';
         this.scoreText.strokeThickness = 2;
         this.timer = game.time.create(this.game, false);
-        this.timeText = this.game.add.text(config.game.width - 85, 4, '0', {
+        this.timeText = this.game.add.text(config.game.width - 98, 4, '0', {
             fontSize: '42px',
             fill: '#DDDDDD' ,
             font: "Source Sans Pro"
@@ -253,6 +253,8 @@ define(["app/config"], function(config){
             var seconds = Math.floor(this.timer.ms / 1000) % 60;
             if (seconds < 10)
                 seconds = '0' + seconds;
+            if (minutes < 10)
+                minutes = '0' + minutes;
             var timePlayed = minutes + ':' + seconds;
 		    this.timeText.text = timePlayed;
         }

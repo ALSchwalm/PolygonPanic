@@ -18,7 +18,7 @@ function(config){
         var ctx = bmd.context;
         ctx.moveTo(0, 0);
         ctx.lineTo(0, 80);
-        ctx.lineTo(120, 40);
+        ctx.lineTo(120, 50);
         ctx.lineTo(120, 0);
         ctx.fillStyle = 'rgba(225,225,225,0.5)';
         ctx.fill();
@@ -28,7 +28,7 @@ function(config){
 
         ctx.moveTo(config.game.width, 0);
         ctx.lineTo(config.game.width, 80);
-        ctx.lineTo(config.game.width-120, 40);
+        ctx.lineTo(config.game.width-120, 50);
         ctx.lineTo(config.game.width-120, 0);
         ctx.fill();
         ctx.stroke();

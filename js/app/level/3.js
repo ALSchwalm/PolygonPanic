@@ -2,8 +2,8 @@
  * A module defining the last level of PolygonPanic
  * @module app/level/3
  */
-define(["app/config", "app/level", "app/phase", "app/enemies"],
-function(config, Level, Phase, enemies) {
+define(["app/config", "app/level", "app/phase", "app/enemies", "app/bosses/rhombusboss"],
+function(config, Level, Phase, enemies, RhombusBoss) {
     var bluePhase = new Phase({
         onStart : function(){
             var count = 0;
@@ -47,6 +47,49 @@ function(config, Level, Phase, enemies) {
         onStop : function(){ clearInterval(this.interval); },
     })
 
-    var level3 = new Level([bluePhase, pinkPhase, goldPhase], "CheckerWave", "level3");
+    var bossPhase = new Phase({
+        onStart : function() {
+            var count = 0;
+            this.one = new RhombusBoss(this.game, 1);
+            this.two = new RhombusBoss(this.game, 2);
+            this.three = new RhombusBoss(this.game, 3);
+            this.four = new RhombusBoss(this.game, 4);
+            var allDestroyed = function(){
+                ++count;
+                if (count == 4){
+                    setTimeout(function(){
+                        this.nextPhase();
+                    }.bind(this), 4000);
+                }
+            }.bind(this);
+            this.one.onDestroy.push(allDestroyed);
+            this.one.onDestroy.push(function(){
+                this.two.oneDestroyed = true;
+                this.three.oneDestroyed = true;
+                this.four.oneDestroyed = true;
+            }.bind(this));
+            this.two.onDestroy.push(allDestroyed);
+            this.two.onDestroy.push(function(){
+                this.one.twoDestroyed = true;
+                this.three.twoDestroyed = true;
+                this.four.twoDestroyed = true;
+            }.bind(this));
+            this.three.onDestroy.push(allDestroyed);
+            this.three.onDestroy.push(function(){
+                this.one.threeDestroyed = true;
+                this.two.threeDestroyed = true;
+                this.four.threeDestroyed = true;
+            }.bind(this));
+            this.four.onDestroy.push(allDestroyed);
+            this.four.onDestroy.push(function(){
+                this.one.fourDestroyed = true;
+                this.two.fourDestroyed = true;
+                this.three.fourDestroyed = true;
+            }.bind(this));
+        },
+        onStop : function(){}
+    });
+
+    var level3 = new Level([bluePhase, pinkPhase, goldPhase, bossPhase], "CheckerWave", "level3");
     return level3;
 });
