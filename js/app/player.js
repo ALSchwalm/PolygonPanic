@@ -33,13 +33,21 @@ define(["app/config"], function(config){
         // Scoring attributes
         this.killCount = 0;
         this.score = 0;
-        this.scoreText = this.game.add.text(15, 43, 'Score: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
-        this.scoreText.stroke = '#000000';
-        this.scoreText.strokeThickness = 3;
+        this.scoreText = this.game.add.text(15, 4, '0', {
+            fontSize: '36px',
+            fill: '#DDDDDD' ,
+            font: "Source Sans Pro"
+        });
+        this.scoreText.stroke = '#111111';
+        this.scoreText.strokeThickness = 2;
         this.timer = game.time.create(this.game, false);
-        this.timeText = this.game.add.text(15, 13, 'Time: 0', { fontSize: '26px', fill: '#FFFFFF' , font: "Source Sans Pro"});
-        this.timeText.stroke = '#000000';
-        this.timeText.strokeThickness = 3;
+        this.timeText = this.game.add.text(config.game.width - 98, 4, '0', {
+            fontSize: '42px',
+            fill: '#DDDDDD' ,
+            font: "Source Sans Pro"
+        });
+        this.timeText.stroke = '#111111';
+        this.timeText.strokeThickness = 2;
         this.timer.start(200);
 
         this.group = game.add.group();
@@ -231,17 +239,24 @@ define(["app/config"], function(config){
     Player.prototype.updateScore = function(score, kills) {
         this.score += score;
         this.killCount += kills;
-        this.scoreText.text = 'Score: ' + this.score;
+        this.scoreText.text = this.score;
     }
 
     Player.prototype.updateTimeText = function() {
         if (this.timer) {
+            this.game.world.bringToTop(this.timeText);
+
+            // This shouldn't be here, but we're short on time
+            this.game.world.bringToTop(this.scoreText);
+
             var minutes = Math.floor(this.timer.ms / 60000) % 60;
             var seconds = Math.floor(this.timer.ms / 1000) % 60;
             if (seconds < 10)
                 seconds = '0' + seconds;
+            if (minutes < 10)
+                minutes = '0' + minutes;
             var timePlayed = minutes + ':' + seconds;
-		    this.timeText.text = 'Time: ' + timePlayed;
+		    this.timeText.text = timePlayed;
         }
     }
 

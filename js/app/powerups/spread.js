@@ -24,7 +24,7 @@ function(config, Powerup, Unit){
             bullet.events.onOutOfBounds.add(this.killBullet, this);
 
             // base bullet damage
-            bullet.attack = 20;
+            bullet.attack = 3;
             bullet.noDieOnHit = true;
         }
 
@@ -58,11 +58,11 @@ function(config, Powerup, Unit){
         bullet.scale.x = 1;
         bullet.update = function(){
             this.body.setSize(this.width*2, this.height);
-            this.scale.y += 0.1;
+            this.scale.y += 0.05;
             this.scale.x += 0.01;
         }
         bullet.rotation = -Math.PI/2;
-        bullet.body.velocity.y = -200;
+        bullet.body.velocity.y = -230;
     }
 
     return Spread;

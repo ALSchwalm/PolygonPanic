@@ -4,8 +4,9 @@
  * @module app/state/create
  */
 define(["app/config", "app/background", "app/music", "app/player",
-        "app/levels", "app/poweruplist", "app/unit"],
-function(config, background, music, player, levels, poweruplist, Unit){
+        "app/levels", "app/poweruplist", "app/unit", "app/interface"],
+function(config, background, music, player, levels, poweruplist, Unit,
+         ui){
     "use strict"
 
     /**
@@ -27,6 +28,7 @@ function(config, background, music, player, levels, poweruplist, Unit){
 
         music.start(game, 'title');
         background.start(game);
+        ui.init(game);
 
         $("#play-btn").click(function(e) {
             // Prevent the game from being 'started' multiple times
@@ -46,11 +48,42 @@ function(config, background, music, player, levels, poweruplist, Unit){
 
             levels.init(game);
             levels.start();
+            ui.display();
+        });
+
+        $('#tutorial-btn').click(function(){
+            $("#tutorial").fadeIn();
+        });
+
+        $('#tutorial img').click(function(e){
+            $(this).hide();
+            if (this == $("#tutorial img:last").get(0)) {
+                $("#tutorial").fadeOut(function(){
+                    $(this).siblings().show();
+                }.bind(this));
+            } else {
+                $(this).siblings().show();
+            }
+        });
+
+        $('#tutorial-btn').click(function(){
+            $("#tutorial").fadeIn();
+        });
+
+        $('#tutorial img').click(function(e){
+            $(this).hide();
+            if (this == $("#tutorial img:last").get(0)) {
+                $("#tutorial").fadeOut(function(){
+                    $(this).siblings().show();
+                }.bind(this));
+            } else {
+                $(this).siblings().show();
+            }
         });
 
         $("#continue").click(function(){
             player.health = 4;
-            player.scoreText.text = 'Score: ' + 0;
+            player.scoreText.text = 0;
             player.score = 0;
             player.drawHealthBar();
             player.sprite.visible = true
