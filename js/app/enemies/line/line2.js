@@ -15,7 +15,7 @@ function(utils, config, Unit){
         bmd.context.fillStyle = "green";
         bmd.context.fillRect(3, 3, width-6, height-6);
 
-        var bullet = utils.makeBullet(game, 14, 'lightgreen');
+        var bullet = utils.makeBullet(game, 14, 'darkgreen');
 
         var emitter = game.add.emitter(0, 0, 20);
         emitter.makeParticles('particle-line2');
