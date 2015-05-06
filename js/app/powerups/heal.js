@@ -23,12 +23,11 @@ function(config, Powerup, Player){
             return;
         this.available = false;
 
-        var sound = this.game.add.audio("healSound", 0.8);
+        var sound = this.game.add.audio("healSound", 0.6);
         sound.play();
 
         if(player.health < 4)
             player.heal();
-      
 
         var cooldownInterval = setInterval(function(){
             this.cooldown += 0.1;
