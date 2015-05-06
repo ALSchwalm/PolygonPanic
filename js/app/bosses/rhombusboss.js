@@ -17,9 +17,9 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.animation = this.graphics.animations.add('face');
         this.animation.frame = 0;
         this.oneDestroyed = false;
-		this.twoDestroyed = false;
-		this.threeDestroyed = false;
-		this.fourDestroyed = false;
+        this.twoDestroyed = false;
+        this.threeDestroyed = false;
+        this.fourDestroyed = false;
 
         this.maxHealth = 1700;
         this.health = this.maxHealth;
