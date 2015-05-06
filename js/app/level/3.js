@@ -2,8 +2,9 @@
  * A module defining the last level of PolygonPanic
  * @module app/level/3
  */
-define(["app/config", "app/level", "app/phase", "app/enemies", "app/bosses/rhombusboss"],
-function(config, Level, Phase, enemies, RhombusBoss) {
+define(["app/config", "app/level", "app/phase", "app/enemies",
+        "app/bosses/rhombusboss", "app/music"],
+function(config, Level, Phase, enemies, RhombusBoss, music) {
     var bluePhase = new Phase({
         onStart : function(){
             var count = 0;
@@ -58,8 +59,13 @@ function(config, Level, Phase, enemies, RhombusBoss) {
                 ++count;
                 if (count == 4){
                     setTimeout(function(){
-                        this.nextPhase();
-                    }.bind(this), 4000);
+                        $('#game-over h1').html('Winner').css("font-size", "100px");
+                        $('#continue').remove();
+                        $('#game-over').fadeIn(4000, function(){
+                            music.music.destroy();
+                        });
+                        music.fade('out', 5000);
+                    }.bind(this), 7000);
                 }
             }.bind(this);
             this.one.onDestroy.push(allDestroyed);
