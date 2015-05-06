@@ -78,7 +78,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
                 ],
                 fireRate : 210
             },
-{
+            {
                 pattern:[
                     { angle : 90, speed : 4, y: 0 }, { angle : 70, speed : 4, y: 0},
                     { angle : 50, speed : 4, y: 0 }, { angle : 30, speed : 4, y: 0 },
