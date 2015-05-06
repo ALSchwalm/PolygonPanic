@@ -66,44 +66,44 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         var patterns = [
             {
                 pattern:[
-                    { angle : 90, speed : 4, y: 0 }, { angle : 75, speed : 4, y: 0},
-                    { angle : 60, speed : 4, y: 0 }, { angle : 45, speed : 4, y: 0 },
-                    { angle : 30, speed : 4, y: 0 }, { angle : 15, speed : 4, y: 0 },
-                    { angle : 0, speed : 4, y: 0 }, { angle : 345, speed : 4, y: 0 },
-                    { angle : 330, speed : 4, y: 0 }, { angle : 315, speed : 4, y: 0 },
-                    { angle : 300, speed : 4, y: 0 }, { angle : 285, speed : 4, y: 0 },
-                    { angle : 270, speed : 4, y: 0 }, { angle : 255, speed : 4, y: 0 },
-                    { angle : 240, speed : 4, y: 0 }, { angle : 225, speed : 4, y: 0 },
-                    { angle : 210, speed : 4, y: 0 }, { angle : 180, speed : 4, y: 0 },
-                    { angle : 165, speed : 4, y: 0 }, { angle : 150, speed : 4, y: 0 },
-                    { angle : 135, speed : 4, y: 0 }, { angle : 110, speed : 4, y: 0 }
+                    { angle : 90, speed : 4, y: 0 }, { angle : 70, speed : 4, y: 0},
+                    { angle : 50, speed : 4, y: 0 }, { angle : 30, speed : 4, y: 0 },
+                    { angle : 10, speed : 4, y: 0 }, { angle : 350, speed : 4, y: 0 },
+                    { angle : 330, speed : 4, y: 0 }, { angle : 310, speed : 4, y: 0 },
+                    { angle : 290, speed : 4, y: 0 }, { angle : 270, speed : 4, y: 0 },
+                    { angle : 250, speed : 4, y: 0 }, { angle : 230, speed : 4, y: 0 },
+                    { angle : 210, speed : 4, y: 0 }, { angle : 190, speed : 4, y: 0 },
+                    { angle : 170, speed : 4, y: 0 }, { angle : 150, speed : 4, y: 0 },
+                    { angle : 130, speed : 4, y: 0 }, { angle : 110, speed : 4, y: 0 }
                 ],
-                fireRate : 170
+                fireRate : 210
             },
-            {
+{
                 pattern:[
-                    { angle : 90, speed : 4, y: 0 }, { angle : 75, speed : 4, y: 0},
-                    { angle : 60, speed : 4, y: 0 }, { angle : 45, speed : 4, y: 0 },
-                    { angle : 30, speed : 4, y: 0 }, { angle : 15, speed : 4, y: 0 },
-                    { angle : 0, speed : 4, y: 0 }, { angle : 345, speed : 4, y: 0 },
-                    { angle : 330, speed : 4, y: 0 }, { angle : 315, speed : 4, y: 0 },
-                    { angle : 300, speed : 4, y: 0 }, { angle : 285, speed : 4, y: 0 },
-                    { angle : 270, speed : 4, y: 0 }, { angle : 255, speed : 4, y: 0 },
-                    { angle : 240, speed : 4, y: 0 }, { angle : 225, speed : 4, y: 0 },
-                    { angle : 210, speed : 4, y: 0 }, { angle : 180, speed : 4, y: 0 },
-                    { angle : 165, speed : 4, y: 0 }, { angle : 150, speed : 4, y: 0 },
-                    { angle : 135, speed : 4, y: 0 }, { angle : 110, speed : 4, y: 0 }
+                    { angle : 90, speed : 4, y: 0 }, { angle : 70, speed : 4, y: 0},
+                    { angle : 50, speed : 4, y: 0 }, { angle : 30, speed : 4, y: 0 },
+                    { angle : 10, speed : 4, y: 0 }, { angle : 350, speed : 4, y: 0 },
+                    { angle : 330, speed : 4, y: 0 }, { angle : 310, speed : 4, y: 0 },
+                    { angle : 290, speed : 4, y: 0 }, { angle : 270, speed : 4, y: 0 },
+                    { angle : 250, speed : 4, y: 0 }, { angle : 230, speed : 4, y: 0 },
+                    { angle : 210, speed : 4, y: 0 }, { angle : 190, speed : 4, y: 0 },
+                    { angle : 170, speed : 4, y: 0 }, { angle : 150, speed : 4, y: 0 },
+                    { angle : 130, speed : 4, y: 0 }, { angle : 110, speed : 4, y: 0 }
                 ],
-                fireRate : 170
+                fireRate : 210
             },
             {
                 pattern: [
                     { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
                     { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
                     { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
+                    { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 },
                     { angle : "player", speed : 4, y: 0 }, { angle : "player", speed : 4, y: 0 }
                 ],
-                fireRate : 250
+                fireRate : 310
             }
         ]
 
