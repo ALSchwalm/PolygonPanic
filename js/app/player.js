@@ -148,6 +148,11 @@ define(["app/config"], function(config){
         }.bind(this), config.player.invulnerablePeriod);
     }
 
+    Player.prototype.heal = function(){
+        this.health += 1
+        this.drawHealthBar();
+    }
+
     Player.prototype.destroy = function() {
         if (!this.sprite.visible)
             return;
