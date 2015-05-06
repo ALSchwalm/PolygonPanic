@@ -24,14 +24,14 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         this.invulnerable = true;
         this.healthGraphic = this.game.add.graphics(0, 0);
 
-        this.emitter = game.add.emitter(0, 0, 120);
-        this.emitter.makeParticles('particle-boss1');
+        this.emitter = game.add.emitter(0, 0, 100);
+        this.emitter.makeParticles('particle-boss2');
         this.emitter.gravity = 0;
-        this.emitter.setAlpha(0.95, 0.2, 1400, Phaser.Easing.Exponential.In);
+        this.emitter.setAlpha(0.95, 0.2, 1100, Phaser.Easing.Exponential.In);
         this.emitter.setRotation(-720, 720);
-        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1400);
-        this.emitter.setYSpeed(-250, 250);
-        this.emitter.setXSpeed(-400, 400);
+        this.emitter.setScale(2.0, 1.0, 2.0, 1.0, 1100);
+        this.emitter.setYSpeed(-300, 300);
+        this.emitter.setXSpeed(-300, 300);
 
         this.collisionGroup = game.add.group();
         this.collisionGroup.enableBody = true;
@@ -65,7 +65,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         var patterns = [
             {
                 pattern: [
-                    { angle : "player", speed : 4, y: yOffset},
+                    { angle : "player", speed : 4, y: yOffset },
                     { angle : "player", speed : 4, y: yOffset },
                     { angle : "player", speed : 4, y: yOffset },
                     { angle : "player", speed : 4, y: yOffset },
@@ -222,10 +222,10 @@ function(Phaser, config, utils, music, player, Unit, enemies){
             });
             this.graphics.destroy();
             this.healthGraphic.destroy();
-            player.updateScore(1500, 1);
+            player.updateScore(1000, 1);
             this.emitter.x = this.graphics.position.x;
             this.emitter.y = this.graphics.position.y;
-            this.emitter.start(true, 1400, null, 120);
+            this.emitter.start(true, 1100, null, 100);
         }.bind(this), 5000)
 
         this.onDestroy.forEach(function(callback){
