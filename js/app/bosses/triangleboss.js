@@ -200,6 +200,7 @@ function(Phaser, config, utils, music, player, Unit, enemies){
         clearInterval(this.bulletInterval);
         clearInterval(this.spawnInterval);
         utils.shakeScreen(this.game, 5000);
+        this.invulnerable = true;
 
         var explosions = []
         for (var i=0; i < 7; ++i) {

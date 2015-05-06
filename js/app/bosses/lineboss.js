@@ -192,6 +192,7 @@ function(Phaser, config, utils, music, player, Unit){
         this.prohibitHitGraphic = true;
         this.bulletTimer.stop();
         this.tween.stop();
+        this.invulnerable = true;
         clearInterval(this.bulletInterval);
         utils.shakeScreen(this.game, 5000);
 
