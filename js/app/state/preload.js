@@ -54,6 +54,7 @@ define(function(){
         game.load.audio('shield', 'assets/sounds/shield.mp3');
         game.load.audio('beam', 'assets/sounds/beam.wav');
         game.load.audio('missle', 'assets/sounds/missle.wav');
+        game.load.audio('healSound', 'assets/sounds/heal.wav');
 
         game.load.image('shield', 'assets/images/powerups/shield.png');
         game.load.image('bomb', 'assets/images/powerups/bomb.png');
@@ -63,6 +64,7 @@ define(function(){
         game.load.image('missle', 'assets/images/powerups/missle.png');
         game.load.image('missle_icon', 'assets/images/powerups/missle_icon.png');
         game.load.image('spread_icon', 'assets/images/powerups/spread.png');
+        game.load.image('heal', 'assets/images/powerups/heal.png');
 
         game.load.image("red_oval", "assets/images/bullets/red_oval_small.png");
         game.load.image("blue_oval", "assets/images/bullets/blue_oval_small.png");
